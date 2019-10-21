@@ -1,0 +1,30 @@
+.ym-menu {
+  .placeDiv {
+    width: 160px;
+  }
+  .actDiv {
+    position: fixed;
+    width: 160px;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background-color: #f9f4dc;
+    box-sizing: border-box;
+    .logo {
+      color: #12aa9c;
+      font-size: 1.8em;
+      text-align: center;
+      margin: 2em auto 1em;
+    }
+    nav {
+      padding: 1em 0;
+      overflow: hidden;
+      a {
+        display: block;
+        text-align: center;
+        font-size: 1.1em;
+        line-height: 2.5;
+      }
+    }
+  }
+}
