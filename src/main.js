@@ -1,9 +1,11 @@
 import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom'
+import './ymui.css'
 
 import Index from "./pages";
 import Colors from "./pages/colors";
 import Button from './pages/buttons'
+
 
 export default class Main extends React.Component{
     render() {

@@ -1,0 +1,62 @@
+.ymBtn {
+  display: inline-block;
+  text-align: center;
+  padding: 0.5em 1em;
+  font-size: 90%;
+  text-decoration: none;
+  user-select: none;
+  zoom: 1;
+  border: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #fff;
+  outline: none; }
+  .ymBtn-xsmall {
+    font-size: 70%; }
+  .ymBtn-small {
+    font-size: 80%; }
+  .ymBtn-large {
+    font-size: 100%; }
+  .ymBtn-xlarge {
+    font-size: 110%; }
+
+.ymBtn.ymBtn-disabled {
+  background-color: #dddddd;
+  color: #444444;
+  cursor: not-allowed;
+  opacity: .7; }
+
+.ymBtn-yellow {
+  background-color: #f8df70; }
+  .ymBtn-yellow:hover, .ymBtn-yellow.active {
+    background-color: #fecc11; }
+
+.ymBtn-orange {
+  background-color: #f97d1c; }
+  .ymBtn-orange:hover, .ymBtn-orange.active {
+    background-color: #f86b1d; }
+
+.ymBtn-red {
+  background-color: #de1c31; }
+  .ymBtn-red:hover, .ymBtn-red.active {
+    background-color: #f43e06; }
+
+.ymBtn-purple {
+  background-color: #813c85; }
+  .ymBtn-purple:hover, .ymBtn-purple.active {
+    background-color: #7e1671; }
+
+.ymBtn-blue {
+  background-color: #2775b6; }
+  .ymBtn-blue:hover, .ymBtn-blue.active {
+    background-color: #0f59a4; }
+
+.ymBtn-green {
+  background-color: #45b787; }
+  .ymBtn-green:hover, .ymBtn-green.active {
+    background-color: #2c9678; }
+
+.ymBtn-cyan {
+  background-color: #1a94bc; }
+  .ymBtn-cyan:hover, .ymBtn-cyan.active {
+    background-color: #1772b4; }
