@@ -21,11 +21,14 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
   $i: index($color_name,$name);
   .color-#{$name} {
     color: nth($color_list,$i);
-    &:hover,
+    &.canhover:hover,
     &.active{
       background-color: nth($color_list,$i);
       color: #ffffff;
     }
+  }
+  .backcolor-#{$name} {
+    background-color: nth($color_list,$i);
   }
 }
 .ym-outWrapper {
@@ -49,11 +52,10 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
       border-radius: 5px;
       .title {
         padding: 2em 0;
-        border-bottom: 1px solid $basic_color;
+        //border-bottom: 1px solid $basic_color;
         h1 {
           font-weight: normal;
           font-size: 2.3em;
-          color: $basic_color;
           text-align: center;
         }
       }
@@ -61,10 +63,10 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
         h2 {
           font-weight: normal;
           font-size: 1.2em;
-          color: $basic_color;
           padding: .8em 0;
         }
         .intro-text {
+          color: #444444;
           code {
             padding: .1em .2em;
           }
@@ -80,9 +82,15 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
             font-size: .9em;
             padding: 1em;
             display: block;
+            border: 1px solid #813c85;
           }
         }
       }
     }
+  }
+}
+@media screen and (max-width: 768px){
+  .ym-content {
+    width: 100%!important;
   }
 }

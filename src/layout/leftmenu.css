@@ -43,18 +43,21 @@
   width: 160px;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 100%;
   background-color: #f9f4dc;
   box-sizing: border-box;
   transition: left ease-in-out 1s;
-  z-index: 1000; }
+  z-index: 1000;
+  overflow: scroll; }
   .ym-menu .menu-main .logo {
+    display: block;
     color: #12aa9c;
     font-size: 1.8em;
     text-align: center;
-    margin: 2em auto 1em; }
+    margin: 1em auto 0.5em;
+    font-weight: bold; }
   .ym-menu .menu-main nav {
-    padding: 1em 0;
+    padding: .5em 0;
     overflow: hidden; }
     .ym-menu .menu-main nav a {
       display: block;

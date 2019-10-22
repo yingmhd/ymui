@@ -2,9 +2,8 @@ import React from 'react'
 
 export default class Form extends React.Component {
     render() {
-        let color = '#45b787';
         return (
-            <div className='contentWrapper' style={{backgroundColor: color}}>
+            <div className='contentWrapper color-green backcolor-green'>
                 <div className='ym-content'>
                     <div className="title">
                         <h1>Form</h1>

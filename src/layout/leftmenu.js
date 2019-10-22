@@ -7,7 +7,7 @@ const menuList = [
     [
         {
             name: "Start",
-            path: "/",
+            path: "/start",
             color: "purple"
         },
         {
@@ -65,7 +65,7 @@ export default class Left extends React.Component {
     }
 
     getClassName(color, path) {
-        let classname = 'color-' + color;
+        let classname = 'color-' + color + ' canhover';
         if (this.state.pathname === path) {
             classname += ' active';
         }
@@ -127,10 +127,10 @@ export default class Left extends React.Component {
                     <span> </span>
                 </div>
                 <div className='menu-main' id='menuMain'>
-                    <div className='logo'>
+                    <Link to='/' className='logo'>
                         <span className='color-green'>Y</span><span className='color-blue'>M</span><span
                         className='color-red'>UI</span>
-                    </div>
+                    </Link>
                     {
                         menuList.map((navItem, ii) =>
                             <nav key={ii}>

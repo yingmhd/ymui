@@ -73,6 +73,7 @@ $color_list_deep:#fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4;
   input[type=text],
   select,
   textarea {
+    font-size: 90%;
     padding: .5em .6em;
     display: block;
     border: 1px solid #ccc;
@@ -117,7 +118,7 @@ $color_list_deep:#fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4;
   select,
   textarea {
     display: inline-block;
-    margin: 5px;
+    margin-right: 5px;
   }
   label {
     display: inline-block;

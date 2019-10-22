@@ -6,6 +6,9 @@ import Index from "./pages";
 import Colors from "./pages/colors";
 import Button from './pages/buttons'
 import Form from "./pages/form";
+import Start from "./pages/start";
+import Table from "./pages/table";
+import Dialog from "./pages/dialog";
 
 
 export default class Main extends React.Component {
@@ -16,6 +19,9 @@ export default class Main extends React.Component {
                 <Route exact path='/colors' component={Colors}/>
                 <Route exact path='/buttons' component={Button}/>
                 <Route exact path='/form' component={Form}/>
+                <Route exact path='/start' component={Start}/>
+                <Route exact path='/table' component={Table}/>
+                <Route exact path='/dialog' component={Dialog}/>
             </div>
         )
     }

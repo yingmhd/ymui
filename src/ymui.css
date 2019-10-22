@@ -86,6 +86,7 @@
 .ym-form input[type=text],
 .ym-form select,
 .ym-form textarea {
+  font-size: 90%;
   padding: .5em .6em;
   display: block;
   border: 1px solid #ccc;
@@ -141,7 +142,7 @@
 .ym-form.ym-form-inline select,
 .ym-form.ym-form-inline textarea {
   display: inline-block;
-  margin: 5px; }
+  margin-right: 5px; }
 
 .ym-form.ym-form-inline label {
   display: inline-block; }

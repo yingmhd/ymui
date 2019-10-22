@@ -15,45 +15,66 @@ code {
 
 .color-yellow {
   color: #fcd337; }
-  .color-yellow:hover, .color-yellow.active {
+  .color-yellow.canhover:hover, .color-yellow.active {
     background-color: #fcd337;
     color: #ffffff; }
 
+.backcolor-yellow {
+  background-color: #fcd337; }
+
 .color-orange {
   color: #f97d1c; }
-  .color-orange:hover, .color-orange.active {
+  .color-orange.canhover:hover, .color-orange.active {
     background-color: #f97d1c;
     color: #ffffff; }
 
+.backcolor-orange {
+  background-color: #f97d1c; }
+
 .color-red {
   color: #de1c31; }
-  .color-red:hover, .color-red.active {
+  .color-red.canhover:hover, .color-red.active {
     background-color: #de1c31;
     color: #ffffff; }
 
+.backcolor-red {
+  background-color: #de1c31; }
+
 .color-purple {
   color: #813c85; }
-  .color-purple:hover, .color-purple.active {
+  .color-purple.canhover:hover, .color-purple.active {
     background-color: #813c85;
     color: #ffffff; }
 
+.backcolor-purple {
+  background-color: #813c85; }
+
 .color-blue {
   color: #2775b6; }
-  .color-blue:hover, .color-blue.active {
+  .color-blue.canhover:hover, .color-blue.active {
     background-color: #2775b6;
     color: #ffffff; }
 
+.backcolor-blue {
+  background-color: #2775b6; }
+
 .color-green {
   color: #45b787; }
-  .color-green:hover, .color-green.active {
+  .color-green.canhover:hover, .color-green.active {
     background-color: #45b787;
     color: #ffffff; }
 
+.backcolor-green {
+  background-color: #45b787; }
+
 .color-cyan {
   color: #1a94bc; }
-  .color-cyan:hover, .color-cyan.active {
+  .color-cyan.canhover:hover, .color-cyan.active {
     background-color: #1a94bc;
     color: #ffffff; }
+
+.backcolor-cyan {
+  background-color: #1a94bc; }
 
 .ym-outWrapper {
   display: flex;
@@ -74,20 +95,19 @@ code {
       padding: 1em;
       border-radius: 5px; }
       .ym-outWrapper .ym-container .ym-content .title {
-        padding: 2em 0;
-        border-bottom: 1px solid #45b787; }
+        padding: 2em 0; }
         .ym-outWrapper .ym-container .ym-content .title h1 {
           font-weight: normal;
           font-size: 2.3em;
-          color: #45b787;
           text-align: center; }
       .ym-outWrapper .ym-container .ym-content .main h2 {
         font-weight: normal;
         font-size: 1.2em;
-        color: #45b787;
         padding: .8em 0; }
-      .ym-outWrapper .ym-container .ym-content .main .intro-text code {
-        padding: .1em .2em; }
+      .ym-outWrapper .ym-container .ym-content .main .intro-text {
+        color: #444444; }
+        .ym-outWrapper .ym-container .ym-content .main .intro-text code {
+          padding: .1em .2em; }
       .ym-outWrapper .ym-container .ym-content .main .show-area .element {
         padding: 1em 0; }
         .ym-outWrapper .ym-container .ym-content .main .show-area .element .ym-btn {
@@ -95,4 +115,9 @@ code {
       .ym-outWrapper .ym-container .ym-content .main .show-area code {
         font-size: .9em;
         padding: 1em;
-        display: block; }
+        display: block;
+        border: 1px solid #813c85; }
+
+@media screen and (max-width: 768px) {
+  .ym-content {
+    width: 100% !important; } }
