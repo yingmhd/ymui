@@ -8,6 +8,7 @@ $basic_hover_color: #2c9678;
   font-family: Consolas, "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.6;
   letter-spacing: 0.05em;
+  box-sizing: border-box;
 }
 code {
   color: #813c85;
@@ -71,7 +72,7 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
         .show-area {
           .element {
             padding: 1em 0;
-            .ymBtn {
+            .ym-btn {
               margin-right: 5px;
             }
           }
@@ -85,4 +86,3 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
     }
   }
 }
-

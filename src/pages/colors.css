@@ -5,7 +5,7 @@
   transition: background-color 1.5s ease-in; }
 
 .colors-area {
-  width: 70%;
+  width: 768px;
   margin: 20px auto;
   background-color: #fff;
   padding: 20px;
@@ -16,6 +16,15 @@
     margin-bottom: 20px;
     text-align: center;
     color: #f97d1c; }
+    .colors-area .colors-pick span {
+      margin: 0 5px;
+      font-size: 20px; }
+      .colors-area .colors-pick span.color0 {
+        color: red; }
+      .colors-area .colors-pick span.color1 {
+        color: green; }
+      .colors-area .colors-pick span.color2 {
+        color: blue; }
   .colors-area ul {
     display: flex;
     flex-direction: row;

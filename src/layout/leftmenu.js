@@ -6,46 +6,46 @@ import './leftmenu.css'
 const menuList = [
     [
         {
-            name: "起步",
+            name: "Start",
             path: "/",
             color: "purple"
         },
         {
-            name: "取色",
+            name: "Colors",
             path: "/colors",
             color: "orange"
         }
     ],
     [
         {
-            name: "按钮",
+            name: "Button",
             path: "/buttons",
             color: "green"
         },
         {
-            name: "输入框",
-            path: "/input",
+            name: "Form",
+            path: "/form",
             color: "green"
         },
         {
-            name: "表格",
+            name: "Table",
             path: "/table",
             color: "green"
         }
     ],
     [
         {
-            name: "弹窗",
+            name: "Dialog",
             path: "/dialog",
             color: "blue"
         },
         {
-            name: "提示",
+            name: "Tip",
             path: "/tip",
             color: "blue"
         },
         {
-            name: "分页",
+            name: "Page",
             path: "/page",
             color: "blue"
         }
@@ -54,10 +54,14 @@ const menuList = [
 export default class Left extends React.Component {
     constructor(props) {
         super(props);
+        let w_width = document.body.offsetWidth;
         this.state = {
-            pathname: location.pathname
+            pathname: location.pathname,
+            menuShow: w_width >= 950,
+            hidePlace: w_width < 950
         };
         this.getClassName = this.getClassName.bind(this);
+        this.handleResize = this.handleResize.bind(this);
     }
 
     getClassName(color, path) {
@@ -68,14 +72,63 @@ export default class Left extends React.Component {
         return classname;
     }
 
+    componentDidMount() {
+        window.addEventListener('resize', this.handleResize)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize)
+    }
+
+    handleResize(e) {
+        let wWidth = e.target.innerWidth;
+        if (wWidth < 950) {
+            if (this.state.menuShow) {
+                this.setState({
+                    menuShow: false,
+                    hidePlace: true
+                })
+            }
+        } else {
+            if (!this.state.menuShow) {
+                this.setState({
+                    menuShow: true,
+                    hidePlace: false
+                })
+            }
+        }
+    }
+
+    showMainMenu() {
+        this.setState({
+            menuShow: true
+        })
+    }
+
+    handleMenuClick(path) {
+        this.setState({
+            pathname: path
+        });
+        if (this.state.hidePlace) {
+            this.setState({
+                menuShow: false
+            })
+        }
+    }
+
     render() {
+        let mclass = this.state.menuShow ? '' : 'hide-main';
+        mclass += this.state.hidePlace ? ' hide-place' : '';
         return (
-            <div className='ym-menu'>
-                <div className='placeDiv'>
+            <div className={'ym-menu ' + mclass}>
+                <div className='menu-place'>
                 </div>
-                <div className='actDiv'>
+                <div className='menu-btn' onClick={this.showMainMenu.bind(this)}>
+                    <span> </span>
+                </div>
+                <div className='menu-main' id='menuMain'>
                     <div className='logo'>
-                        <span className='color-green'>英</span><span className='color-blue'>目</span><span
+                        <span className='color-green'>Y</span><span className='color-blue'>M</span><span
                         className='color-red'>UI</span>
                     </div>
                     {
@@ -85,7 +138,7 @@ export default class Left extends React.Component {
                                     navItem.map((item, i) =>
                                         <Link to={item.path} className={this.getClassName(item.color, item.path)}
                                               key={ii + "0" + i}
-                                              onClick={()=>this.setState({pathname: item.path})}>{item.name}</Link>
+                                              onClick={this.handleMenuClick.bind(this, item.path)}>{item.name}</Link>
                                     )
                                 }
                             </nav>

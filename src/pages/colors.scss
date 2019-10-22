@@ -4,24 +4,45 @@
   overflow: hidden;
   transition: background-color 1.5s ease-in;
 }
+
 .colors-area {
-  width: 70%;
+  width: 768px;
   margin: 20px auto;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
+
   .colors-pick {
     font-size: 30px;
     line-height: 50px;
     margin-bottom: 20px;
     text-align: center;
     color: #f97d1c;
+
+    span {
+      margin: 0 5px;
+      font-size: 20px;
+
+      &.color0 {
+        color: red;
+      }
+
+      &.color1 {
+        color: green;
+      }
+
+      &.color2 {
+        color: blue;
+      }
+    }
   }
+
   ul {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
   }
+
   li {
     border-width: 20px 0 0 0;
     border-style: solid;
@@ -31,6 +52,7 @@
     cursor: pointer;
     color: #666666;
   }
+
   li.active {
     font-weight: bold;
     color: #222222;

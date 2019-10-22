@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class Left extends React.Component {
+export default class Buttons extends React.Component {
     render() {
         let color = '#45b787';
         return (
@@ -16,16 +16,16 @@ export default class Left extends React.Component {
                         </div>
                         <div className="show-area">
                             <div className='element'>
-                                <a className="ymBtn ymBtn-green" href="#" role="button">Link</a>
-                                <button className="ymBtn ymBtn-green" type="submit">Button</button>
-                                <input className="ymBtn ymBtn-green" type="button" value="Input"/>
-                                <input className="ymBtn ymBtn-green" type="submit" value="Submit"/>
+                                <a className="ym-btn ym-btn-green" href="#" role="button">Link</a>
+                                <button className="ym-btn ym-btn-green" type="submit">Button</button>
+                                <input className="ym-btn ym-btn-green" type="button" value="Input"/>
+                                <input className="ym-btn ym-btn-green" type="submit" value="Submit"/>
                             </div>
                             <code>
-                                <p>{'<a class="ymBtn ymBtn-green" href="#" role="button">Link</a>'}</p>
-                                <p>{'<button class="ymBtn ymBtn-green" type="submit">Button</button>'}</p>
-                                <p>{'<input class="ymBtn ymBtn-green" type="button" value="Input">'}</p>
-                                <p>{'<input class="ymBtn ymBtn-green" type="submit" value="Submit">'}</p>
+                                <p>{'<a class="ym-btn ym-btn-green" href="#" role="button">Link</a>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-green" type="submit">Button</button>'}</p>
+                                <p>{'<input class="ym-btn ym-btn-green" type="button" value="Input">'}</p>
+                                <p>{'<input class="ym-btn ym-btn-green" type="submit" value="Submit">'}</p>
                             </code>
                         </div>
                         <h2>预定义样式</h2>
@@ -34,22 +34,22 @@ export default class Left extends React.Component {
                         </div>
                         <div className="show-area">
                             <div className="element">
-                                <button className="ymBtn ymBtn-green">Green</button>
-                                <button className="ymBtn ymBtn-yellow">Yellow</button>
-                                <button className="ymBtn ymBtn-orange">Orange</button>
-                                <button className="ymBtn ymBtn-blue">Blue</button>
-                                <button className="ymBtn ymBtn-purple">Purple</button>
-                                <button className="ymBtn ymBtn-cyan">Cyan</button>
-                                <button className="ymBtn ymBtn-disabled">Disabled</button>
+                                <button className="ym-btn ym-btn-green">Green</button>
+                                <button className="ym-btn ym-btn-yellow">Yellow</button>
+                                <button className="ym-btn ym-btn-orange">Orange</button>
+                                <button className="ym-btn ym-btn-blue">Blue</button>
+                                <button className="ym-btn ym-btn-purple">Purple</button>
+                                <button className="ym-btn ym-btn-cyan">Cyan</button>
+                                <button className="ym-btn ym-btn-disabled">Disabled</button>
                             </div>
                             <code>
-                                <p>{'<button className="ymBtn ymBtn-green">Green</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-yellow">Yellow</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-orange">Orange</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-blue">Blue</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-purple">Purple</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-cyan">Cyan</button>'}</p>
-                                <p>{'<button className="ymBtn ymbtn-disabled">Disabled</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-green">Green</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-yellow">Yellow</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-orange">Orange</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-blue">Blue</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-purple">Purple</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-cyan">Cyan</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-disabled">Disabled</button>'}</p>
                             </code>
                         </div>
                         <h2>尺寸</h2>
@@ -58,18 +58,18 @@ export default class Left extends React.Component {
                         </div>
                         <div className="show-area">
                             <div className="element">
-                                <button className="ymBtn ymBtn-green ymBtn-xsmall">Extra Small Button</button>
-                                <button className="ymBtn ymBtn-green ymBtn-small">Small Button</button>
-                                <button className="ymBtn ymBtn-green">Regular Button</button>
-                                <button className="ymBtn ymBtn-green ymBtn-large">Large Button</button>
-                                <button className="ymBtn ymBtn-green ymBtn-xlarge">Extra Large Button</button>
+                                <button className="ym-btn ym-btn-green ym-btn-xsmall">Extra Small Button</button>
+                                <button className="ym-btn ym-btn-green ym-btn-small">Small Button</button>
+                                <button className="ym-btn ym-btn-green">Regular Button</button>
+                                <button className="ym-btn ym-btn-green ym-btn-large">Large Button</button>
+                                <button className="ym-btn ym-btn-green ym-btn-xlarge">Extra Large Button</button>
                             </div>
                             <code>
-                                <p>{'<button className="ymBtn ymBtn-green ymBtn-xsmall">Extra Small Button</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-green ymBtn-small">Small Button</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-green">Regular Button</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-green ymBtn-large">Large Button</button>'}</p>
-                                <p>{'<button className="ymBtn ymBtn-green ymBtn-xlarge">Extra Large Button</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-green ym-btn-xsmall">Extra Small Button</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-green ym-btn-small">Small Button</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-green">Regular Button</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-green ym-btn-large">Large Button</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-green ym-btn-xlarge">Extra Large Button</button>'}</p>
                             </code>
                         </div>
                     </div>

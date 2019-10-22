@@ -1,8 +1,53 @@
 .ym-menu {
-  .placeDiv {
+  .menu-place {
     width: 160px;
+    transition: width ease-in-out 1s;
   }
-  .actDiv {
+
+  .menu-btn {
+    position: fixed;
+    top: 0;
+    left: -4em;
+    width: 4em;
+    height: 4em;
+    padding: 1em;
+    background: #f9f4dc;
+    z-index: 999;
+    cursor: pointer;
+
+    span {
+      display: block;
+      width: 2em;
+      height: .2em;
+      background-color: #2775b6;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -.1em 0 0 -1em;
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 2em;
+        height: .2em;
+        background-color: #f97d1c;
+        top: -.5em;
+      }
+
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 2em;
+        height: .2em;
+        background-color: #45b787;
+        top: .5em;
+      }
+    }
+  }
+
+  .menu-main {
     position: fixed;
     width: 160px;
     top: 0;
@@ -10,15 +55,20 @@
     height: 100vh;
     background-color: #f9f4dc;
     box-sizing: border-box;
+    transition: left ease-in-out 1s;
+    z-index: 1000;
+
     .logo {
       color: #12aa9c;
       font-size: 1.8em;
       text-align: center;
       margin: 2em auto 1em;
     }
+
     nav {
       padding: 1em 0;
       overflow: hidden;
+
       a {
         display: block;
         text-align: center;
@@ -26,5 +76,21 @@
         line-height: 2.5;
       }
     }
+  }
+}
+.ym-menu.hide-place {
+  .menu-place {
+    width: 0;
+  }
+}
+.ym-menu.hide-main {
+  .menu-btn {
+    left: 0;
+  }
+  .menu-place {
+    width: 0;
+  }
+  .menu-main {
+    left: -160px;
   }
 }

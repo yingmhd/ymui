@@ -5,7 +5,8 @@
   text-decoration: none;
   font-family: Consolas, "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.6;
-  letter-spacing: 0.05em; }
+  letter-spacing: 0.05em;
+  box-sizing: border-box; }
 
 code {
   color: #813c85;
@@ -89,7 +90,7 @@ code {
         padding: .1em .2em; }
       .ym-outWrapper .ym-container .ym-content .main .show-area .element {
         padding: 1em 0; }
-        .ym-outWrapper .ym-container .ym-content .main .show-area .element .ymBtn {
+        .ym-outWrapper .ym-container .ym-content .main .show-area .element .ym-btn {
           margin-right: 5px; }
       .ym-outWrapper .ym-container .ym-content .main .show-area code {
         font-size: .9em;
