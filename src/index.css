@@ -76,6 +76,15 @@ code {
 .backcolor-cyan {
   background-color: #1a94bc; }
 
+.color-gray {
+  color: #bbb5ac; }
+  .color-gray.canhover:hover, .color-gray.active {
+    background-color: #bbb5ac;
+    color: #ffffff; }
+
+.backcolor-gray {
+  background-color: #bbb5ac; }
+
 .ym-outWrapper {
   display: flex;
   flex-direction: row; }
@@ -105,7 +114,8 @@ code {
         font-size: 1.2em;
         padding: .8em 0; }
       .ym-outWrapper .ym-container .ym-content .main .intro-text {
-        color: #444444; }
+        color: #444444;
+        padding: .5em; }
         .ym-outWrapper .ym-container .ym-content .main .intro-text code {
           padding: .1em .2em; }
       .ym-outWrapper .ym-container .ym-content .main .show-area .element {

@@ -40,35 +40,88 @@
   .ym-btn-yellow:hover, .ym-btn-yellow.active {
     background-color: #fecc11; }
 
+.backcolor-yellow {
+  background-color: #f8df70; }
+
+.bordercolor-yellow {
+  border-color: #f8df70; }
+
 .ym-btn-orange {
   background-color: #f97d1c; }
   .ym-btn-orange:hover, .ym-btn-orange.active {
     background-color: #f86b1d; }
+
+.backcolor-orange {
+  background-color: #f97d1c; }
+
+.bordercolor-orange {
+  border-color: #f97d1c; }
 
 .ym-btn-red {
   background-color: #de1c31; }
   .ym-btn-red:hover, .ym-btn-red.active {
     background-color: #f43e06; }
 
+.backcolor-red {
+  background-color: #de1c31; }
+
+.bordercolor-red {
+  border-color: #de1c31; }
+
 .ym-btn-purple {
   background-color: #813c85; }
   .ym-btn-purple:hover, .ym-btn-purple.active {
     background-color: #7e1671; }
+
+.backcolor-purple {
+  background-color: #813c85; }
+
+.bordercolor-purple {
+  border-color: #813c85; }
 
 .ym-btn-blue {
   background-color: #2775b6; }
   .ym-btn-blue:hover, .ym-btn-blue.active {
     background-color: #0f59a4; }
 
+.backcolor-blue {
+  background-color: #2775b6; }
+
+.bordercolor-blue {
+  border-color: #2775b6; }
+
 .ym-btn-green {
   background-color: #45b787; }
   .ym-btn-green:hover, .ym-btn-green.active {
     background-color: #2c9678; }
 
+.backcolor-green {
+  background-color: #45b787; }
+
+.bordercolor-green {
+  border-color: #45b787; }
+
 .ym-btn-cyan {
   background-color: #1a94bc; }
   .ym-btn-cyan:hover, .ym-btn-cyan.active {
     background-color: #1772b4; }
+
+.backcolor-cyan {
+  background-color: #1a94bc; }
+
+.bordercolor-cyan {
+  border-color: #1a94bc; }
+
+.ym-btn-gray {
+  background-color: #bbb5ac; }
+  .ym-btn-gray:hover, .ym-btn-gray.active {
+    background-color: #867e76; }
+
+.backcolor-gray {
+  background-color: #bbb5ac; }
+
+.bordercolor-gray {
+  border-color: #bbb5ac; }
 
 .ym-form input[type=password],
 .ym-form input[type=email],
@@ -95,7 +148,7 @@
   vertical-align: middle;
   box-sizing: border-box;
   outline: none;
-  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s; }
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }
   .ym-form input[type=password]:focus,
   .ym-form input[type=email]:focus,
   .ym-form input[type=url]:focus,
@@ -159,3 +212,68 @@
 
 .ym-form.ym-form-align .ym-checkbox {
   display: block; }
+
+.ym-dialog-container {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .ym-dialog-container .ym-dialog-cover {
+    position: absolute;
+    z-index: 0;
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%; }
+  .ym-dialog-container .ym-dialog-main {
+    z-index: 1;
+    border-radius: 5px;
+    width: 25em;
+    overflow: hidden;
+    position: absolute; }
+    .ym-dialog-container .ym-dialog-main .title {
+      padding: 0.5em 1em;
+      color: #ffffff;
+      position: relative;
+      cursor: move; }
+      .ym-dialog-container .ym-dialog-main .title .x-close {
+        position: absolute;
+        width: 1em;
+        height: 1em;
+        right: .8em;
+        top: .8em;
+        font-size: 100%;
+        cursor: pointer; }
+        .ym-dialog-container .ym-dialog-main .title .x-close em {
+          background-color: #ffffff;
+          width: 18px;
+          height: 2px;
+          position: absolute;
+          top: .5em;
+          left: 0;
+          transform: rotateZ(45deg); }
+          .ym-dialog-container .ym-dialog-main .title .x-close em::before {
+            content: " ";
+            display: block;
+            width: 2px;
+            height: 18px;
+            background-color: #ffffff;
+            top: -8px;
+            left: 8px;
+            position: absolute; }
+    .ym-dialog-container .ym-dialog-main .content {
+      background-color: #ffffff;
+      padding: 1em;
+      border-width: 0 0 1px 0;
+      border-style: solid; }
+    .ym-dialog-container .ym-dialog-main .btn-area {
+      background-color: #ffffff;
+      padding: .5em;
+      display: flex;
+      justify-content: flex-end; }
+      .ym-dialog-container .ym-dialog-main .btn-area .ym-btn {
+        margin-left: 5px; }

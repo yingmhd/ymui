@@ -7,6 +7,7 @@
   line-height: 1.6;
   letter-spacing: 0.05em;
 }
+
 $basic_color: #45b787;
 $basic_hover_color: #2c9678;
 .ym-btn {
@@ -22,15 +23,19 @@ $basic_hover_color: #2c9678;
   cursor: pointer;
   color: #fff;
   outline: none;
+
   &-xsmall {
     font-size: 70%;
   }
+
   &-small {
     font-size: 80%;
   }
+
   &-large {
     font-size: 100%;
   }
+
   &-xlarge {
     font-size: 110%;
   }
@@ -42,17 +47,25 @@ $basic_hover_color: #2c9678;
   cursor: not-allowed;
   opacity: .7;
 }
-$color_name: yellow orange red purple blue green cyan;
-$color_list: #f8df70 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
-$color_list_deep:#fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4;
+
+$color_name: yellow orange red purple blue green cyan gray;
+$color_list: #f8df70 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc #bbb5ac;
+$color_list_deep: #fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e76;
 @each $name in $color_name {
-  $i: index($color_name,$name);
+  $i: index($color_name, $name);
   .ym-btn-#{$name} {
-    background-color: nth($color_list,$i);
+    background-color: nth($color_list, $i);
+
     &:hover,
-    &.active{
-      background-color: nth($color_list_deep,$i);
+    &.active {
+      background-color: nth($color_list_deep, $i);
     }
+  }
+  .backcolor-#{$name} {
+    background-color: nth($color_list, $i);
+  }
+  .bordercolor-#{$name} {
+    border-color: nth($color_list, $i);
   }
 }
 
@@ -82,19 +95,23 @@ $color_list_deep:#fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4;
     vertical-align: middle;
     box-sizing: border-box;
     outline: none;
-    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
     &:focus {
       border-color: $basic_color;
-      box-shadow: inset 0 1px 1px #ddd,0 0 5px $basic_hover_color;
+      box-shadow: inset 0 1px 1px #ddd, 0 0 5px $basic_hover_color;
     }
   }
+
   label {
     display: block;
     margin: .25em 0;
   }
+
   select {
     height: 2.25em;
   }
+
   .ym-checkbox {
     margin: .2em 0;
   }
@@ -120,6 +137,7 @@ $color_list_deep:#fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4;
     display: inline-block;
     margin-right: 5px;
   }
+
   label {
     display: inline-block;
   }
@@ -128,16 +146,107 @@ $color_list_deep:#fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4;
 .ym-form.ym-form-align {
   .ym-group {
     margin-bottom: .5em;
+
     label {
       width: 10em;
       text-align: right;
       margin-right: 1em;
     }
   }
+
   .ym-control {
     margin: 1.5em 0 0 11em;
   }
+
   .ym-checkbox {
     display: block;
+  }
+}
+
+// 弹窗
+.ym-dialog-container {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .ym-dialog-cover {
+    position: absolute;
+    z-index: 0;
+    background: rgba(0, 0, 0, 0.7);
+    width: 100%;
+    height: 100%;
+  }
+
+  .ym-dialog-main {
+    z-index: 1;
+    border-radius: 5px;
+    width: 25em;
+    overflow: hidden;
+    position: absolute;
+
+    .title {
+      padding: 0.5em 1em;
+      color: #ffffff;
+      position: relative;
+      cursor: move;
+
+      .x-close {
+        position: absolute;
+        width: 1em;
+        height: 1em;
+        right: .8em;
+        top: .8em;
+        font-size: 100%;
+        cursor: pointer;
+
+        em {
+          background-color: #ffffff;
+          width: 18px;
+          height: 2px;
+          position: absolute;
+          top: .5em;
+          left: 0;
+          transform: rotateZ(45deg);
+
+          &::before {
+            content: " ";
+            display: block;
+            width: 2px;
+            height: 18px;
+            background-color: #ffffff;
+            top: -8px;
+            left: 8px;
+            position: absolute;
+          }
+
+        }
+      }
+
+
+    }
+
+    .content {
+      background-color: #ffffff;
+      padding: 1em;
+      border-width:0 0 1px 0;
+      border-style: solid;
+    }
+
+    .btn-area {
+      background-color: #ffffff;
+      padding: .5em;
+      display: flex;
+      justify-content: flex-end;
+
+      .ym-btn {
+        margin-left: 5px;
+      }
+    }
   }
 }

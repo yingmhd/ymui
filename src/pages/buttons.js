@@ -39,6 +39,7 @@ export default class Buttons extends React.Component {
                                 <button className="ym-btn ym-btn-blue">Blue</button>
                                 <button className="ym-btn ym-btn-purple">Purple</button>
                                 <button className="ym-btn ym-btn-cyan">Cyan</button>
+                                <button className="ym-btn ym-btn-gray">Gray</button>
                                 <button className="ym-btn ym-btn-disabled">Disabled</button>
                             </div>
                             <code>
@@ -48,6 +49,7 @@ export default class Buttons extends React.Component {
                                 <p>{'<button class="ym-btn ym-btn-blue">Blue</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-purple">Purple</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-cyan">Cyan</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-gray">Gray</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-disabled">Disabled</button>'}</p>
                             </code>
                         </div>

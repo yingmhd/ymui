@@ -15,8 +15,8 @@ code {
   background-color: #fbecde;
   border-radius: 4px;
 }
-$color_name: yellow orange red purple blue green cyan;
-$color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
+$color_name: yellow orange red purple blue green cyan gray;
+$color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc #bbb5ac;
 @each $name in $color_name {
   $i: index($color_name,$name);
   .color-#{$name} {
@@ -67,6 +67,7 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc;
         }
         .intro-text {
           color: #444444;
+          padding: .5em;
           code {
             padding: .1em .2em;
           }

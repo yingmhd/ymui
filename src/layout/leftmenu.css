@@ -47,8 +47,7 @@
   background-color: #f9f4dc;
   box-sizing: border-box;
   transition: left ease-in-out 1s;
-  z-index: 1000;
-  overflow: scroll; }
+  z-index: 1000; }
   .ym-menu .menu-main .logo {
     display: block;
     color: #12aa9c;
