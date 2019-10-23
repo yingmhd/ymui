@@ -62,6 +62,8 @@
                 dialogId: 'ymDialog' + (new Date()).getTime()
             };
             this.def = extend(def, opt, true);
+            this.listeners = [];
+            this.handles = {};
         },
         show: function (callback) {
             let _this = this;
@@ -86,7 +88,7 @@
                     let t = e.clientY - disY;
                     dragEle.style.left = l + 'px';
                     dragEle.style.top = t + 'px';
-                }
+                };
                 document.onmouseup = function () {
                     document.onmousemove = null;
                     document.onmouseup = null;
@@ -95,6 +97,26 @@
         },
         close: function () {
             document.body.removeChild(this.dom);
+        },
+        on: function (type, handler) {
+            if(typeof this.handles[type] === 'undefined') {
+                this.handles['type'] = [];
+            }
+            this.listeners.push(type);
+            this.handles[type].push(handler);
+            return this;
+        },
+        off: function (type, handler) {
+            if(this.handles[type] instanceof Array) {
+                let handlers = this.handles[type];
+                for(let i =0;i<handlers.length;i++) {
+                    if(handlers[i] === handler) {
+                        handlers.splice(i,1);
+                        break;
+                    }
+                }
+                return this;
+            }
         }
     };
 
