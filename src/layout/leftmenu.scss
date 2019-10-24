@@ -1,6 +1,6 @@
 .ym-menu {
   .menu-place {
-    width: 160px;
+    width: 10em;
     transition: width ease-in-out 1s;
   }
 
@@ -49,7 +49,7 @@
 
   .menu-main {
     position: fixed;
-    width: 160px;
+    width: 10em;
     top: 0;
     left: 0;
     height: 100%;
@@ -77,6 +77,16 @@
         line-height: 2.5;
       }
     }
+    .feedbak-area {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      bottom: .5em;
+      text-align: left;
+      font-size: .9em;
+      padding-left: .5em;
+      font-weight: bold;
+    }
   }
 }
 .ym-menu.hide-place {
@@ -92,6 +102,6 @@
     width: 0;
   }
   .menu-main {
-    left: -160px;
+    left: -10em;
   }
 }

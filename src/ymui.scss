@@ -166,7 +166,7 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
   }
 }
 
-// 弹窗
+/**弹窗**/
 .ym-dialog-container {
   position: fixed;
   z-index: 9999;
@@ -254,7 +254,7 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
   }
 }
 
-// 布局
+/**布局**/
 .ym-row {
   width: 100%;
   &::after {
@@ -289,4 +289,41 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
   .ym-auto-width {
     flex-grow: 1;
   }
+}
+/**表格**/
+.ym-table {
+  border: 1px solid $basic_ym-color;
+  border-spacing: 0;
+  color: #444444;
+  thead {
+    background-color: $basic_ym-color;
+    color: #ffffff;
+  }
+  th,td {
+    padding: .5em 1em;
+  }
+  &.ym-table-verb {
+    th,td {
+      border-left: 1px solid $basic_hover_ym-color;
+      &:first-child {
+        border-left: 0;
+      }
+    }
+  }
+  &.ym-table-horb {
+    th,td {
+      border-bottom: 1px solid $basic_hover_ym-color;
+    }
+    tr:last-child{
+      td {
+        border-bottom: 0;
+      }
+    }
+  }
+  &.ym-table-stripe {
+    tbody tr:nth-child(even) {
+      background-color: #dfecd5;
+    }
+  }
+
 }

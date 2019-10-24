@@ -1,5 +1,5 @@
 .ym-menu .menu-place {
-  width: 160px;
+  width: 10em;
   transition: width ease-in-out 1s; }
 
 .ym-menu .menu-btn {
@@ -40,7 +40,7 @@
 
 .ym-menu .menu-main {
   position: fixed;
-  width: 160px;
+  width: 10em;
   top: 0;
   left: 0;
   height: 100%;
@@ -62,6 +62,15 @@
       display: block;
       text-align: center;
       line-height: 2.5; }
+  .ym-menu .menu-main .feedbak-area {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: .5em;
+    text-align: left;
+    font-size: .9em;
+    padding-left: .5em;
+    font-weight: bold; }
 
 .ym-menu.hide-place .menu-place {
   width: 0; }
@@ -73,4 +82,4 @@
   width: 0; }
 
 .ym-menu.hide-main .menu-main {
-  left: -160px; }
+  left: -10em; }

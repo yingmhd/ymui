@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   padding: 0;
   margin: 0;
@@ -237,6 +238,7 @@
 .ym-form.ym-form-align .ym-checkbox {
   display: block; }
 
+/**弹窗**/
 .ym-dialog-container {
   position: fixed;
   z-index: 9999;
@@ -302,6 +304,7 @@
       .ym-dialog-container .ym-dialog-main .btn-area .ym-btn {
         margin-left: 5px; }
 
+/**布局**/
 .ym-row {
   width: 100%; }
   .ym-row::after {
@@ -343,3 +346,24 @@
     flex-direction: column; }
   .ym-stream .ym-auto-width {
     flex-grow: 1; }
+
+/**表格**/
+.ym-table {
+  border: 1px solid #45b787;
+  border-spacing: 0;
+  color: #444444; }
+  .ym-table thead {
+    background-color: #45b787;
+    color: #ffffff; }
+  .ym-table th, .ym-table td {
+    padding: .5em 1em; }
+  .ym-table.ym-table-verb th, .ym-table.ym-table-verb td {
+    border-left: 1px solid #2c9678; }
+    .ym-table.ym-table-verb th:first-child, .ym-table.ym-table-verb td:first-child {
+      border-left: 0; }
+  .ym-table.ym-table-horb th, .ym-table.ym-table-horb td {
+    border-bottom: 1px solid #2c9678; }
+  .ym-table.ym-table-horb tr:last-child td {
+    border-bottom: 0; }
+  .ym-table.ym-table-stripe tbody tr:nth-child(even) {
+    background-color: #dfecd5; }

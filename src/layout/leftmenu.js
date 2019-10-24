@@ -83,7 +83,13 @@ export default class Left extends React.Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.handleResize)
+        let _this = this;
+        window.addEventListener('resize', this.handleResize);
+        window.addEventListener('popstate',function () {
+            _this.setState({
+                pathname: location.pathname
+            });
+        });
     }
 
     componentWillUnmount() {
@@ -137,7 +143,7 @@ export default class Left extends React.Component {
                     <span> </span>
                 </div>
                 <div className='menu-main' id='menuMain'>
-                    <Link to='/' className='logo'>
+                    <Link to='/' className='logo' onClick={this.handleMenuClick.bind(this, '/')}>
                         <span className='color-green'>Y</span><span className='color-blue'>M</span><span
                         className='color-red'>UI</span>
                     </Link>
@@ -154,6 +160,10 @@ export default class Left extends React.Component {
                             </nav>
                         )
                     }
+                    <div className="feedbak-area">
+                        <div className="color-green">©英目花盗</div>
+                        <div className="color-purple">dyfself@126.com</div>
+                    </div>
                 </div>
             </div>
         )
