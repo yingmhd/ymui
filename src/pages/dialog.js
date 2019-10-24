@@ -1,7 +1,19 @@
 import React from 'react'
 import YMDialog from '../ymui'
 
+var showEvent = function (dom) {
+    console.log(dom);
+};
+
 export default class Dialog extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            curDialog: null
+        };
+    }
+
 
     openDialog() {
         let ymDialog = new YMDialog({
@@ -14,6 +26,50 @@ export default class Dialog extends React.Component {
             }
         });
         ymDialog.show();
+    }
+
+    bindDialogListener() {
+        if (this.state.curDialog === null) {
+            let dialog = new YMDialog({
+                theme: 'cyan',
+                title: '监听事件',
+                content: '打开弹窗之前触发',
+                ok_fuc: function (dom) {
+                    this.close();
+                }
+            });
+            dialog.on('show', showEvent);
+            this.setState({
+                curDialog: dialog
+            })
+        } else {
+            this.state.curDialog.on('show', showEvent);
+        }
+    }
+
+    removeDialogListener() {
+        if (this.state.curDialog !== null) {
+            this.state.curDialog.off('show', showEvent);
+        }
+    }
+
+    emitDialogListener() {
+        if (this.state.curDialog === null) {
+            let dialog = new YMDialog({
+                theme: 'cyan',
+                title: '监听事件',
+                content: '打开弹窗之前触发',
+                ok_fuc: function (dom) {
+                    this.close();
+                }
+            });
+            dialog.show();
+        } else {
+            this.state.curDialog.show();
+            this.setState({
+                curDialog: null
+            })
+        }
     }
 
     render() {
@@ -33,7 +89,6 @@ export default class Dialog extends React.Component {
                                 <button className="ym-btn ym-btn-green" onClick={this.openDialog}>点击</button>
                             </div>
                             <pre>
-                            <code>
                                 <p className="color-gray">{'// 在按钮的点击事件中初始化弹窗'}</p>
                                 <p>{'let ymDialog = new YMDialog({'}</p>
                                 <p>{'   title: \'标题\','}</p>
@@ -45,7 +100,6 @@ export default class Dialog extends React.Component {
                                 <p>{'});'}</p>
                                 <p className="color-gray">{'// 通过show()方法显示弹窗'}</p>
                                 <p>{'ymDialog.show();'}</p>
-                            </code>
                             </pre>
                         </div>
                         <h2>参数</h2>
@@ -54,21 +108,25 @@ export default class Dialog extends React.Component {
                         </div>
                         <div className="show-area">
                             <pre>
-                            <code>
                                 <p className="color-gray">{'// 在按钮的点击事件中初始化弹窗'}</p>
                                 <p>{'let ymDialog = new YMDialog({'}</p>
-                                <p>{'   title: '}<span className="color-gray">弹窗的标题  </span><span className="color-red">*必填</span></p>
-                                <p>{'   content: '}<span className="color-gray">弹窗的主体内容  </span><span className="color-red">*必填</span></p>
+                                <p>{'   title: '}<span className="color-gray">弹窗的标题  </span><span
+                                    className="color-red">*必填</span></p>
+                                <p>{'   content: '}<span className="color-gray">弹窗的主体内容  </span><span
+                                    className="color-red">*必填</span></p>
                                 <p>{'   cancel: '}<span className="color-gray">是否显示取消按钮  </span></p>
                                 <p>{'   ok_text: '}<span className="color-gray">确认按钮的文案  </span></p>
                                 <p>{'   cancel_text: '}<span className="color-gray">取消按钮的文案  </span></p>
-                                <p>{'   ok_fuc: '}<span className="color-gray">点击确认按钮之后的回调函数  </span><span className="color-red">如果不填，默认关闭弹窗</span></p>
-                                <p>{'   cancel_fuc: '}<span className="color-gray">点击取消按钮之后的回调函数  </span><span className="color-red">*必填</span></p>
-                                <p>{'   theme: '}<span className="color-gray">弹窗的主题  </span><span className="color-red">默认绿色，可填入yellow,red,purple,gray,blue,cyan,orange</span></p>
-                                <p>{'   dialogId: '}<span className="color-gray">弹窗的id  </span><span className="color-red">选填，添加id方便额外定义样式或者执行其他操作</span></p>
+                                <p>{'   ok_fuc: '}<span className="color-gray">点击确认按钮之后的回调函数  </span><span
+                                    className="color-red">如果不填，默认关闭弹窗</span></p>
+                                <p>{'   cancel_fuc: '}<span className="color-gray">点击取消按钮之后的回调函数  </span><span
+                                    className="color-red">*必填</span></p>
+                                <p>{'   theme: '}<span className="color-gray">弹窗的主题  </span><span
+                                    className="color-red">默认绿色，可填入yellow,red,purple,gray,blue,cyan,orange</span></p>
+                                <p>{'   dialogId: '}<span className="color-gray">弹窗的id  </span><span
+                                    className="color-red">选填，添加id方便额外定义样式或者执行其他操作</span></p>
                                 <p>{'});'}</p>
                                 <p>{'ymDialog.show();'}</p>
-                            </code>
                             </pre>
                         </div>
                         <h2>回调函数</h2>
@@ -78,14 +136,43 @@ export default class Dialog extends React.Component {
                         </div>
                         <div className="show-area">
                             <pre>
-                            <code>
                                 <p>{'   ...'}</p>
                                 <p>{'   ok_fuc: function (dom) {'}</p>
                                 <p>{'       console.log(dom);'}</p>
                                 <p>{'       this.close();'}</p>
                                 <p>{'   }'}</p>
                                 <p>{'   ...'}</p>
-                            </code>
+                            </pre>
+                        </div>
+                        <h2>监听事件</h2>
+                        <div className="intro-text">
+                            除了上面的回调函数外，还可以另外定义监听事件，监听弹窗的<code>show</code>,<code>close</code>状态，
+                        </div>
+                        <div className="show-area">
+                            <div className="element">
+                                <button className="ym-btn ym-btn-green"
+                                        onClick={this.bindDialogListener.bind(this)}>绑定
+                                </button>
+                                <button className="ym-btn ym-btn-red"
+                                        onClick={this.removeDialogListener.bind(this)}>卸载
+                                </button>
+                                <button className="ym-btn ym-btn-cyan"
+                                        onClick={this.emitDialogListener.bind(this)}>打开弹窗触发
+                                </button>
+                            </div>
+                            <pre>
+                                <p className="color-gray">{'// 定义监听事件'}</p>
+                                <p>{'var showEvent = function (dom) {'}</p>
+                                <p>{'   console.log(dom);'}</p>
+                                <p>{'};'}</p>
+                                <p className="color-gray">{'// 初始化一个弹窗'}</p>
+                                <p>{'let dialog = new YMDialog({...});'}</p>
+                                <p className="color-gray">{'// 监听show（可多次绑定）'}</p>
+                                <p>{'dialog.on(\'show\',showEvent);'}</p>
+                                <p className="color-gray">{'// 卸载show的监听事件，一次卸载一个'}</p>
+                                <p>{'dialog.off(\'show\',showEvent);'}</p>
+                                <p>{'// 打开弹窗触发show监听事件'}</p>
+                                <p>{'dialog.show()'}</p>
                             </pre>
                         </div>
                     </div>

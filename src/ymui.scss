@@ -8,8 +8,8 @@
   letter-spacing: 0.05em;
 }
 
-$basic_color: #45b787;
-$basic_hover_color: #2c9678;
+$basic_ym-color: #45b787;
+$basic_hover_ym-color: #2c9678;
 .ym-btn {
   display: inline-block;
   text-align: center;
@@ -48,24 +48,27 @@ $basic_hover_color: #2c9678;
   opacity: .7;
 }
 
-$color_name: yellow orange red purple blue green cyan gray;
-$color_list: #f8df70 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc #bbb5ac;
-$color_list_deep: #fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e76;
-@each $name in $color_name {
-  $i: index($color_name, $name);
+$ym-color_name: yellow orange red purple blue green cyan gray;
+$ym-color_list: #f8df70 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc #bbb5ac;
+$ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e76;
+@each $name in $ym-color_name {
+  $i: index($ym-color_name, $name);
   .ym-btn-#{$name} {
-    background-color: nth($color_list, $i);
+    background-color: nth($ym-color_list, $i);
 
     &:hover,
     &.active {
-      background-color: nth($color_list_deep, $i);
+      background-color: nth($ym-color_list_deep, $i);
     }
   }
-  .backcolor-#{$name} {
-    background-color: nth($color_list, $i);
+  .ym-color-#{$name} {
+    color: nth($ym-color_list, $i);
   }
-  .bordercolor-#{$name} {
-    border-color: nth($color_list, $i);
+  .backym-color-#{$name} {
+    background-color: nth($ym-color_list, $i);
+  }
+  .borderym-color-#{$name} {
+    border-color: nth($ym-color_list, $i);
   }
 }
 
@@ -80,7 +83,7 @@ $color_list_deep: #fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e7
   input[type=datetime-local],
   input[type=week],
   input[type=tel],
-  input[type=color],
+  input[type=ym-color],
   input[type=number],
   input[type=search],
   input[type=text],
@@ -95,11 +98,11 @@ $color_list_deep: #fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e7
     vertical-align: middle;
     box-sizing: border-box;
     outline: none;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-ym-color ease-in-out .15s, box-shadow ease-in-out .15s;
 
     &:focus {
-      border-color: $basic_color;
-      box-shadow: inset 0 1px 1px #ddd, 0 0 5px $basic_hover_color;
+      border-color: $basic_ym-color;
+      box-shadow: inset 0 1px 1px #ddd, 0 0 5px $basic_hover_ym-color;
     }
   }
 
@@ -128,7 +131,7 @@ $color_list_deep: #fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e7
   input[type=datetime-local],
   input[type=week],
   input[type=tel],
-  input[type=color],
+  input[type=ym-color],
   input[type=number],
   input[type=search],
   input[type=text],
@@ -248,5 +251,42 @@ $color_list_deep: #fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e7
         margin-left: 5px;
       }
     }
+  }
+}
+
+// 布局
+.ym-row {
+  width: 100%;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+    width: 0;
+    height: 0;
+  }
+  [class*="ym-col"] {
+    float: left;
+  }
+  .ym-col-1 {width: 8.33%;}
+  .ym-col-2 {width: 16.66%;}
+  .ym-col-3 {width: 25%;}
+  .ym-col-4 {width: 33.33%;}
+  .ym-col-5 {width: 41.66%;}
+  .ym-col-6 {width: 50%;}
+  .ym-col-7 {width: 58.33%;}
+  .ym-col-8 {width: 66.66%;}
+  .ym-col-9 {width: 75%;}
+  .ym-col-10 {width: 83.33%;}
+  .ym-col-11 {width: 91.66%;}
+  .ym-col-12 {width: 100%;}
+}
+
+.ym-stream {
+  display: flex;
+  &.stream-row {
+    flex-direction: column;
+  }
+  .ym-auto-width {
+    flex-grow: 1;
   }
 }

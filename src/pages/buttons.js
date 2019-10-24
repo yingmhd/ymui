@@ -20,12 +20,12 @@ export default class Buttons extends React.Component {
                                 <input className="ym-btn ym-btn-green" type="button" value="Input"/>
                                 <input className="ym-btn ym-btn-green" type="submit" value="Submit"/>
                             </div>
-                            <code>
+                            <pre>
                                 <p>{'<a class="ym-btn ym-btn-green" href="#" role="button">Link</a>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-green" type="submit">Button</button>'}</p>
                                 <p>{'<input class="ym-btn ym-btn-green" type="button" value="Input">'}</p>
                                 <p>{'<input class="ym-btn ym-btn-green" type="submit" value="Submit">'}</p>
-                            </code>
+                            </pre>
                         </div>
                         <h2>预定义样式</h2>
                         <div className="intro-text">
@@ -36,22 +36,24 @@ export default class Buttons extends React.Component {
                                 <button className="ym-btn ym-btn-green">Green</button>
                                 <button className="ym-btn ym-btn-yellow">Yellow</button>
                                 <button className="ym-btn ym-btn-orange">Orange</button>
+                                <button className="ym-btn ym-btn-red">Red</button>
                                 <button className="ym-btn ym-btn-blue">Blue</button>
                                 <button className="ym-btn ym-btn-purple">Purple</button>
                                 <button className="ym-btn ym-btn-cyan">Cyan</button>
                                 <button className="ym-btn ym-btn-gray">Gray</button>
                                 <button className="ym-btn ym-btn-disabled">Disabled</button>
                             </div>
-                            <code>
+                            <pre>
                                 <p>{'<button class="ym-btn ym-btn-green">Green</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-yellow">Yellow</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-orange">Orange</button>'}</p>
+                                <p>{'<button class="ym-btn ym-btn-red">Red</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-blue">Blue</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-purple">Purple</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-cyan">Cyan</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-gray">Gray</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-disabled">Disabled</button>'}</p>
-                            </code>
+                            </pre>
                         </div>
                         <h2>尺寸</h2>
                         <div className="intro-text">
@@ -65,13 +67,13 @@ export default class Buttons extends React.Component {
                                 <button className="ym-btn ym-btn-green ym-btn-large">Large Button</button>
                                 <button className="ym-btn ym-btn-green ym-btn-xlarge">Extra Large Button</button>
                             </div>
-                            <code>
+                            <pre>
                                 <p>{'<button class="ym-btn ym-btn-green ym-btn-xsmall">Extra Small Button</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-green ym-btn-small">Small Button</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-green">Regular Button</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-green ym-btn-large">Large Button</button>'}</p>
                                 <p>{'<button class="ym-btn ym-btn-green ym-btn-xlarge">Extra Large Button</button>'}</p>
-                            </code>
+                            </pre>
                         </div>
                     </div>
                 </div>

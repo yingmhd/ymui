@@ -58,3 +58,8 @@
     color: #222222;
   }
 }
+@media screen and (max-width: 768px){
+  .colors-area {
+    width: 100%!important;
+  }
+}

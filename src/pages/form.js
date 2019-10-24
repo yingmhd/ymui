@@ -35,24 +35,22 @@ export default class Form extends React.Component {
                             </div>
 
                             <pre>
-                                <code>
-                                    <p>{'<form class="ym-form">'}</p>
-                                    <p>{'   <label for="form-username">username</label>'}</p>
-                                    <p>{'   <input id="form-username" type="text" placeholder="username"/>'}</p>
-                                    <p>{'   <label for="form-password">password</label>'}</p>
-                                    <p>{'   <input id="form-password" type="password" placeholder="password"/>'}</p>
-                                    <p>{'   <label for="form-state">state</label>'}</p>
-                                    <p>{'   <select id="form-state">'}</p>
-                                    <p>{'       <option>A</option>'}</p>
-                                    <p>{'       <option>B</option>'}</p>
-                                    <p>{'       <option>C</option>'}</p>
-                                    <p>{'   </select>'}</p>
-                                    <p>{'   <label for="form-remember" class="ym-checkbox">'}</p>
-                                    <p>{'       <input id="form-remember" type="checkbox"/> Remember me'}</p>
-                                    <p>{'   </label>'}</p>
-                                    <p>{'   <button type="submit" class="ym-btn ym-btn-green">Sign in</button>'}</p>
-                                    <p>{'</form>'}</p>
-                                </code>
+                                <p>{'<form class="ym-form">'}</p>
+                                <p>{'   <label for="form-username">username</label>'}</p>
+                                <p>{'   <input id="form-username" type="text" placeholder="username"/>'}</p>
+                                <p>{'   <label for="form-password">password</label>'}</p>
+                                <p>{'   <input id="form-password" type="password" placeholder="password"/>'}</p>
+                                <p>{'   <label for="form-state">state</label>'}</p>
+                                <p>{'   <select id="form-state">'}</p>
+                                <p>{'       <option>A</option>'}</p>
+                                <p>{'       <option>B</option>'}</p>
+                                <p>{'       <option>C</option>'}</p>
+                                <p>{'   </select>'}</p>
+                                <p>{'   <label for="form-remember" class="ym-checkbox">'}</p>
+                                <p>{'       <input id="form-remember" type="checkbox"/> Remember me'}</p>
+                                <p>{'   </label>'}</p>
+                                <p>{'   <button type="submit" class="ym-btn ym-btn-green">Sign in</button>'}</p>
+                                <p>{'</form>'}</p>
                             </pre>
                         </div>
                         <h2>内联表单</h2>
@@ -70,13 +68,11 @@ export default class Form extends React.Component {
                             </div>
 
                             <pre>
-                                <code>
-                                    <p>{'<form class="ym-form">'}</p>
-                                    <p>{'   <input id="form-username" type="text" placeholder="username"/>'}</p>
-                                    <p>{'   <input id="form-password" type="password" placeholder="password"/>'}</p>
-                                    <p>{'   <button type="submit" class="ym-btn ym-btn-green">Sign in</button>'}</p>
-                                    <p>{'</form>'}</p>
-                                </code>
+                                <p>{'<form class="ym-form">'}</p>
+                                <p>{'   <input id="form-username" type="text" placeholder="username"/>'}</p>
+                                <p>{'   <input id="form-password" type="password" placeholder="password"/>'}</p>
+                                <p>{'   <button type="submit" class="ym-btn ym-btn-green">Sign in</button>'}</p>
+                                <p>{'</form>'}</p>
                             </pre>
                         </div>
                         <h2>对齐式</h2>
@@ -110,28 +106,26 @@ export default class Form extends React.Component {
                                 </form>
                             </div>
                             <pre>
-                                <code>
-                                    <p>{'<form class="ym-form ym-form-inline ym-form-align">'}</p>
-                                    <p>{'   <div class="ym-group">'}</p>
-                                    <p>{'       <label for="form-username">username</label>'}</p>
-                                    <p>{'       <input id="form-username" type="text" placeholder="username"/>'}</p>
-                                    <p>{'   </div>'}</p>
-                                    <p>{'   <div class="ym-group">'}</p>
-                                    <p>{'       <label for="form-password">password</label>'}</p>
-                                    <p>{'       <input id="form-password" type="password" placeholder="password"/>'}</p>
-                                    <p>{'   </div>'}</p>
-                                    <p>{'   <div class="ym-group">'}</p>
-                                    <p>{'       <label for="form-email">email</label>'}</p>
-                                    <p>{'      <input id="form-email" type="email" placeholder="email"/>'}</p>
-                                    <p>{'   </div>'}</p>
-                                    <p>{'   <div class="ym-control">'}</p>
-                                    <p>{'       <label for="form-remember" class="ym-checkbox">'}</p>
-                                    <p>{'            <input id="form-remember" type="checkbox"/> Remember me'}</p>
-                                    <p>{'       </label>'}</p>
-                                    <p>{'       <button type="submit" class="ym-btn ym-btn-green">Sign in</button>'}</p>
-                                    <p>{'   </div>'}</p>
-                                    <p>{'</form>'}</p>
-                                </code>
+                                <p>{'<form class="ym-form ym-form-inline ym-form-align">'}</p>
+                                <p>{'   <div class="ym-group">'}</p>
+                                <p>{'       <label for="form-username">username</label>'}</p>
+                                <p>{'       <input id="form-username" type="text" placeholder="username"/>'}</p>
+                                <p>{'   </div>'}</p>
+                                <p>{'   <div class="ym-group">'}</p>
+                                <p>{'       <label for="form-password">password</label>'}</p>
+                                <p>{'       <input id="form-password" type="password" placeholder="password"/>'}</p>
+                                <p>{'   </div>'}</p>
+                                <p>{'   <div class="ym-group">'}</p>
+                                <p>{'       <label for="form-email">email</label>'}</p>
+                                <p>{'      <input id="form-email" type="email" placeholder="email"/>'}</p>
+                                <p>{'   </div>'}</p>
+                                <p>{'   <div class="ym-control">'}</p>
+                                <p>{'       <label for="form-remember" class="ym-checkbox">'}</p>
+                                <p>{'            <input id="form-remember" type="checkbox"/> Remember me'}</p>
+                                <p>{'       </label>'}</p>
+                                <p>{'       <button type="submit" class="ym-btn ym-btn-green">Sign in</button>'}</p>
+                                <p>{'   </div>'}</p>
+                                <p>{'</form>'}</p>
                             </pre>
                         </div>
                     </div>

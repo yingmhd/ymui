@@ -14,6 +14,16 @@ const menuList = [
             name: "Colors",
             path: "/colors",
             color: "orange"
+        },
+        {
+            name: "Layout",
+            path: "/layout",
+            color: "red"
+        },
+        {
+            name: "Class",
+            path: "/class",
+            color: "yellow"
         }
     ],
     [

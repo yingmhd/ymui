@@ -62,14 +62,18 @@
                 dialogId: 'ymDialog' + (new Date()).getTime()
             };
             this.def = extend(def, opt, true);
-            this.listeners = [];
-            this.handles = {};
+            this.listeners = {};
         },
         show: function (callback) {
             let _this = this;
-            if(!!_this.dom) return false;
+            if (!!_this.dom) return false;
+            // 渲染模板
             _this.dom = createDialog(_this.def);
-
+            // 触发show监听事件
+            if (this.listeners['show'] !== 'undefined' && this.listeners['show'] instanceof Array) {
+                this.emit({type: 'show', target: this.dom});
+            }
+            // 绑定基础事件
             _this.dom.getElementsByClassName('btn-close')[0].onclick = function () {
                 !!_this.def.cancel_fuc ? _this.def.cancel_fuc.call(_this, _this.dom) : _this.close()
             };
@@ -79,12 +83,13 @@
             _this.dom.getElementsByClassName('btn-confirm')[0].onclick = function () {
                 !!_this.def.ok_fuc && _this.def.ok_fuc.call(_this, _this.dom)
             };
+            // 弹窗拖动
             let dragEle = _this.dom.getElementsByClassName('ym-dialog-main')[0];
             _this.dom.getElementsByClassName('title')[0].onmousedown = function (event) {
                 let disX = event.clientX - dragEle.offsetLeft;
                 let disY = event.clientY - dragEle.offsetTop;
                 document.onmousemove = function (e) {
-                    let l =  e.clientX - disX;
+                    let l = e.clientX - disX;
                     let t = e.clientY - disY;
                     dragEle.style.left = l + 'px';
                     dragEle.style.top = t + 'px';
@@ -96,27 +101,42 @@
             };
         },
         close: function () {
+            // 触发close监听事件
+            if (this.listeners['close'] && this.listeners['close'] instanceof Array) {
+                this.emit({type: 'close', target: this.dom});
+            }
             document.body.removeChild(this.dom);
         },
         on: function (type, handler) {
-            if(typeof this.handles[type] === 'undefined') {
-                this.handles['type'] = [];
+            if (typeof this.listeners[type] === 'undefined') {
+                this.listeners[type] = [];
             }
-            this.listeners.push(type);
-            this.handles[type].push(handler);
+            this.listeners[type].push(handler);
             return this;
         },
         off: function (type, handler) {
-            if(this.handles[type] instanceof Array) {
-                let handlers = this.handles[type];
-                for(let i =0;i<handlers.length;i++) {
-                    if(handlers[i] === handler) {
-                        handlers.splice(i,1);
+            if (this.listeners[type] instanceof Array) {
+                let handlers = this.listeners[type];
+                for (let i = 0; i < handlers.length; i++) {
+                    if (handlers[i] === handler) {
+                        handlers.splice(i, 1);
                         break;
                     }
                 }
                 return this;
             }
+        },
+        emit: function (handleObj) {
+            if (!handleObj.target) {
+                handleObj.target = this;
+            }
+            if (this.listeners[handleObj.type] instanceof Array) {
+                let handlers = this.listeners[handleObj.type];
+                for (let i = 0; i < handlers.length; i++) {
+                    handlers[i](handleObj.target);
+                }
+            }
+            return false;
         }
     };
 

@@ -8,7 +8,7 @@
   letter-spacing: 0.05em;
   box-sizing: border-box; }
 
-code {
+code, pre {
   color: #813c85;
   background-color: #fbecde;
   border-radius: 4px; }
@@ -85,6 +85,9 @@ code {
 .backcolor-gray {
   background-color: #bbb5ac; }
 
+.color-default {
+  color: #444444; }
+
 .ym-outWrapper {
   display: flex;
   flex-direction: row; }
@@ -118,15 +121,34 @@ code {
         padding: .5em; }
         .ym-outWrapper .ym-container .ym-content .main .intro-text code {
           padding: .1em .2em; }
-      .ym-outWrapper .ym-container .ym-content .main .show-area .element {
-        padding: 1em 0; }
-        .ym-outWrapper .ym-container .ym-content .main .show-area .element .ym-btn {
-          margin-right: 5px; }
-      .ym-outWrapper .ym-container .ym-content .main .show-area code {
-        font-size: .9em;
-        padding: 1em;
-        display: block;
-        border: 1px solid #813c85; }
+      .ym-outWrapper .ym-container .ym-content .main .show-area {
+        width: 100%; }
+        .ym-outWrapper .ym-container .ym-content .main .show-area .element {
+          padding: 1em 0; }
+          .ym-outWrapper .ym-container .ym-content .main .show-area .element div[class*="bordercolor"] {
+            border-width: 1px;
+            border-style: solid;
+            margin: .2em 0; }
+          .ym-outWrapper .ym-container .ym-content .main .show-area .element .ym-btn {
+            margin-right: 5px; }
+        .ym-outWrapper .ym-container .ym-content .main .show-area pre {
+          font-size: .9em;
+          padding: 1em;
+          display: block;
+          border: 1px solid #813c85;
+          overflow: auto;
+          word-break: break-all;
+          white-space: pre-wrap; }
+
+.index-page {
+  text-align: center; }
+  .index-page h1 {
+    font-size: 10em; }
+  .index-page h2 {
+    font-size: 2em;
+    font-weight: normal;
+    color: #666666;
+    margin-bottom: 2em; }
 
 @media screen and (max-width: 768px) {
   .ym-content {
