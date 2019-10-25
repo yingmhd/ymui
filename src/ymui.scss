@@ -8,8 +8,8 @@
   letter-spacing: 0.05em;
 }
 
-$basic_ym-color: #45b787;
-$basic_hover_ym-color: #2c9678;
+$basic_color: #45b787;
+$basic_hover_color: #2c9678;
 .ym-btn {
   display: inline-block;
   text-align: center;
@@ -48,27 +48,27 @@ $basic_hover_ym-color: #2c9678;
   opacity: .7;
 }
 
-$ym-color_name: yellow orange red purple blue green cyan gray;
-$ym-color_list: #f8df70 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc #bbb5ac;
-$ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e76;
-@each $name in $ym-color_name {
-  $i: index($ym-color_name, $name);
+$color_name: yellow orange red purple blue green cyan gray;
+$color_list: #f8df70 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc #bbb5ac;
+$color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e76;
+@each $name in $color_name {
+  $i: index($color_name, $name);
   .ym-btn-#{$name} {
-    background-color: nth($ym-color_list, $i);
+    background-color: nth($color_list, $i);
 
     &:hover,
     &.active {
-      background-color: nth($ym-color_list_deep, $i);
+      background-color: nth($color_list_deep, $i);
     }
   }
-  .ym-color-#{$name} {
-    color: nth($ym-color_list, $i);
+  .color-#{$name} {
+    color: nth($color_list, $i);
   }
-  .backym-color-#{$name} {
-    background-color: nth($ym-color_list, $i);
+  .backcolor-#{$name} {
+    background-color: nth($color_list, $i);
   }
-  .borderym-color-#{$name} {
-    border-color: nth($ym-color_list, $i);
+  .bordercolor-#{$name} {
+    border-color: nth($color_list, $i);
   }
 }
 
@@ -83,7 +83,7 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
   input[type=datetime-local],
   input[type=week],
   input[type=tel],
-  input[type=ym-color],
+  input[type=color],
   input[type=number],
   input[type=search],
   input[type=text],
@@ -98,11 +98,11 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
     vertical-align: middle;
     box-sizing: border-box;
     outline: none;
-    transition: border-ym-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 
     &:focus {
-      border-color: $basic_ym-color;
-      box-shadow: inset 0 1px 1px #ddd, 0 0 5px $basic_hover_ym-color;
+      border-color: $basic_color;
+      box-shadow: inset 0 1px 1px #ddd, 0 0 5px $basic_hover_color;
     }
   }
 
@@ -131,7 +131,7 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
   input[type=datetime-local],
   input[type=week],
   input[type=tel],
-  input[type=ym-color],
+  input[type=color],
   input[type=number],
   input[type=search],
   input[type=text],
@@ -237,7 +237,7 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
     .content {
       background-color: #ffffff;
       padding: 1em;
-      border-width:0 0 1px 0;
+      border-width: 0 0 1px 0;
       border-style: solid;
     }
 
@@ -257,6 +257,7 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
 /**布局**/
 .ym-row {
   width: 100%;
+
   &::after {
     content: "";
     display: block;
@@ -264,66 +265,176 @@ $ym-color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772
     width: 0;
     height: 0;
   }
+
   [class*="ym-col"] {
     float: left;
   }
-  .ym-col-1 {width: 8.33%;}
-  .ym-col-2 {width: 16.66%;}
-  .ym-col-3 {width: 25%;}
-  .ym-col-4 {width: 33.33%;}
-  .ym-col-5 {width: 41.66%;}
-  .ym-col-6 {width: 50%;}
-  .ym-col-7 {width: 58.33%;}
-  .ym-col-8 {width: 66.66%;}
-  .ym-col-9 {width: 75%;}
-  .ym-col-10 {width: 83.33%;}
-  .ym-col-11 {width: 91.66%;}
-  .ym-col-12 {width: 100%;}
+
+  .ym-col-1 {
+    width: 8.33%;
+  }
+
+  .ym-col-2 {
+    width: 16.66%;
+  }
+
+  .ym-col-3 {
+    width: 25%;
+  }
+
+  .ym-col-4 {
+    width: 33.33%;
+  }
+
+  .ym-col-5 {
+    width: 41.66%;
+  }
+
+  .ym-col-6 {
+    width: 50%;
+  }
+
+  .ym-col-7 {
+    width: 58.33%;
+  }
+
+  .ym-col-8 {
+    width: 66.66%;
+  }
+
+  .ym-col-9 {
+    width: 75%;
+  }
+
+  .ym-col-10 {
+    width: 83.33%;
+  }
+
+  .ym-col-11 {
+    width: 91.66%;
+  }
+
+  .ym-col-12 {
+    width: 100%;
+  }
 }
 
 .ym-stream {
   display: flex;
+
   &.stream-row {
     flex-direction: column;
   }
+
   .ym-auto-width {
     flex-grow: 1;
   }
 }
+
 /**表格**/
 .ym-table {
-  border: 1px solid $basic_ym-color;
+  border: 1px solid $basic_color;
   border-spacing: 0;
   color: #444444;
+
   thead {
-    background-color: $basic_ym-color;
+    background-color: $basic_color;
     color: #ffffff;
   }
-  th,td {
+
+  th, td {
     padding: .5em 1em;
   }
+
   &.ym-table-verb {
-    th,td {
-      border-left: 1px solid $basic_hover_ym-color;
+    th, td {
+      border-left: 1px solid $basic_hover_color;
+
       &:first-child {
         border-left: 0;
       }
     }
   }
+
   &.ym-table-horb {
-    th,td {
-      border-bottom: 1px solid $basic_hover_ym-color;
+    th, td {
+      border-bottom: 1px solid $basic_hover_color;
     }
-    tr:last-child{
+
+    tr:last-child {
       td {
         border-bottom: 0;
       }
     }
   }
+
   &.ym-table-stripe {
     tbody tr:nth-child(even) {
       background-color: #dfecd5;
     }
   }
 
+}
+
+/**分页**/
+.ym-page-group {
+  font-size: 95%;
+  ul {
+    display: flex;
+    flex-direction: row;
+    float: left;
+
+    li {
+      border: 1px solid $basic_color;
+      color: $basic_color;
+      padding: 0.4em .8em;
+      margin: 0 .2em;
+      cursor: pointer;
+      &.can-click:hover {
+        background-color: $basic_color;
+        color: #ffffff;
+      }
+      &.active {
+        background-color: $basic_color;
+        color: #ffffff;
+      }
+      &.dont-click {
+        border: 0;
+        cursor: default;
+      }
+    }
+
+  }
+
+  .page-search {
+    color: $basic_color;
+    margin-left: 1em;
+    float: left;
+
+    input {
+      font-size: 95%;
+      width: 3em;
+      padding: .4em 0;
+      display: inline-block;
+      text-align: center;
+      border: 1px solid $basic_color;
+      outline: none;
+      transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+      &:focus {
+        border-color: #45b787;
+        box-shadow: inset 0 1px 1px #ddd, 0 0 5px #2c9678;
+      }
+    }
+
+    button {
+      margin-left: 1em;
+    }
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
 }

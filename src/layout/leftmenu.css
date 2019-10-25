@@ -50,11 +50,14 @@
   z-index: 1000; }
   .ym-menu .menu-main .logo {
     display: block;
-    color: #12aa9c;
-    font-size: 1.8em;
-    text-align: center;
     margin: 1em auto 0.5em;
-    font-weight: bold; }
+    font-size: 1.5em; }
+    .ym-menu .menu-main .logo img {
+      display: block;
+      width: 3em;
+      height: 3em;
+      margin: 0 auto;
+      animation: bird 2s linear infinite alternate; }
   .ym-menu .menu-main nav {
     padding: .5em 0;
     overflow: hidden; }
@@ -83,3 +86,9 @@
 
 .ym-menu.hide-main .menu-main {
   left: -10em; }
+
+@keyframes bird {
+  from {
+    transform: rotateZ(0); }
+  to {
+    transform: rotateZ(30deg); } }

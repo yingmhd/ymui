@@ -11,7 +11,7 @@
         return o;
     }
 
-    function generateTpl(opt) {
+    function generateDialogTpl(opt) {
         let Tpl = `
             <div class="ym-dialog-cover"> </div>
             <div class="ym-dialog-main">
@@ -38,7 +38,7 @@
         let dom = document.createElement('div');
         dom.className = 'ym-dialog-container';
         dom.setAttribute('id', def.dialogId);
-        dom.innerHTML = generateTpl(def);
+        dom.innerHTML = generateDialogTpl(def);
         document.body.appendChild(dom);
         return dom;
     }
@@ -140,12 +140,94 @@
         }
     };
 
+    function generatePageTpl(opt) {
+        let pageNums = parseInt(opt.pageNums);
+        let initPage = parseInt(opt.initPage);
+        let end = initPage + 2 > pageNums ? pageNums : initPage + 2;
+        let start = end - 4 > 1 ? end - 4 : 1;
+        if (typeof pageNums !== "number") {
+            pageNums = 1;
+        }
+        let Tpl = `
+            <div class="ym-page-group">
+                <ul>
+                    <li class="can-click" data-p="${initPage - 1 > 1 ? initPage - 1 : 1}"><span><</span></li>
+                    <li class="can-click" data-p="1"><span>首页</span></li>
+            `;
+        while (start <= end) {
+            Tpl += `<li class="${initPage == start ? 'active' : 'can-click'}" data-p="${start}"><span>${start}</span></li>`;
+            start++;
+        }
+        if (end < pageNums) {
+            Tpl += `<li class="dont-click"><span>...</span></li>`;
+            Tpl += `<li class="can-click" data-p="${pageNums}"><span>${pageNums}</span></li>`;
+        }
+        Tpl += `
+                    <li class="can-click" data-p="${initPage + 1 > pageNums ? pageNums : initPage + 1}"><span>></span></li>
+                </ul>`;
+        if (opt.openSearch) {
+            Tpl += `
+                <div class="page-search">
+                    <span>到</span>
+                    <input type="text"/>
+                    <span>页</span>
+                    <button class="ym-btn ym-btn-green">确定</button>
+                </div>`;
+        }
+        Tpl += `            
+            </div>`;
+        let container = document.getElementById(opt.containerId);
+        container.innerHTML = Tpl;
+    }
+
+    function YMpage(opt) {
+        this._initial(opt);
+        this.show();
+    }
+
+    YMpage.prototype = {
+        constructor: this,
+        _initial: function (opt = {}) {
+            let def = {
+                containerId: '',
+                pageNums: 1,
+                initPage: 1,
+                openSearch: true
+            };
+            this.def = extend(def, opt, true);
+            this.dom = document.getElementById(this.def.containerId);
+        },
+        show: function () {
+            let _this = this;
+            generatePageTpl(_this.def);
+
+            let canClick = _this.dom.getElementsByClassName('can-click');
+            for (let i=0;i<canClick.length;i++) {
+                let opt = {
+                    containerId: _this.def.containerId,
+                    pageNums: _this.def.pageNums,
+                    initPage: canClick[i].getAttribute('data-p'),
+                    openSearch: _this.def.openSearch
+                }
+                canClick[i].onclick = function () {
+                    generatePageTpl(opt);
+                }
+            }
+
+        }
+    };
+
+    let YMPlugins = {
+        dialog: YMDialog,
+        page: YMpage
+    };
+
     _global = (function () {
         return this || (0, eval)('this');
     }());
     if (typeof module !== "undefined" && module.exports) {
-        module.exports = YMDialog
+        module.exports = YMPlugins
     } else {
-        !('YMDialog' in _global) && (_global.YMDialog = YMDialog);
+        !('YMDialog' in _global) && (_global.YMPlugins = YMPlugins);
     }
 }());

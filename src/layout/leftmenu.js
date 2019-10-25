@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 import './leftmenu.css'
-
+import Logo from '../../public/logo.png'
 const menuList = [
     [
         {
@@ -144,8 +144,7 @@ export default class Left extends React.Component {
                 </div>
                 <div className='menu-main' id='menuMain'>
                     <Link to='/' className='logo' onClick={this.handleMenuClick.bind(this, '/')}>
-                        <span className='color-green'>Y</span><span className='color-blue'>M</span><span
-                        className='color-red'>UI</span>
+                        <img src={Logo} alt="英目UI"/>
                     </Link>
                     {
                         menuList.map((navItem, ii) =>

@@ -1,5 +1,5 @@
 import React from 'react'
-import YMDialog from '../ymui'
+import YMPlugins from '../ymui'
 
 var showEvent = function (dom) {
     console.log(dom);
@@ -16,7 +16,7 @@ export default class Dialog extends React.Component {
 
 
     openDialog() {
-        let ymDialog = new YMDialog({
+        let ymDialog = new YMPlugins.dialog({
             theme: 'green',
             title: '标题',
             content: '这里是弹窗内容',
@@ -30,7 +30,7 @@ export default class Dialog extends React.Component {
 
     bindDialogListener() {
         if (this.state.curDialog === null) {
-            let dialog = new YMDialog({
+            let dialog = new YMPlugins.dialog({
                 theme: 'cyan',
                 title: '监听事件',
                 content: '打开弹窗之前触发',
@@ -55,7 +55,7 @@ export default class Dialog extends React.Component {
 
     emitDialogListener() {
         if (this.state.curDialog === null) {
-            let dialog = new YMDialog({
+            let dialog = new YMPlugins.dialog({
                 theme: 'cyan',
                 title: '监听事件',
                 content: '打开弹窗之前触发',
@@ -90,7 +90,7 @@ export default class Dialog extends React.Component {
                             </div>
                             <pre>
                                 <p className="color-gray">{'// 在按钮的点击事件中初始化弹窗'}</p>
-                                <p>{'let ymDialog = new YMDialog({'}</p>
+                                <p>{'let ymDialog = new YMPlugins.dialog({'}</p>
                                 <p>{'   title: \'标题\','}</p>
                                 <p>{'   content: \'这里是弹窗内容\','}</p>
                                 <p>{'   ok_fuc: function (dom) {'}</p>
@@ -109,7 +109,7 @@ export default class Dialog extends React.Component {
                         <div className="show-area">
                             <pre>
                                 <p className="color-gray">{'// 在按钮的点击事件中初始化弹窗'}</p>
-                                <p>{'let ymDialog = new YMDialog({'}</p>
+                                <p>{'let ymDialog = new YMPlugins.dialog({'}</p>
                                 <p>{'   title: '}<span className="color-gray">弹窗的标题  </span><span
                                     className="color-red">*必填</span></p>
                                 <p>{'   content: '}<span className="color-gray">弹窗的主体内容  </span><span
@@ -166,7 +166,7 @@ export default class Dialog extends React.Component {
                                 <p>{'   console.log(dom);'}</p>
                                 <p>{'};'}</p>
                                 <p className="color-gray">{'// 初始化一个弹窗'}</p>
-                                <p>{'let dialog = new YMDialog({...});'}</p>
+                                <p>{'let dialog = new YMPlugins.dialog({...});'}</p>
                                 <p className="color-gray">{'// 监听show（可多次绑定）'}</p>
                                 <p>{'dialog.on(\'show\',showEvent);'}</p>
                                 <p className="color-gray">{'// 卸载show的监听事件，一次卸载一个'}</p>
