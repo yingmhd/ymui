@@ -151,33 +151,36 @@
         let Tpl = `
             <div class="ym-page-group">
                 <ul>
-                    <li class="can-click" data-p="${initPage - 1 > 1 ? initPage - 1 : 1}"><span><</span></li>
-                    <li class="can-click" data-p="1"><span>首页</span></li>
+                    <li class="can-click" data-p="${initPage - 1 > 1 ? initPage - 1 : 1}"><</li>
+                    <li class="can-click" data-p="1">首页</li>
             `;
         while (start <= end) {
-            Tpl += `<li class="${initPage == start ? 'active' : 'can-click'}" data-p="${start}"><span>${start}</span></li>`;
+            Tpl += `<li class="${initPage == start ? 'active' : 'can-click'}" data-p="${start}">${start}</li>`;
             start++;
         }
         if (end < pageNums) {
-            Tpl += `<li class="dont-click"><span>...</span></li>`;
-            Tpl += `<li class="can-click" data-p="${pageNums}"><span>${pageNums}</span></li>`;
+            Tpl += `<li class="dont-click">...</li>`;
+            Tpl += `<li class="can-click" data-p="${pageNums}">${pageNums}</li>`;
         }
         Tpl += `
-                    <li class="can-click" data-p="${initPage + 1 > pageNums ? pageNums : initPage + 1}"><span>></span></li>
+                    <li class="can-click" data-p="${initPage + 1 > pageNums ? pageNums : initPage + 1}">></li>
                 </ul>`;
         if (opt.openSearch) {
             Tpl += `
                 <div class="page-search">
                     <span>到</span>
-                    <input type="text"/>
+                    <input type="text" class="page-input"/>
                     <span>页</span>
-                    <button class="ym-btn ym-btn-green">确定</button>
+                    <button class="ym-btn ym-btn-green page-btn">确定</button>
                 </div>`;
         }
         Tpl += `            
             </div>`;
         let container = document.getElementById(opt.containerId);
         container.innerHTML = Tpl;
+        if (typeof opt.callback === "function") {
+            opt.callback(opt.initPage);
+        }
     }
 
     function YMpage(opt) {
@@ -192,7 +195,9 @@
                 containerId: '',
                 pageNums: 1,
                 initPage: 1,
-                openSearch: true
+                openSearch: false,
+                callback: function () {
+                }
             };
             this.def = extend(def, opt, true);
             this.dom = document.getElementById(this.def.containerId);
@@ -201,18 +206,31 @@
             let _this = this;
             generatePageTpl(_this.def);
 
-            let canClick = _this.dom.getElementsByClassName('can-click');
-            for (let i=0;i<canClick.length;i++) {
-                let opt = {
-                    containerId: _this.def.containerId,
-                    pageNums: _this.def.pageNums,
-                    initPage: canClick[i].getAttribute('data-p'),
-                    openSearch: _this.def.openSearch
+            _this.dom.addEventListener('click', function (e) {
+                let page = '';
+                if (e.target && e.target.className === 'can-click') {
+                    page = e.target.getAttribute('data-p');
+
                 }
-                canClick[i].onclick = function () {
+
+                if (e.target && e.target.className.includes('page-btn')) {
+                    let initPage = parseInt(e.target.parentNode.children[1].value);
+                    if (!isNaN(initPage) && initPage <= _this.def.pageNums && initPage >= 1) {
+                        page = initPage;
+                    }
+                }
+
+                if (page !== "") {
+                    let opt = {
+                        containerId: _this.def.containerId,
+                        pageNums: _this.def.pageNums,
+                        initPage: page,
+                        openSearch: _this.def.openSearch,
+                        callback: _this.def.callback
+                    };
                     generatePageTpl(opt);
                 }
-            }
+            });
 
         }
     };

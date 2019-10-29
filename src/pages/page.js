@@ -2,12 +2,35 @@ import React from 'react'
 import YMPlugins from '../ymui'
 
 export default class Page extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            curPage: ""
+        }
+    }
+
     componentDidMount() {
+        let _this = this;
         new YMPlugins.page({
-            containerId: 'pageWrapper',
+            containerId: 'pageWrapper1',
             pageNums: 10,
-            initPage: 3,
+            initPage: 1
+        })
+        new YMPlugins.page({
+            containerId: 'pageWrapper2',
+            pageNums: 23,
+            initPage: 1,
             openSearch: true
+        })
+        new YMPlugins.page({
+            containerId: 'pageWrapper3',
+            pageNums: 10,
+            initPage: 1,
+            callback: function (page) {
+                _this.setState({
+                    curPage: page
+                })
+            }
         })
     }
 
@@ -19,26 +42,49 @@ export default class Page extends React.Component {
                         <h1>Page</h1>
                     </div>
                     <div className="main">
-                        <h2>实例</h2>
+                        <h2>默认分页</h2>
                         <div className="intro-text">
                             首先，我们先看个实例，然后再详细说明
                         </div>
                         <div className="show-area">
                             <div className="element">
-                                <div id="pageWrapper"> </div>
+                                <div id="pageWrapper1"> </div>
                             </div>
                             <pre>
-                                <p className="color-gray">{'// 在按钮的点击事件中初始化弹窗'}</p>
-                                <p>{'let ymDialog = new YMDialog({'}</p>
-                                <p>{'   title: \'标题\','}</p>
-                                <p>{'   content: \'这里是弹窗内容\','}</p>
-                                <p>{'   ok_fuc: function (dom) {'}</p>
-                                <p>{'       alert(1);'}</p>
-                                <p>{'       this.close();'}</p>
+                                <p>{'new YMPlugins.page({'}</p>
+                                <p>{'   containerId: \'pageWrapper\','}<span className="color-gray">{' // 容器的id'}</span></p>
+                                <p>{'   pageNums: 10,'}<span className="color-gray">{' // 总页数'}</span></p>
+                                <p>{'   initPage: 1,'}<span className="color-gray">{' // 当前页'}</span></p>
+                                <p>{'})'}</p>
+                            </pre>
+                        </div>
+
+                        <h2>添加搜索</h2>
+                        <div className="intro-text">
+                            初始化分页时，添加<code>openSearch: true</code>即可开启搜索功能
+                        </div>
+                        <div className="show-area">
+                            <div className="element">
+                                <div id="pageWrapper2"> </div>
+                            </div>
+                        </div>
+
+                        <h2>回调</h2>
+                        <div className="intro-text">
+                            初始化分页的时候，传入回调函数，默认返回当前页码
+                        </div>
+                        <div className="show-area">
+                            <div className="element">
+                                <div id="pageWrapper3"> </div>
+                                <div className="color-red">当前页： {this.state.curPage}</div>
+                            </div>
+                            <pre>
+                                <p>{'new YMPlugins.page({'}</p>
+                                <p>{'   ...'}</p>
+                                <p>{'   callback: function(page) {,'}<span className="color-gray">{' // 当前页'}</span></p>
+                                <p className="color-gray">{'       // do something'}</p>
                                 <p>{'   }'}</p>
-                                <p>{'});'}</p>
-                                <p className="color-gray">{'// 通过show()方法显示弹窗'}</p>
-                                <p>{'ymDialog.show();'}</p>
+                                <p>{'})'}</p>
                             </pre>
                         </div>
                     </div>
