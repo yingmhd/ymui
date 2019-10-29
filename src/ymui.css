@@ -412,3 +412,40 @@
     content: "";
     display: block;
     clear: both; }
+
+/** 提示框 **/
+.ym-tip-container {
+  position: fixed;
+  z-index: 9999;
+  padding: .3em .5em;
+  background-color: #45b787;
+  color: #ffffff;
+  visibility: hidden; }
+  .ym-tip-container span {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 5px;
+    border-style: solid; }
+  .ym-tip-container.pos-left span {
+    border-width: 5px 0 5px 5px;
+    border-color: transparent transparent transparent #45b787;
+    right: -5px;
+    top: 50%;
+    margin-top: -5px; }
+  .ym-tip-container.pos-right span {
+    border-width: 5px 5px 5px 0;
+    border-color: transparent #45b787 transparent transparent;
+    left: -5px;
+    top: 50%;
+    margin-top: -5px; }
+  .ym-tip-container.pos-up span {
+    border-width: 5px 5px 0 5px;
+    border-color: #45b787 transparent transparent transparent;
+    bottom: -5px;
+    left: .5em; }
+  .ym-tip-container.pos-bottom span {
+    border-width: 0 5px 5px 5px;
+    border-color: transparent transparent #45b787 transparent;
+    top: -5px;
+    left: .5em; }

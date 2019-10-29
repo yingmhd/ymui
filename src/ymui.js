@@ -235,9 +235,88 @@
         }
     };
 
+
+    function YMTip(opt) {
+        console.log(this);
+        this._initial(opt);
+        this.bindEvent();
+    }
+
+    YMTip.prototype = {
+        constructor: this,
+        _initial: function (opt = {}) {
+            let def = {
+                element: '.ym-tip',
+                position: '',
+                content: ''
+            };
+            this.def = extend(def, opt, true);
+        },
+        bindEvent: function () {
+            let _data = this.def;
+            if (_data.element.includes('.')) {
+                let eles = document.getElementsByClassName(_data.element.replace('\.', ''));
+                for (let i = 0; i < eles.length; i++) {
+                    this.tipEvent(eles[i]);
+                }
+            } else {
+                let ele = document.getElementById(_data.element.replace('\#', ''));
+                this.tipEvent(ele);
+            }
+        },
+        tipEvent: function (ele) {
+            let _data = this.def;
+            let id = Math.random().toFixed(6).slice(-6);
+            ele.addEventListener('mouseenter', function () {
+                let position = _data.position || ele.getAttribute('data-position') || 'up';
+                let content = _data.content || ele.getAttribute('data-tip');
+                let t = ele.offsetTop;
+                let l = ele.offsetLeft;
+                let w = ele.offsetWidth;
+                let h = ele.offsetHeight;
+                let scrollY = document.body.scrollTop + document.documentElement.scrollTop;
+                let scrollX = document.body.scrollLeft + document.documentElement.scrollLeft;
+                let x = 0;
+                let y = 0;
+                let dom = document.createElement('div');
+                dom.innerHTML = `${content}<span class="ym-triangle"></span>`;
+                dom.className = `ym-tip-container pos-${position}`;
+                dom.setAttribute('id', 'ymtip' + id);
+                document.body.append(dom);
+                let tip_w = dom.offsetWidth;
+                switch (position) {
+                    case "left":
+                        x = -tip_w - scrollX - 10;
+                        y = -scrollY;
+                        break;
+                    case "up":
+                        x = - scrollX;
+                        y = -h - scrollY - 10;
+                        break;
+                    case "bottom":
+                        x = - scrollX;
+                        y = h - scrollY + 10;
+                        break;
+                    case "right":
+                        x = w - scrollX + 10;
+                        y = -scrollY;
+                        break;
+                }
+                dom.style.left = l + x + 'px';
+                dom.style.top = t + y + 'px';
+                dom.style.visibility = 'visible';
+            });
+            ele.addEventListener('mouseleave', function () {
+                let dom = document.getElementById('ymtip' + id);
+                document.body.removeChild(dom);
+            });
+        }
+    };
+
     let YMPlugins = {
         dialog: YMDialog,
-        page: YMpage
+        page: YMpage,
+        tip: YMTip
     };
 
     _global = (function () {

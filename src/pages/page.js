@@ -44,7 +44,7 @@ export default class Page extends React.Component {
                     <div className="main">
                         <h2>默认分页</h2>
                         <div className="intro-text">
-                            首先，我们先看个实例，然后再详细说明
+                            默认分页不包含页码输入功能
                         </div>
                         <div className="show-area">
                             <div className="element">
@@ -59,9 +59,9 @@ export default class Page extends React.Component {
                             </pre>
                         </div>
 
-                        <h2>添加搜索</h2>
+                        <h2>页码输入</h2>
                         <div className="intro-text">
-                            初始化分页时，添加<code>openSearch: true</code>即可开启搜索功能
+                            初始化分页时，添加<code>openSearch: true</code>即可开启输入
                         </div>
                         <div className="show-area">
                             <div className="element">
