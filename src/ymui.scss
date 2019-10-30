@@ -481,3 +481,70 @@ $color_list_deep: #fecc11f8df70 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 
     left: .5em;
   }
 }
+
+/**carousel**/
+.ym-carousel-container {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  .ym-carousel {
+    display: flex;
+    flex-direction: row;
+    transition: left 1.5s ease-in-out;
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+  }
+  &:hover .ym-carousel-point {
+    display: flex;
+  }
+  .ym-carousel-point {
+    position: absolute;
+    z-index: 2;
+    flex-direction: row;
+    bottom: 20px;
+    right: 20px;
+    display: none;
+    li {
+      width: 10px;
+      height: 10px;
+      background-color: #ffffff;
+      margin: 0 5px;
+      cursor: pointer;
+      transition: background-color 1.5s ease-in-out;
+      &.active {
+        background-color: $basic_hover_color;
+      }
+    }
+  }
+  &:hover .ym-carousel-btn {
+    display: block;
+  }
+  .ym-carousel-btn {
+    font-size: 150%;
+    position: absolute;
+    z-index: 2;
+    width: 2em;
+    height: 2em;
+    text-align: center;
+    line-height: 2em;
+    color: #ffffff;
+    background-color: $basic_color;
+    opacity: .7;
+    top: 50%;
+    border-radius: 1em;
+    margin-top: -1em;
+    cursor: pointer;
+    display: none;
+    &:hover {
+      opacity: 1;
+    }
+    &.left {
+      left: 20px;
+    }
+    &.right {
+      right: 20px;
+    }
+  }
+}

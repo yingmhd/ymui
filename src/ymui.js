@@ -290,11 +290,11 @@
                         y = -scrollY;
                         break;
                     case "up":
-                        x = - scrollX;
+                        x = -scrollX;
                         y = -h - scrollY - 10;
                         break;
                     case "bottom":
-                        x = - scrollX;
+                        x = -scrollX;
                         y = h - scrollY + 10;
                         break;
                     case "right":
@@ -313,10 +313,135 @@
         }
     };
 
+    function YMCarousel(opt) {
+        this._initial(opt);
+        this.startMove();
+    }
+
+    YMCarousel.prototype = {
+        constructor: this,
+        _initial: function (opt = {}) {
+            let def = {
+                containerId: '',
+                width: '',
+                height: '',
+                hasPoint: false,
+                hasBtn: false
+            };
+            this.def = extend(def, opt, true);
+            this.container = document.getElementById(this.def.containerId);
+            this.dom = this.container.getElementsByClassName('ym-carousel')[0];
+            this.items = this.dom.getElementsByTagName('li');
+            this.len = this.items.length - 1;
+            let cur = 0;
+            Object.defineProperty(this, 'cur', {
+                set(v) {
+                    cur = v;
+                    this.stateChange(v);
+                },
+                get() {
+                    return cur;
+                }
+            });
+
+            this.insertEle();
+
+        },
+        insertEle: function () {
+            if(this.def.hasPoint) {
+                let point = document.createElement('ol');
+                point.className = 'ym-carousel-point';
+                let tpl = '';
+                for (let i = 0; i <= this.len; i++) {
+                    tpl += `<li data-index="${i}" class="${i == 0 ? 'active' : ''}"></li>`
+                }
+                point.innerHTML = tpl;
+                this.container.appendChild(point);
+
+                this.point = point;
+            }
+            if(this.def.hasBtn) {
+                let l_btn = document.createElement('div');
+                l_btn.className = 'ym-carousel-btn left';
+                l_btn.innerText = '<';
+                let r_btn = document.createElement('div');
+                r_btn.className = 'ym-carousel-btn right';
+                r_btn.innerText = '>';
+                this.container.appendChild(l_btn);
+                this.container.appendChild(r_btn);
+            }
+            this.setStyle();
+        },
+        setStyle: function () {
+            this.container.style.width = this.def.width + 'px';
+            this.container.style.height = this.def.height + 'px';
+
+
+            for (let i = 0; i < this.items.length; i++) {
+                this.items[i].style.width = this.def.width + 'px';
+                this.items[i].style.height = this.def.height + 'px';
+            }
+
+            this.bindEvent();
+        },
+        bindEvent: function () {
+            let _this = this;
+            if(this.hasBtn || this.hasPoint) {
+                this.container.addEventListener('mouseenter', function () {
+                    clearInterval(_this.timer);
+                });
+                this.container.addEventListener('mouseleave', function () {
+                    _this.startMove();
+                });
+            }
+            if(this.hasBtn) {
+                this.container.addEventListener('click', function (e) {
+                    if (e.target && e.target.className.includes('ym-carousel-btn')) {
+                        if (e.target.className.includes('left')) {
+                            _this.cur = _this.cur == 0 ? _this.len : _this.cur - 1;
+                        }else {
+                            _this.cur = _this.cur >= _this.len ? 0 : _this.cur + 1;
+                        }
+                    }
+                });
+            }
+            if(this.hasPoint) {
+                this.point.addEventListener('click', function (e) {
+                    if (e.target && e.target.nodeName.toLowerCase() === 'li') {
+                        let index = parseInt(e.target.getAttribute('data-index'));
+                        _this.cur = index;
+                    }
+                });
+            }
+        },
+        startMove: function () {
+            let _this = this;
+            this.timer = setInterval(function () {
+                if (_this.cur >= _this.len) {
+                    _this.cur = 0
+                } else {
+                    _this.cur += 1;
+                }
+            }, 4000);
+        },
+
+        stateChange: function (v) {
+            let step = parseFloat(this.def.width);
+            this.dom.style.left = -(v * step) + 'px';
+            if(this.hasPoint) {
+                let points = this.point.getElementsByTagName('li');
+                for (let i = 0; i < points.length; i++) {
+                    points[i].className = i == v ? 'active' : '';
+                }
+            }
+        }
+    };
+
     let YMPlugins = {
         dialog: YMDialog,
         page: YMpage,
-        tip: YMTip
+        tip: YMTip,
+        carousel: YMCarousel
     };
 
     _global = (function () {

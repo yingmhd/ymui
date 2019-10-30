@@ -131,6 +131,12 @@ code, pre {
             margin: .2em 0; }
           .ym-outWrapper .ym-container .ym-content .main .show-area .element .ym-btn {
             margin-right: 5px; }
+          .ym-outWrapper .ym-container .ym-content .main .show-area .element .ym-carousel li {
+            background-color: #2775b6;
+            font-size: 3em;
+            color: #ffffff;
+            text-align: center;
+            line-height: 400px; }
         .ym-outWrapper .ym-container .ym-content .main .show-area pre {
           font-size: .9em;
           padding: 1em;

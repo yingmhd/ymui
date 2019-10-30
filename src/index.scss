@@ -55,7 +55,6 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc #bbb5ac;
       border-radius: 5px;
       .title {
         padding: 2em 0;
-        //border-bottom: 1px solid $basic_color;
         h1 {
           font-weight: normal;
           font-size: 2.3em;
@@ -86,6 +85,13 @@ $color_list: #fcd337 #f97d1c #de1c31 #813c85 #2775b6 #45b787 #1a94bc #bbb5ac;
             }
             .ym-btn {
               margin-right: 5px;
+            }
+            .ym-carousel li {
+              background-color: #2775b6;
+              font-size: 3em;
+              color: #ffffff;
+              text-align: center;
+              line-height: 400px;
             }
           }
           pre {

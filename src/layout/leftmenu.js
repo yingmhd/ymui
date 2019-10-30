@@ -45,6 +45,11 @@ const menuList = [
     ],
     [
         {
+            name: "Carousel",
+            path: "/carousel",
+            color: "blue"
+        },
+        {
             name: "Dialog",
             path: "/dialog",
             color: "blue"
