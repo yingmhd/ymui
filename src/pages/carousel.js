@@ -6,7 +6,10 @@ export default class Page extends React.Component {
         new YMPlugins.carousel({
             containerId: 'ymCarousel',
             width: '600',
-            height: '400'
+            height: '400',
+            hoverHideItems: false,
+            hoverStopMove: true,
+            hasBtn: true
         })
     }
 
@@ -18,9 +21,9 @@ export default class Page extends React.Component {
                         <h1>Carousel</h1>
                     </div>
                     <div className="main">
-                        <h2>快速绑定</h2>
+                        <h2>默认</h2>
                         <div className="intro-text">
-                            在触发元素上绑定class<code>ym-tip</code>，属性<code>data-tip</code>（提示内容）和<code>data-position</code>（提示框位置）之后，js初始化插件即可使用。
+                            首先必须在页面上存在如下DOM结构，<code>id</code>自定义，然后在<code>li</code>标签内添加自定义内容（图片，文字等）,最后在js中初始化插件
                         </div>
                         <div className="show-area">
                             <div className="element">
@@ -34,12 +37,24 @@ export default class Page extends React.Component {
                                 </div>
                             </div>
                             <pre>
-                                <p>{'<button class="ym-btn ym-btn-blue ym-tip" data-tip="tip on left" data-position="left">提示在左边</button>'}</p>
-                                <p>{'<button class="ym-btn ym-btn-blue ym-tip" data-tip="tip on up" data-position="up">提示在上边</button>'}</p>
-                                <p>{'<button class="ym-btn ym-btn-blue ym-tip" data-tip="tip on bottom" data-position="bottom">提示在下边</button>'}</p>
-                                <p>{'<button class="ym-btn ym-btn-blue ym-tip" data-tip="tip on right" data-position="right">提示在右边</button>'}</p>
-                                <p className="color-gray">{'// js初始化'}</p>
-                                <p>{'new YMPlugins.tip();'}</p>
+                                <p className="color-gray">{'// 基本结构'}</p>
+                                <p>{'<div class="ym-carousel-container" id="ymCarousel">'}</p>
+                                <p>{'   <ul class="ym-carousel">'}</p>
+                                <p>{'       <li>Carousel One</li>'}</p>
+                                <p>{'       <li>Carousel Two</li>'}</p>
+                                <p>{'       <li>Carousel Three</li>'}</p>
+                                <p>{'       <li>Carousel Four</li>'}</p>
+                                <p>{'   </ul>'}</p>
+                                <p>{'</div>'}</p>
+                                <p className="color-gray">{'// js初始化插件'}</p>
+                                <p>{'new YMPlugins.carousel({'}</p>
+                                <p>{'   containerId: \'ymCarousel\','}</p>
+                                <p>{'   width: \'600\','}</p>
+                                <p>{'   height: \'400\''}</p>
+                                <p>{'   hoverHideItems: false,'}<span className="color-gray">   // 默认情况下是否显示左右按钮以及显示点，鼠标移入的时候显示，默认为true</span></p>
+                                <p>{'   hoverStopMove: true,'}<span className="color-gray">   // 当鼠标移入的时候，是否停止动画，默认true</span></p>
+                                <p>{'   hasBtn: true'}<span className="color-gray">   // 是否开启左右操作按钮，默认false</span></p>
+                                <p>{'})'}</p>
                             </pre>
                         </div>
                     </div>

@@ -325,7 +325,8 @@
                 containerId: '',
                 width: '',
                 height: '',
-                hasPoint: false,
+                hoverHideItems: false,
+                hoverStopMove: true,
                 hasBtn: false
             };
             this.def = extend(def, opt, true);
@@ -348,24 +349,25 @@
 
         },
         insertEle: function () {
-            if(this.def.hasPoint) {
-                let point = document.createElement('ol');
-                point.className = 'ym-carousel-point';
-                let tpl = '';
-                for (let i = 0; i <= this.len; i++) {
-                    tpl += `<li data-index="${i}" class="${i == 0 ? 'active' : ''}"></li>`
-                }
-                point.innerHTML = tpl;
-                this.container.appendChild(point);
-
-                this.point = point;
+            let point = document.createElement('ol');
+            point.className = 'ym-carousel-point';
+            point.className += this.def.hoverHideItems ? ' hover-hide' : '';
+            let tpl = '';
+            for (let i = 0; i <= this.len; i++) {
+                tpl += `<li data-index="${i}" class="${i == 0 ? 'active' : ''}"></li>`
             }
-            if(this.def.hasBtn) {
+            point.innerHTML = tpl;
+            this.container.appendChild(point);
+            this.point = point;
+
+            if (this.def.hasBtn) {
                 let l_btn = document.createElement('div');
                 l_btn.className = 'ym-carousel-btn left';
+                l_btn.className += this.def.hoverHideItems ? ' hover-hide' : '';
                 l_btn.innerText = '<';
                 let r_btn = document.createElement('div');
                 r_btn.className = 'ym-carousel-btn right';
+                r_btn.className += this.def.hoverHideItems ? ' hover-hide' : '';
                 r_btn.innerText = '>';
                 this.container.appendChild(l_btn);
                 this.container.appendChild(r_btn);
@@ -386,7 +388,7 @@
         },
         bindEvent: function () {
             let _this = this;
-            if(this.hasBtn || this.hasPoint) {
+            if (this.def.hoverStopMove) {
                 this.container.addEventListener('mouseenter', function () {
                     clearInterval(_this.timer);
                 });
@@ -394,25 +396,23 @@
                     _this.startMove();
                 });
             }
-            if(this.hasBtn) {
+            if (this.def.hasBtn) {
                 this.container.addEventListener('click', function (e) {
                     if (e.target && e.target.className.includes('ym-carousel-btn')) {
                         if (e.target.className.includes('left')) {
                             _this.cur = _this.cur == 0 ? _this.len : _this.cur - 1;
-                        }else {
+                        } else {
                             _this.cur = _this.cur >= _this.len ? 0 : _this.cur + 1;
                         }
                     }
                 });
             }
-            if(this.hasPoint) {
-                this.point.addEventListener('click', function (e) {
-                    if (e.target && e.target.nodeName.toLowerCase() === 'li') {
-                        let index = parseInt(e.target.getAttribute('data-index'));
-                        _this.cur = index;
-                    }
-                });
-            }
+            this.point.addEventListener('click', function (e) {
+                if (e.target && e.target.nodeName.toLowerCase() === 'li') {
+                    let index = parseInt(e.target.getAttribute('data-index'));
+                    _this.cur = index;
+                }
+            });
         },
         startMove: function () {
             let _this = this;
@@ -428,11 +428,9 @@
         stateChange: function (v) {
             let step = parseFloat(this.def.width);
             this.dom.style.left = -(v * step) + 'px';
-            if(this.hasPoint) {
-                let points = this.point.getElementsByTagName('li');
-                for (let i = 0; i < points.length; i++) {
-                    points[i].className = i == v ? 'active' : '';
-                }
+            let points = this.point.getElementsByTagName('li');
+            for (let i = 0; i < points.length; i++) {
+                points[i].className = i == v ? 'active' : '';
             }
         }
     };
@@ -450,6 +448,6 @@
     if (typeof module !== "undefined" && module.exports) {
         module.exports = YMPlugins
     } else {
-        !('YMDialog' in _global) && (_global.YMPlugins = YMPlugins);
+        !('YMPlugins' in _global) && (_global.YMPlugins = YMPlugins);
     }
 }());

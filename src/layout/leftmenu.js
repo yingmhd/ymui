@@ -65,7 +65,7 @@ const menuList = [
             color: "blue"
         }
     ]
-]
+];
 export default class Left extends React.Component {
     constructor(props) {
         super(props);
