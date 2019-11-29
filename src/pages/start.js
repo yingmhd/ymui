@@ -11,7 +11,7 @@ export default class Start extends React.Component {
                     <div className="main">
                         <h2>引入YMUI</h2>
                         <div className="intro-text">
-                            前往<a href="https://dev.tencent.com/u/yingmhd/p/ymplugins/git/tree/master/ymplugin" target="_blank" className="color-green">下载地址</a>下载，
+                            前往<a href="https://github.com/yingmhd/ymplugins/tree/master/ymplugin" target="_blank" className="color-green">下载地址</a>下载，
                             如果仅是样式展示，可只下载<code>ymui.css</code>，然后引入即可。如果你的项目支持<code>import</code>，<code>ymui.js</code>可通过import引入
                         </div>
                         <div className="show-area">
@@ -35,8 +35,8 @@ export default class Start extends React.Component {
                         </div>
                         <h2>VUE的数据双向绑定</h2>
                         <div className="intro-text">
-                            因为该项目是react项目，镶嵌vue的数据绑定会有冲突，可前往<a href="https://blog.ymhd.xyz/posts/2019/09/05/vue%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86.html" target="_blank" className="color-green">我的博客</a>
-                             查看具体原理，直接使用可前往<a href="https://dev.tencent.com/u/yingmhd/p/ymplugins/git/tree/master/ymvue" target="_blank" className="color-green">下载地址</a>下载使用
+                            因为该项目是react项目，镶嵌vue的数据绑定会有冲突，可前往<a href="http://blog.ymhd.xyz/posts/2019/09/05/vue%E5%8F%8C%E5%90%91%E6%95%B0%E6%8D%AE%E7%BB%91%E5%AE%9A%E5%8E%9F%E7%90%86.html" target="_blank" className="color-green">我的博客</a>
+                             查看具体原理，直接使用可前往<a href="https://github.com/yingmhd/ymplugins/tree/master/ymvue" target="_blank" className="color-green">下载地址</a>下载使用
                         </div>
                     </div>
                 </div>
