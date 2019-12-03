@@ -64,6 +64,13 @@ const menuList = [
             path: "/page",
             color: "blue"
         }
+    ],
+    [
+        {
+            name: "Lodash",
+            path: "/lodash",
+            color: "cyan"
+        }
     ]
 ];
 export default class Left extends React.Component {
@@ -166,7 +173,7 @@ export default class Left extends React.Component {
                     }
                     <div className="feedbak-area">
                         <div className="color-green">©英目花盗</div>
-                        <div className="color-purple">dyfself@126.com</div>
+                        <div className="color-purple email">yingmhd@outlook.com</div>
                     </div>
                 </div>
             </div>

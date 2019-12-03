@@ -87,6 +87,9 @@
 .ym-menu.hide-main .menu-main {
   left: -10em; }
 
+.email {
+  letter-spacing: 0; }
+
 @keyframes bird {
   from {
     transform: rotateZ(0); }

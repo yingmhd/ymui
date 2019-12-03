@@ -14,6 +14,7 @@ import Layout from './pages/layout';
 import Page from './pages/page'
 import Tip from './pages/tip'
 import Carousel from './pages/carousel'
+import Lodash from './pages/lodash'
 
 export default class Main extends React.Component {
     render() {
@@ -31,6 +32,7 @@ export default class Main extends React.Component {
                 <Route exact path='/dialog' component={Dialog}/>
                 <Route exact path='/page' component={Page}/>
                 <Route exact path='/tip' component={Tip}/>
+                <Route exact path='/lodash' component={Lodash}/>
             </div>
         )
     }
