@@ -258,7 +258,7 @@
   .ym-dialog-container .ym-dialog-main {
     z-index: 1;
     border-radius: 5px;
-    width: 25em;
+    min-width: 25em;
     overflow: hidden;
     position: absolute; }
     .ym-dialog-container .ym-dialog-main .title {

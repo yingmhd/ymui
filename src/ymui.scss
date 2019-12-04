@@ -189,7 +189,7 @@ $color_list_deep: #fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e7
   .ym-dialog-main {
     z-index: 1;
     border-radius: 5px;
-    width: 25em;
+    min-width: 25em;
     overflow: hidden;
     position: absolute;
 

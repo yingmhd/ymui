@@ -74,9 +74,11 @@
                 this.emit({type: 'show', target: this.dom});
             }
             // 绑定基础事件
-            _this.dom.getElementsByClassName('btn-close')[0].onclick = function () {
-                !!_this.def.cancel_fuc ? _this.def.cancel_fuc.call(_this, _this.dom) : _this.close()
-            };
+            if (_this.dom.getElementsByClassName('btn-close').length > 0) {
+                _this.dom.getElementsByClassName('btn-close')[0].onclick = function () {
+                    !!_this.def.cancel_fuc ? _this.def.cancel_fuc.call(_this, _this.dom) : _this.close()
+                };
+            }
             _this.dom.getElementsByClassName('x-close')[0].onclick = function () {
                 _this.close()
             };

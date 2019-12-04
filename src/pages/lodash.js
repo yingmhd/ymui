@@ -1,93 +1,101 @@
 import React from 'react'
+import generateCode from "./generateCode";
+import lodashData from "./lodashData";
 import YMPlugins from '../ymui'
+import './lodash.css'
 
-export default class Page extends React.Component {
+export default class Lodash extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            curPage: ""
+            curData: {},
+            hasData: false,
+            curIndex: -1
         }
     }
 
     componentDidMount() {
-        let _this = this;
-        new YMPlugins.page({
-            containerId: 'pageWrapper1',
-            pageNums: 10,
-            initPage: 1
-        })
-        new YMPlugins.page({
-            containerId: 'pageWrapper2',
-            pageNums: 23,
-            initPage: 1,
-            openSearch: true
-        })
-        new YMPlugins.page({
-            containerId: 'pageWrapper3',
-            pageNums: 10,
-            initPage: 1,
-            callback: function (page) {
-                _this.setState({
-                    curPage: page
-                })
-            }
-        })
+    }
+
+    openMenu(index) {
+        if(this.state.curIndex === index) {
+            this.setState({
+                curIndex: -1
+            });
+        }else {
+            this.setState({
+                curIndex: index
+            });
+        }
+    }
+
+    openDialog(i, j) {
+        let data = lodashData.data[i].child[j];
+        this.setState({
+            curData: data,
+            hasData: true
+        });
+        setTimeout(function () {
+            let ymDialog = new YMPlugins.dialog({
+                title: data.name,
+                content: document.getElementById('replace').innerHTML,
+                cancel: false,
+                ok_text: '俺晓得啦',
+                theme: 'cyan',
+                ok_fuc: function (dom) {
+                    this.close();
+                }
+            });
+            ymDialog.show();
+        },100);
     }
 
     render() {
+        let curData = this.state.curData;
         return (
             <div className='contentWrapper color-cyan backcolor-cyan'>
                 <div className='ym-content'>
                     <div className="title">
                         <h1>Lodash中文文档</h1>
                     </div>
-                    <div className="main">
-                        <h2>默认分页</h2>
-                        <div className="intro-text">
-                            默认分页不包含页码输入功能
-                        </div>
-                        <div className="show-area">
-                            <div className="element">
-                                <div id="pageWrapper1"> </div>
-                            </div>
-                            <pre>
-                                <p>{'new YMPlugins.page({'}</p>
-                                <p>{'   containerId: \'pageWrapper\','}<span className="color-gray">{' // 容器的id'}</span></p>
-                                <p>{'   pageNums: 10,'}<span className="color-gray">{' // 总页数'}</span></p>
-                                <p>{'   initPage: 1,'}<span className="color-gray">{' // 当前页'}</span></p>
-                                <p>{'})'}</p>
-                            </pre>
-                        </div>
-
-                        <h2>页码输入</h2>
-                        <div className="intro-text">
-                            初始化分页时，添加<code>openSearch: true</code>即可开启输入
-                        </div>
-                        <div className="show-area">
-                            <div className="element">
-                                <div id="pageWrapper2"> </div>
-                            </div>
-                        </div>
-
-                        <h2>回调</h2>
-                        <div className="intro-text">
-                            初始化分页的时候，传入回调函数，默认返回当前页码
-                        </div>
-                        <div className="show-area">
-                            <div className="element">
-                                <div id="pageWrapper3"> </div>
-                                <div className="color-red">当前页： {this.state.curPage}</div>
-                            </div>
-                            <pre>
-                                <p>{'new YMPlugins.page({'}</p>
-                                <p>{'   ...'}</p>
-                                <p>{'   callback: function(page) {,'}<span className="color-gray">{' // 当前页'}</span></p>
-                                <p className="color-gray">{'       // do something'}</p>
-                                <p>{'   }'}</p>
-                                <p>{'})'}</p>
-                            </pre>
-                        </div>
+                    <div className="menu-area">
+                        <ul>
+                            {lodashData.data.map((item0, index0) => (
+                                <li key={index0}>
+                                    <h2 className={this.state.curIndex === index0?'one-level-menu open':'one-level-menu close'} onClick={this.openMenu.bind(this,index0)}>{item0.name}</h2>
+                                    <ul className={this.state.curIndex === index0?'':'hide'}>
+                                        {item0.child.map((item1, index1) => (
+                                            <li key={index0 + '0' + index1}>
+                                                <h3 className="two-level-menu" onClick={this.openDialog.bind(this, index0, index1)}>{item1.name}</h3>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
+                </div>
+                <div id="replace">
+                    {
+                        this.state.hasData &&
+
+                        <div className="content-area">
+                            <pre>{curData.grammar}</pre>
+                            <blockquote>{curData.explain}</blockquote>
+                            {curData.argus && <h4>参数</h4>}
+                            {curData.argus && curData.argus.split('\n').map((arg, i) => (
+                                <p key={i}>
+                                    <span>{arg.includes(':') ? arg.split(':')[0] : ''}</span>{arg.includes(':') ? arg.split(':')[1] : arg}
+                                </p>
+                            ))}
+                            <h4>返回</h4>
+                            <p>
+                                <span>{curData.ret.includes(':') ? curData.ret.split(':')[0] : ''}</span>{curData.ret.includes(':') ? curData.ret.split(':')[1] : curData.ret}
+                            </p>
+                            <h4>例子</h4>
+                            {generateCode(curData.ex)}
+                        </div>
+                    }
                 </div>
             </div>
         )

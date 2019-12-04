@@ -1,4 +1,5 @@
 import React from 'react'
+import generateCode from "./generateCode";
 
 export default class Start extends React.Component {
     render() {
@@ -15,14 +16,14 @@ export default class Start extends React.Component {
                             如果仅是样式展示，可只下载<code>ymui.css</code>，然后引入即可。如果你的项目支持<code>import</code>，<code>ymui.js</code>可通过import引入
                         </div>
                         <div className="show-area">
-                            <pre>
-                                <p className="color-gray">{'// 引入css'}</p>
-                                <p>{'<link rel="stylesheet" type="text/css" href="ymui.css">'}</p>
-                                <p className="color-gray">{'// 引入js'}</p>
-                                <p>{'<script src="ymui.js" type="text/javascript"></script>'}</p>
-                                <p className="color-gray">{'// 如果支持import'}</p>
-                                <p>{'import YMPlugins from "ymui.js"'}</p>
-                            </pre>
+                            {generateCode(`
+// 引入css
+<link rel="stylesheet" type="text/css" href="ymui.css">
+// 引入js
+<script src="ymui.js" type="text/javascript"></script>
+// 如果支持import
+import YMPlugins from "ymui.js"
+                            `)}
                         </div>
                         <h2>添加 Viewport Meta 元素</h2>
                         <div className="intro-text">

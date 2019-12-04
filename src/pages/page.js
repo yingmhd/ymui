@@ -1,5 +1,6 @@
 import React from 'react'
 import YMPlugins from '../ymui'
+import generateCode from "./generateCode";
 
 export default class Page extends React.Component {
     constructor(props) {
@@ -48,15 +49,15 @@ export default class Page extends React.Component {
                         </div>
                         <div className="show-area">
                             <div className="element">
-                                <div id="pageWrapper1"> </div>
+                                <div id="pageWrapper1"></div>
                             </div>
-                            <pre>
-                                <p>{'new YMPlugins.page({'}</p>
-                                <p>{'   containerId: \'pageWrapper\','}<span className="color-gray">{' // 容器的id'}</span></p>
-                                <p>{'   pageNums: 10,'}<span className="color-gray">{' // 总页数'}</span></p>
-                                <p>{'   initPage: 1,'}<span className="color-gray">{' // 当前页'}</span></p>
-                                <p>{'})'}</p>
-                            </pre>
+                            {generateCode(`
+new YMPlugins.page({
+   containerId: 'pageWrapper', // 容器的id
+   pageNums: 10, // 总页数
+   initPage: 1, // 当前页
+})
+                            `)}
                         </div>
 
                         <h2>页码输入</h2>
@@ -65,7 +66,7 @@ export default class Page extends React.Component {
                         </div>
                         <div className="show-area">
                             <div className="element">
-                                <div id="pageWrapper2"> </div>
+                                <div id="pageWrapper2"></div>
                             </div>
                         </div>
 
@@ -75,17 +76,17 @@ export default class Page extends React.Component {
                         </div>
                         <div className="show-area">
                             <div className="element">
-                                <div id="pageWrapper3"> </div>
+                                <div id="pageWrapper3"></div>
                                 <div className="color-red">当前页： {this.state.curPage}</div>
                             </div>
-                            <pre>
-                                <p>{'new YMPlugins.page({'}</p>
-                                <p>{'   ...'}</p>
-                                <p>{'   callback: function(page) {,'}<span className="color-gray">{' // 当前页'}</span></p>
-                                <p className="color-gray">{'       // do something'}</p>
-                                <p>{'   }'}</p>
-                                <p>{'})'}</p>
-                            </pre>
+                            {generateCode(`
+new YMPlugins.page({
+   ...
+   callback: function(page) {, // 当前页
+       // do something
+   }
+})
+                            `)}
                         </div>
                     </div>
                 </div>

@@ -118,9 +118,9 @@ export default class Dialog extends React.Component {
                                 <p>{'   ok_text: '}<span className="color-gray">确认按钮的文案  </span></p>
                                 <p>{'   cancel_text: '}<span className="color-gray">取消按钮的文案  </span></p>
                                 <p>{'   ok_fuc: '}<span className="color-gray">点击确认按钮之后的回调函数  </span><span
-                                    className="color-red">如果不填，默认关闭弹窗</span></p>
-                                <p>{'   cancel_fuc: '}<span className="color-gray">点击取消按钮之后的回调函数  </span><span
                                     className="color-red">*必填</span></p>
+                                <p>{'   cancel_fuc: '}<span className="color-gray">点击取消按钮之后的回调函数  </span><span
+                                    className="color-red">如果不填，默认关闭弹窗</span></p>
                                 <p>{'   theme: '}<span className="color-gray">弹窗的主题  </span><span
                                     className="color-red">默认绿色，可填入yellow,red,purple,gray,blue,cyan,orange</span></p>
                                 <p>{'   dialogId: '}<span className="color-gray">弹窗的id  </span><span
