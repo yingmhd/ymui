@@ -3,7 +3,7 @@
   .menu-area .hide {
     display: none; }
   .menu-area .one-level-menu {
-    font-size: 140%;
+    font-size: 130%;
     font-weight: 400;
     margin-top: 1.5em;
     cursor: pointer;
@@ -44,13 +44,6 @@
 .content-area {
   width: 800px;
   color: #555555; }
-  .content-area code {
-    display: block;
-    background-color: #eee;
-    font-weight: 700;
-    padding: 1em;
-    color: #555;
-    border-radius: 0; }
   .content-area blockquote {
     margin-bottom: 1.4em;
     margin-top: 1.4em; }
@@ -62,7 +55,7 @@
       color: #1a94bc; }
   .content-area pre {
     background-color: #283646;
-    color: #ddd;
+    color: #ffffff;
     padding: 1em;
     margin-top: 1.4em;
     border-radius: 0; }

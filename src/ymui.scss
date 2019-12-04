@@ -239,6 +239,8 @@ $color_list_deep: #fecc11 #f86b1d #f43e06 #7e1671 #0f59a4 #2c9678 #1772b4 #867e7
       padding: 1em;
       border-width: 0 0 1px 0;
       border-style: solid;
+      max-height: 80vh;
+      overflow: auto;
     }
 
     .btn-area {

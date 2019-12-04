@@ -76,6 +76,110 @@ _.differenceBy([{ 'x': 2 }, { 'x': 1 }], [{ 'x': 1 }], 'x');
                     `
                 },
                 {
+                    name: '通过比较函数排除给定值',
+                    grammar:'_.differenceWith(array, [values], [comparator])',
+                    explain: '这个方法类似 _.difference ，除了它接受一个 comparator （比较器），它调用比较array，values中的元素。 结果值是从第一数组中选择。comparator 调用参数有两个：(arrVal, othVal)。',
+                    argus: 'array (Array): 要检查的数组。\n' +
+                        '[values] (...Array): 排除的值。\n' +
+                        '[comparator] (Function): comparator 调用每个元素。',
+                    ret: '(Array): 返回一个过滤值后的新数组。',
+                    ex:`
+var objects = [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }];
+ 
+_.differenceWith(objects, [{ 'x': 1, 'y': 2 }], _.isEqual);
+// => [{ 'x': 2, 'y': 1 }]
+                    `
+                },
+                {
+                    name: '删除前N个元素',
+                    grammar:'_.drop(array, [n=1])',
+                    explain: '创建一个切片数组，去除array前面的n个元素。（n默认值为1。）',
+                    argus: 'array (Array): 要查询的数组。\n' +
+                        '[n=1] (number): 要去除的元素个数。',
+                    ret: '(Array): 返回array剩余切片。',
+                    ex:`
+_.drop([1, 2, 3]);
+// => [2, 3]
+ 
+_.drop([1, 2, 3], 2);
+// => [3]
+ 
+_.drop([1, 2, 3], 5);
+// => []
+ 
+_.drop([1, 2, 3], 0);
+// => [1, 2, 3]
+                    `
+                },
+                {
+                    name: '删除后N个元素',
+                    grammar:'_.dropRight(array, [n=1])',
+                    explain: '创建一个切片数组，去除array尾部的n个元素。（n默认值为1。）',
+                    argus: 'array (Array): 要查询的数组。\n' +
+                        '[n=1] (number): 要去除的元素个数。',
+                    ret: '(Array): 返回array剩余切片。',
+                    ex:`
+_.dropRight([1, 2, 3]);
+// => [1, 2]
+ 
+_.dropRight([1, 2, 3], 2);
+// => [1]
+ 
+_.dropRight([1, 2, 3], 5);
+// => []
+ 
+_.dropRight([1, 2, 3], 0);
+// => [1, 2, 3]
+                    `
+                },
+                {
+                    name: '填充',
+                    grammar:'_.fill(array, value, [start=0], [end=array.length])',
+                    explain: '使用 value 值来填充（替换） array，从start位置开始, 到end位置结束（但不包含end位置）。',
+                    argus: 'array (Array): 要填充改变的数组。\n' +
+                        'value (*): 填充给 array 的值。\n' +
+                        '[start=0] (number): 开始位置（默认0）。\n' +
+                        '[end=array.length] (number):结束位置（默认array.length）。',
+                    ret: '(Array): 返回 array。',
+                    ex:`
+var array = [1, 2, 3];
+ 
+_.fill(array, 'a');
+console.log(array);
+// => ['a', 'a', 'a']
+ 
+_.fill(Array(3), 2);
+// => [2, 2, 2]
+ 
+_.fill([4, 6, 8, 10], '*', 1, 3);
+// => [4, '*', '*', 10]
+                    `
+                },
+                {
+                    name: '连接',
+                    grammar:'',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex:``
+                },
+                {
+                    name: '连接',
+                    grammar:'',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex:``
+                },
+                {
+                    name: '连接',
+                    grammar:'',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex:``
+                },
+                {
                     name: '连接',
                     grammar:'',
                     explain: '',

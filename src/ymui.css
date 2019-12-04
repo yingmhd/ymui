@@ -295,7 +295,9 @@
       background-color: #ffffff;
       padding: 1em;
       border-width: 0 0 1px 0;
-      border-style: solid; }
+      border-style: solid;
+      max-height: 80vh;
+      overflow: auto; }
     .ym-dialog-container .ym-dialog-main .btn-area {
       background-color: #ffffff;
       padding: .5em;
