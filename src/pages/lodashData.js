@@ -1232,23 +1232,217 @@ _.orderBy(users, ['user', 'age'], ['asc', 'desc']);
                     `
                 },
                 {
-                    name: '组成对象',
-                    grammar:'',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '通过迭代器分组',
+                    grammar:'_.partition(collection, [predicate=_.identity])',
+                    explain: '创建一个分成两组的元素数组，第一组包含predicate（断言函数）返回为 truthy（真值）的元素，第二组包含predicate（断言函数）返回为 falsey（假值）的元素。predicate 调用1个参数：(value)。',
+                    argus: 'collection (Array|Object): 用来迭代的集合。\n' +
+                        '[predicate=_.identity] (Array|Function|Object|string): 每次迭代调用的函数。',
+                    ret: '(Array): 返回元素分组后的数组。',
                     ex:`
-                    
+var users = [
+  { 'user': 'barney',  'age': 36, 'active': false },
+  { 'user': 'fred',    'age': 40, 'active': true },
+  { 'user': 'pebbles', 'age': 1,  'active': false }
+];
+ 
+_.partition(users, function(o) { return o.active; });
+// => objects for [['fred'], ['barney', 'pebbles']]
+ 
+// The \`_.matches\` iteratee shorthand.
+_.partition(users, { 'age': 1, 'active': false });
+// => objects for [['pebbles'], ['barney', 'fred']]
+ 
+// The \`_.matchesProperty\` iteratee shorthand.
+_.partition(users, ['active', false]);
+// => objects for [['barney', 'pebbles'], ['fred']]
+ 
+// The \`_.property\` iteratee shorthand.
+_.partition(users, 'active');
+// => objects for [['fred'], ['barney', 'pebbles']]                    
                     `
                 },
                 {
-                    name: '组成对象',
-                    grammar:'',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '累加',
+                    grammar:'_.reduce(collection, [iteratee=_.identity], [accumulator])',
+                    explain: '压缩 collection（集合）为一个值，通过 iteratee（迭代函数）遍历 collection（集合）中的每个元素，每次返回的值会作为下一次迭代使用(作为iteratee（迭代函数）的第一个参数使用)。 如果没有提供 accumulator，则 collection（集合）中的第一个元素作为初始值。(accumulator参数在第一次迭代的时候作为iteratee（迭代函数）第一个参数使用。) iteratee 调用4个参数：\n' +
+                        '(accumulator, value, index|key, collection).\n' +
+                        '\n' +
+                        'lodash 中有许多方法是防止作为其他方法的迭代函数（即不能作为iteratee参数传递给其他方法），例如： _.reduce, _.reduceRight, 和 _.transform。\n' +
+                        '\n' +
+                        '受保护的方法有（即这些方法不能使用 _.reduce, _.reduceRight, 和 _.transform作为 iteratee 迭代函数参数）：\n' +
+                        '\n' +
+                        'assign, defaults, defaultsDeep, includes, merge, orderBy, 和 sortBy',
+                    argus: 'collection (Array|Object): 用来迭代的集合。\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代调用的函数。\n' +
+                        '[accumulator] (*): 初始值。',
+                    ret: '(*): 返回累加后的值。',
                     ex:`
-                    
+_.reduce([1, 2], function(sum, n) {
+  return sum + n;
+}, 0);
+// => 3
+ 
+_.reduce({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+  (result[value] || (result[value] = [])).push(key);
+  return result;
+}, {});
+// => { '1': ['a', 'c'], '2': ['b'] } (无法保证遍历的顺序)                    
+                    `
+                },
+                {
+                    name: '倒序累加',
+                    grammar:'_.reduceRight(collection, [iteratee=_.identity], [accumulator])',
+                    explain: '这个方法类似 _.reduce ，除了它是从右到左遍历collection（集合）中的元素的。',
+                    argus: 'collection (Array|Object): 用来迭代的集合。\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代调用的函数。\n' +
+                        '[accumulator] (*): 初始值。',
+                    ret: '(*): 返回累加后的值。',
+                    ex:`
+var array = [[0, 1], [2, 3], [4, 5]];
+ 
+_.reduceRight(array, function(flattened, other) {
+  return flattened.concat(other);
+}, []);
+// => [4, 5, 2, 3, 0, 1]                    
+                    `
+                },
+                {
+                    name: '反过滤',
+                    grammar:'_.reject(collection, [predicate=_.identity])',
+                    explain: '_.filter的反向方法;此方法 返回 predicate（断言函数） 不 返回 truthy（真值）的collection（集合）元素（注：非真）。',
+                    argus: 'collection (Array|Object): 用来迭代的集合。\n' +
+                        '[predicate=_.identity] (Array|Function|Object|string): 每次迭代调用的函数。',
+                    ret: '(Array): 返回过滤后的新数组',
+                    ex:`
+var users = [
+  { 'user': 'barney', 'age': 36, 'active': false },
+  { 'user': 'fred',   'age': 40, 'active': true }
+];
+ 
+_.reject(users, function(o) { return !o.active; });
+// => objects for ['fred']
+ 
+// \`_.matches\` 迭代简写
+_.reject(users, { 'age': 40, 'active': true });
+// => objects for ['barney']
+ 
+// \`_.matchesProperty\` 迭代简写
+_.reject(users, ['active', false]);
+// => objects for ['fred']
+ 
+// \`_.property\` 迭代简写
+_.reject(users, 'active');
+// => objects for ['barney']                    
+                    `
+                },
+                {
+                    name: '随机取样',
+                    grammar:'_.sample(collection)',
+                    explain: '从collection（集合）中获得一个随机元素。',
+                    argus: 'collection (Array|Object): 要取样的集合。',
+                    ret: '(*): 返回随机元素。',
+                    ex:`
+_.sample([1, 2, 3, 4]);
+// => 2                    
+                    `
+                },
+                {
+                    name: '随机取样（多个）',
+                    grammar:'_.sampleSize(collection, [n=1])',
+                    explain: '从collection（集合）中获得 n 个随机元素。',
+                    argus: 'collection (Array|Object): 要取样的集合。\n' +
+                        '[n=1] (number): 取样的元素个数。',
+                    ret: '(Array): 返回随机元素。',
+                    ex:`
+_.sampleSize([1, 2, 3], 2);
+// => [3, 1]
+ 
+_.sampleSize([1, 2, 3], 4);
+// => [2, 3, 1]                    
+                    `
+                },
+                {
+                    name: '随机排序',
+                    grammar:'_.shuffle(collection)',
+                    explain: '创建一个被打乱值的集合。',
+                    argus: 'collection (Array|Object): 要打乱的集合。',
+                    ret: '(Array): 返回打乱的新数组。',
+                    ex:`
+_.shuffle([1, 2, 3, 4]);
+// => [4, 1, 3, 2]                    
+                    `
+                },
+                {
+                    name: '获取长度',
+                    grammar:'_.size(collection)',
+                    explain: '返回collection（集合）的长度，如果集合是类数组或字符串，返回其 length ；如果集合是对象，返回其可枚举属性的个数。',
+                    argus: 'collection (Array|Object): 要检查的集合',
+                    ret: '(number): 返回集合的长度。',
+                    ex:`
+_.size([1, 2, 3]);
+// => 3
+ 
+_.size({ 'a': 1, 'b': 2 });
+// => 2
+ 
+_.size('pebbles');
+// => 7                    
+                    `
+                },
+                {
+                    name: '是否存在真值',
+                    grammar:'_.some(collection, [predicate=_.identity])',
+                    explain: '通过 predicate（断言函数） 检查collection（集合）中的元素是否存在 任意 truthy（真值）的元素，一旦 predicate（断言函数） 返回 truthy（真值），遍历就停止。 predicate 调用3个参数：(value, index|key, collection)。',
+                    argus: 'collection (Array|Object): 用来迭代的集合。\n' +
+                        '[predicate=_.identity] (Array|Function|Object|string): 每次迭代调用的函数。',
+                    ret: '(boolean): 如果任意元素经 predicate 检查都为 truthy（真值），返回 true ，否则返回 false 。',
+                    ex:`
+_.some([null, 0, 'yes', false], Boolean);
+// => true
+ 
+var users = [
+  { 'user': 'barney', 'active': true },
+  { 'user': 'fred',   'active': false }
+];
+ 
+// The \`_.matches\` iteratee shorthand.
+_.some(users, { 'user': 'barney', 'active': false });
+// => false
+ 
+// The \`_.matchesProperty\` iteratee shorthand.
+_.some(users, ['active', false]);
+// => true
+ 
+// The \`_.property\` iteratee shorthand.
+_.some(users, 'active');
+// => true                    
+                    `
+                },
+                {
+                    name: '通过迭代器排序',
+                    grammar:'_.sortBy(collection, [iteratees=[_.identity]])',
+                    explain: '创建一个元素数组。 以 iteratee 处理的结果升序排序。 这个方法执行稳定排序，也就是说相同元素会保持原始排序。 iteratees 调用1个参数： (value)。',
+                    argus: 'collection (Array|Object): 用来迭代的集合。\n' +
+                        '[iteratees=[_.identity]] (...(Array|Array[]|Function|Function[]|Object|Object[]|string|string[])): 这个函数决定排序。',
+                    ret: '(Array): 返回排序后的数组。',
+                    ex:`
+var users = [
+  { 'user': 'fred',   'age': 48 },
+  { 'user': 'barney', 'age': 36 },
+  { 'user': 'fred',   'age': 40 },
+  { 'user': 'barney', 'age': 34 }
+];
+ 
+_.sortBy(users, function(o) { return o.user; });
+// => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+ 
+_.sortBy(users, ['user', 'age']);
+// => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
+ 
+_.sortBy(users, 'user', function(o) {
+  return Math.floor(o.age / 10);
+});
+// => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]                    
                     `
                 }
             ]
@@ -1268,6 +1462,43 @@ _.defer(function(stamp) {
 }, _.now());
 // => 记录延迟函数调用的毫秒数
                     `
+                }
+            ]
+        },
+        {
+            name: '函数',
+            child: [
+                {
+                    name: '执行N次后执行另外一个函数',
+                    grammar:'_.after(n, func)',
+                    explain: '_.before的反向函数;此方法创建一个函数，当他被调用n或更多次之后将马上触发func 。',
+                    argus: 'n (number): func 方法应该在调用多少次后才执行。\n' +
+                        'func (Function): 用来限定的函数。',
+                    ret: '(Function): 返回新的限定函数。',
+                    ex:`
+var saves = ['profile', 'settings'];
+ 
+var done = _.after(saves.length, function() {
+  console.log('done saving!');
+});
+ 
+_.forEach(saves, function(type) {
+  asyncSave({ 'type': type, 'complete': done });
+});
+// => Logs 'done saving!' after the two async saves have completed.                    
+                    `
+                },
+                {
+                    name: '创建一个调用func的函数',
+                    grammar:'_.ary(func, [n=func.length])',
+                    explain: '创建一个调用func的函数。调用func时最多接受 n个参数，忽略多出的参数。',
+                    argus: 'func (Function): 需要被限制参数个数的函数。\n' +
+                        '[n=func.length] (number): 限制的参数数量。',
+                    ret: '(Function): 返回新的覆盖函数。',
+                    ex:`
+_.map(['6', '8', '10'], _.ary(parseInt, 1));
+// => [6, 8, 10]                    
+                    `
                 },
                 {
                     name: '组成对象',
@@ -1275,7 +1506,49 @@ _.defer(function(stamp) {
                     explain: '',
                     argus: '',
                     ret: '',
-                    ex:``
+                    ex:`
+                    
+                    `
+                },
+                {
+                    name: '组成对象',
+                    grammar:'',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex:`
+                    
+                    `
+                },
+                {
+                    name: '组成对象',
+                    grammar:'',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex:`
+                    
+                    `
+                },
+                {
+                    name: '组成对象',
+                    grammar:'',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex:`
+                    
+                    `
+                },
+                {
+                    name: '组成对象',
+                    grammar:'',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex:`
+                    
+                    `
                 }
             ]
         }
