@@ -81,7 +81,10 @@ export default class Lodash extends React.Component {
 
                         <div className="content-area">
                             <pre>{curData.grammar}</pre>
-                            <blockquote>{curData.explain}</blockquote>
+                            <blockquote>
+                                <p>{curData.explain.split('\n')[0]}</p>
+                                {curData.explain.split('\n').length>1 && <p>{curData.explain.split('\n')[1]}</p>}
+                            </blockquote>
                             {curData.argus && <h4>参数</h4>}
                             {curData.argus && curData.argus.split('\n').map((arg, i) => (
                                 <p key={i}>
