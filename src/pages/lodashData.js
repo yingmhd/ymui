@@ -3491,7 +3491,7 @@ _.findLastKey(users, 'active');
                     `
                 },
                 {
-                    name: '遍历属性',
+                    name: '遍历属性（自身和继承）',
                     grammar: '_.forIn(object, [iteratee=_.identity])',
                     explain: '使用 iteratee 遍历对象的自身和继承的可枚举属性。 iteratee 会传入3个参数：(value, key, object)。 如果返回 false，iteratee 会提前退出遍历。',
                     argus: 'object (Object): 要遍历的对象。\n' +
@@ -3512,7 +3512,7 @@ _.forIn(new Foo, function(value, key) {
                     `
                 },
                 {
-                    name: '倒序遍历属性',
+                    name: '倒序遍历属性（自身和继承）',
                     grammar: '_.forInRight(object, [iteratee=_.identity])',
                     explain: '这个方法类似 _.forIn。 除了它是反方向开始遍历object的。',
                     argus: 'object (Object): 要遍历的对象。\n' +
@@ -3533,13 +3533,237 @@ _.forInRight(new Foo, function(value, key) {
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '遍历属性（自身）',
+                    grammar: '_.forOwn(object, [iteratee=_.identity])',
+                    explain: '使用 iteratee 遍历自身的可枚举属性。 iteratee 会传入3个参数：(value, key, object)。 如果返回 false，iteratee 会提前退出遍历。',
+                    argus: 'object (Object): 要遍历的对象。\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代时调用的函数。',
+                    ret: '(Object): 返回 object。',
                     ex: `
-                    
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.forOwn(new Foo, function(value, key) {
+  console.log(key);
+});
+// => 输出 'a' 然后 'b' (无法保证遍历的顺序)。                    
+                    `
+                },
+                {
+                    name: '倒序遍历属性（自身）',
+                    grammar: '_.forOwnRight(object, [iteratee=_.identity])',
+                    explain: '这个方法类似 _.forOwn。 除了它是反方向开始遍历object的。',
+                    argus: 'object (Object): 要遍历的对象。\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代时调用的函数。',
+                    ret: '(Object): 返回 object。',
+                    ex: `
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.forOwnRight(new Foo, function(value, key) {
+  console.log(key);
+});
+// =>  输出 'b' 然后 'a'， \`_.forOwn\` 会输出 'a' 然后 'b'                    
+                    `
+                },
+                {
+                    name: '根据路径获取值',
+                    grammar: '_.get(object, path, [defaultValue])',
+                    explain: '根据 object对象的path路径获取值。 如果解析 value 是 undefined 会以 defaultValue 取代。',
+                    argus: 'object (Object): 要检索的对象。\n' +
+                        'path (Array|string): 要获取属性的路径。\n' +
+                        '[defaultValue] (*): 如果解析值是 undefined ，这值会被返回。',
+                    ret: '(*): 返回解析的值。',
+                    ex: `
+var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ 
+_.get(object, 'a[0].b.c');
+// => 3
+ 
+_.get(object, ['a', '0', 'b', 'c']);
+// => 3
+ 
+_.get(object, 'a.b.c', 'default');
+// => 'default'                                     
+                    `
+                },
+                {
+                    name: '组装函数属性名称为数组（自身属性）',
+                    grammar: '_.functions(object)',
+                    explain: '创建一个函数属性名称的数组，函数属性名称来自object对象自身可枚举属性。',
+                    argus: 'object (Object): 要检查的对象。',
+                    ret: '(Array): 返回函数名。',
+                    ex: `
+function Foo() {
+  this.a = _.constant('a');
+  this.b = _.constant('b');
+}
+ 
+Foo.prototype.c = _.constant('c');
+ 
+_.functions(new Foo);
+// => ['a', 'b']                                     
+                    `
+                },
+                {
+                    name: '组装函数属性名称为数组（自身及继承属性）',
+                    grammar: '_.functionsIn(object)',
+                    explain: '创建一个函数属性名称的数组，函数属性名称来自object对象自身和继承的可枚举属性。',
+                    argus: 'object (Object): 要检查的对象。',
+                    ret: '(Array): 返回函数名。',
+                    ex: `
+function Foo() {
+  this.a = _.constant('a');
+  this.b = _.constant('b');
+}
+ 
+Foo.prototype.c = _.constant('c');
+ 
+_.functionsIn(new Foo);
+// => ['a', 'b', 'c']                                     
+                    `
+                },
+                {
+                    name: '是否为直接属性',
+                    grammar: '_.has(object, path)',
+                    explain: '检查 path 是否是object对象的直接属性。',
+                    argus: 'object (Object): 要检索的对象。\n' +
+                        'path (Array|string): 要检查的路径path。',
+                    ret: '(boolean): 如果path存在，那么返回 true ，否则返回 false。',
+                    ex: `
+var object = { 'a': { 'b': 2 } };
+var other = _.create({ 'a': _.create({ 'b': 2 }) });
+ 
+_.has(object, 'a');
+// => true
+ 
+_.has(object, 'a.b');
+// => true
+ 
+_.has(object, ['a', 'b']);
+// => true
+ 
+_.has(other, 'a');
+// => false                                     
+                    `
+                },
+                {
+                    name: '是否为直接或继承属性',
+                    grammar: '_.hasIn(object, path)',
+                    explain: '检查 path 是否是object对象的直接或继承属性。',
+                    argus: 'object (Object): 要检索的对象。\n' +
+                        'path (Array|string): 要检查的路径path。',
+                    ret: '(boolean): 如果path存在，那么返回 true ，否则返回 false。',
+                    ex: `
+var object = _.create({ 'a': _.create({ 'b': 2 }) });
+ 
+_.hasIn(object, 'a');
+// => true
+ 
+_.hasIn(object, 'a.b');
+// => true
+ 
+_.hasIn(object, ['a', 'b']);
+// => true
+ 
+_.hasIn(object, 'b');
+// => false                                     
+                    `
+                },
+                {
+                    name: '键值倒置',
+                    grammar: '_.invert(object)',
+                    explain: '创建一个object键值倒置后的对象。 如果 object 有重复的值，后面的值会覆盖前面的值。',
+                    argus: 'object (Object): 要键值倒置对象。',
+                    ret: '(Object): 返回新的键值倒置后的对象。',
+                    ex: `
+var object = { 'a': 1, 'b': 2, 'c': 1 };
+ 
+_.invert(object);
+// => { '1': 'c', '2': 'b' }                                     
+                    `
+                },
+                {
+                    name: '通过迭代器实现键值倒置',
+                    grammar: '_.invertBy(object, [iteratee=_.identity])',
+                    explain: '这个方法类似 _.invert，除了倒置对象 是 collection（集合）中的每个元素经过 iteratee（迭代函数） 处理后返回的结果。每个反转键相应反转的值是一个负责生成反转值key的数组。iteratee 会传入3个参数：(value) 。',
+                    argus: 'object (Object): 要键值倒置对象。\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代时调用的函数。',
+                    ret: '(Object): 返回新的键值倒置后的对象。',
+                    ex: `
+var object = { 'a': 1, 'b': 2, 'c': 1 };
+ 
+_.invertBy(object);
+// => { '1': ['a', 'c'], '2': ['b'] }
+ 
+_.invertBy(object, function(value) {
+  return 'group' + value;
+});
+// => { 'group1': ['a', 'c'], 'group2': ['b'] }                                     
+                    `
+                },
+                {
+                    name: '调用对象path上的方法',
+                    grammar: '_.invoke(object, path, [args])',
+                    explain: '调用object对象path上的方法。',
+                    argus: 'object (Object): 要检索的对象。\n' +
+                        'path (Array|string): 用来调用的方法路径。\n' +
+                        '[args] (...*): 调用的方法的参数。',
+                    ret: '(*): 返回调用方法的结果。',
+                    ex: `
+var object = { 'a': [{ 'b': { 'c': [1, 2, 3, 4] } }] };
+ 
+_.invoke(object, 'a[0].b.c.slice', 1, 3);
+// => [2, 3]                                     
+                    `
+                },
+                {
+                    name: '组装属性为数组（自身）',
+                    grammar: '_.keys(object)',
+                    explain: '创建一个 object 的自身可枚举属性名为数组。\n' +
+                        'Note: 非对象的值会被强制转换为对象，查看 ES spec 了解详情。',
+                    argus: 'object (Object): 要检索的对象。',
+                    ret: '(Array): 返回包含属性名的数组。',
+                    ex: `
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.keys(new Foo);
+// => ['a', 'b'] (iteration order is not guaranteed)
+ 
+_.keys('hi');
+// => ['0', '1']                                     
+                    `
+                },
+                {
+                    name: '组装属性为数组（自身和继承）',
+                    grammar: '_.keysIn(object)',
+                    explain: '创建一个 object 自身 和 继承的可枚举属性名为数组。\n' +
+                        '注意: 非对象的值会被强制转换为对象。',
+                    argus: 'object (Object): 要检索的对象。',
+                    ret: '(Array): 返回包含属性名的数组。',
+                    ex: `
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.keysIn(new Foo);
+// => ['a', 'b', 'c'] (iteration order is not guaranteed)                                     
                     `
                 },
                 {
@@ -3549,7 +3773,57 @@ _.forInRight(new Foo, function(value, key) {
                     argus: '',
                     ret: '',
                     ex: `
-                    
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
                     `
                 }
             ]
