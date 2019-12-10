@@ -3632,7 +3632,7 @@ _.functionsIn(new Foo);
                     `
                 },
                 {
-                    name: '是否为直接属性',
+                    name: '是否为自身属性',
                     grammar: '_.has(object, path)',
                     explain: '检查 path 是否是object对象的直接属性。',
                     argus: 'object (Object): 要检索的对象。\n' +
@@ -3656,7 +3656,7 @@ _.has(other, 'a');
                     `
                 },
                 {
-                    name: '是否为直接或继承属性',
+                    name: '是否为自身或继承属性',
                     grammar: '_.hasIn(object, path)',
                     explain: '检查 path 是否是object对象的直接或继承属性。',
                     argus: 'object (Object): 要检索的对象。\n' +
@@ -3767,53 +3767,359 @@ _.keysIn(new Foo);
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '通过迭代器改变key',
+                    grammar: '_.mapKeys(object, [iteratee=_.identity])',
+                    explain: '反向版 _.mapValues。 这个方法创建一个对象，对象的值与object相同，并且 key 是通过 iteratee 运行 object 中每个自身可枚举属性名字符串 产生的。iteratee调用三个参数： (value, key, object)。',
+                    argus: 'object (Object): 要遍历的对象。\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代时调用的函数。',
+                    ret: '(Object): 返回映射后的新对象。',
                     ex: `
-                                     
+_.mapKeys({ 'a': 1, 'b': 2 }, function(value, key) {
+  return key + value;
+});
+// => { 'a1': 1, 'b2': 2 }                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '通过迭代器改变value',
+                    grammar: '_.mapValues(object, [iteratee=_.identity])',
+                    explain: '创建一个对象，这个对象的key与object对象相同，值是通过 iteratee 运行 object 中每个自身可枚举属性名字符串产生的。 iteratee调用三个参数： (value, key, object)。',
+                    argus: 'object (Object): 要遍历的对象。\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代时调用的函数。',
+                    ret: '(Object): 返回映射后的新对象。',
                     ex: `
-                                     
+var users = {
+  'fred':    { 'user': 'fred',    'age': 40 },
+  'pebbles': { 'user': 'pebbles', 'age': 1 }
+};
+ 
+_.mapValues(users, function(o) { return o.age; });
+// => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
+ 
+// The \`_.property\` iteratee shorthand.
+_.mapValues(users, 'age');
+// => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '合并两个对象',
+                    grammar: '_.merge(object, [sources])',
+                    explain: '该方法类似 _.assign， 除了它递归合并 sources 来源对象自身和继承的可枚举属性到 object 目标对象。如果目标值存在，被解析为undefined的sources 来源对象属性将被跳过。数组和普通对象会递归合并，其他对象和值会被直接分配覆盖。源对象从从左到右分配。后续的来源对象属性会覆盖之前分配的属性。\n' +
+                        'Note: 这方法会改变对象 object.',
+                    argus: 'object (Object): 目标对象。\n' +
+                        '[sources] (...Object): 来源对象。',
+                    ret: '(Object): 返回 object.',
                     ex: `
-                                     
+var object = {
+  'a': [{ 'b': 2 }, { 'd': 4 }]
+};
+ 
+var other = {
+  'a': [{ 'c': 3 }, { 'e': 5 }]
+};
+ 
+_.merge(object, other);
+// => { 'a': [{ 'b': 2, 'c': 3 }, { 'd': 4, 'e': 5 }] }                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '通过自定义函数合并两个对象',
+                    grammar: '_.mergeWith(object, sources, customizer)',
+                    explain: '该方法类似 _.merge，除了它接受一个 customizer，调用以产生目标对象和来源对象属性的合并值。如果customizer 返回 undefined，将会由合并处理方法代替。 customizer调用与7个参数：(objValue, srcValue, key, object, source, stack)。\n' +
+                        'Note: 这方法会改变对象 object.',
+                    argus: 'object (Object): 目标对象。\n' +
+                        '[sources] (...Object): 来源对象。\n' +
+                        'customizer (Function): 这个函数定制合并值。',
+                    ret: '(Object): 返回 object。',
                     ex: `
-                                     
+function customizer(objValue, srcValue) {
+  if (_.isArray(objValue)) {
+    return objValue.concat(srcValue);
+  }
+}
+ 
+var object = { 'a': [1], 'b': [2] };
+var other = { 'a': [3], 'b': [4] };
+ 
+_.mergeWith(object, other, customizer);
+// => { 'a': [1, 3], 'b': [2, 4] }                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '删除属性',
+                    grammar: '_.omit(object, [props])',
+                    explain: '反向版 _.pick; 这个方法一个对象，这个对象由忽略属性之外的object自身和继承的可枚举属性组成。（可以理解为删除object对象的属性）。',
+                    argus: 'object (Object): 来源对象。\n' +
+                        '[props] (...(string|string[])): 要被忽略的属性。（单独指定或指定在数组中。）',
+                    ret: '(Object): 返回新对象。',
                     ex: `
-                                     
+var object = { 'a': 1, 'b': '2', 'c': 3 };
+ 
+_.omit(object, ['a', 'c']);
+// => { 'b': '2' }                                     
+                    `
+                },
+                {
+                    name: '通过断言函数删除属性',
+                    grammar: '_.omitBy(object, [predicate=_.identity])',
+                    explain: '反向版 _.pickBy；这个方法一个对象，这个对象忽略 predicate（断言函数）判断不是真值的属性后，object自身和继承的可枚举属性组成。predicate调用与2个参数：(value, key)。',
+                    argus: 'object (Object): 来源对象。\n' +
+                        '[predicate=_.identity] (Function): 调用每一个属性的函数。',
+                    ret: '(Object): 返回新对象。',
+                    ex: `
+var object = { 'a': 1, 'b': '2', 'c': 3 };
+ 
+_.omitBy(object, _.isNumber);
+// => { 'b': '2' }                                     
+                    `
+                },
+                {
+                    name: '选择属性',
+                    grammar: '_.pick(object, [props])',
+                    explain: '创建一个从 object 中选中的属性的对象。',
+                    argus: 'object (Object): 来源对象。\n' +
+                        '[props] (...(string|string[])): 要被忽略的属性。（单独指定或指定在数组中。）',
+                    ret: '(Object): 返回新对象。',
+                    ex: `
+var object = { 'a': 1, 'b': '2', 'c': 3 };
+ 
+_.pick(object, ['a', 'c']);
+// => { 'a': 1, 'c': 3 }                                     
+                    `
+                },
+                {
+                    name: '通过断言函数选择属性',
+                    grammar: '_.pickBy(object, [predicate=_.identity])',
+                    explain: '创建一个对象，这个对象组成为从 object 中经 predicate 判断为真值的属性。 predicate调用2个参数：(value, key)。',
+                    argus: 'object (Object): 来源对象。\n' +
+                        '[predicate=_.identity] (Function): 调用每一个属性的函数。',
+                    ret: '(Object): 返回新对象。',
+                    ex: `
+var object = { 'a': 1, 'b': '2', 'c': 3 };
+ 
+_.pickBy(object, _.isNumber);
+// => { 'a': 1, 'c': 3 }                                     
+                    `
+                },
+                {
+                    name: '查询匹配key的结果',
+                    grammar: '_.result(object, path, [defaultValue])',
+                    explain: '这个方法类似 _.get， 除了如果解析到的值是一个函数的话，就绑定 this 到这个函数并返回执行后的结果。',
+                    argus: 'object (Object): 要检索的对象。\n' +
+                        'path (Array|string): 要解析的属性路径。\n' +
+                        '[defaultValue] (*): 如果值解析为 undefined，返回这个值。',
+                    ret: '(*): 返回解析后的值。',
+                    ex: `
+var object = { 'a': [{ 'b': { 'c1': 3, 'c2': _.constant(4) } }] };
+ 
+_.result(object, 'a[0].b.c1');
+// => 3
+ 
+_.result(object, 'a[0].b.c2');
+// => 4
+ 
+_.result(object, 'a[0].b.c3', 'default');
+// => 'default'
+ 
+_.result(object, 'a[0].b.c3', _.constant('default'));
+// => 'default'                                     
+                    `
+                },
+                {
+                    name: '设置属性',
+                    grammar: '_.set(object, path, value)',
+                    explain: '设置 object对象中对应 path 属性路径上的值，如果path不存在，则创建。 缺少的索引属性会创建为数组，而缺少的属性会创建为对象。 使用 _.setWith 定制path创建。\n' +
+                        'Note: 这个方法会改变 object。',
+                    argus: 'object (Object): 要修改的对象。\n' +
+                        'path (Array|string): 要设置的对象路径。\n' +
+                        'value (*): 要设置的值。',
+                    ret: '(Object): 返回 object。',
+                    ex: `
+var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ 
+_.set(object, 'a[0].b.c', 4);
+console.log(object.a[0].b.c);
+// => 4
+ 
+_.set(object, ['x', '0', 'y', 'z'], 5);
+console.log(object.x[0].y.z);
+// => 5                                     
+                    `
+                },
+                {
+                    name: '通过定制器设置属性',
+                    grammar: '_.setWith(object, path, value, [customizer])',
+                    explain: '这个方法类似 _.set，除了它接受一个 customizer，调用生成对象的 path。 如果 customizer 返回 undefined 将会有它的处理方法代替。 customizer 调用3个参数： (nsValue, key, nsObject)。\n' +
+                        '注意: 这个方法会改变 object.',
+                    argus: 'object (Object): 要修改的对象。\n' +
+                        'path (Array|string): 要设置的对象路径。\n' +
+                        'value (*): 要设置的值。\n' +
+                        '[customizer] (Function): 这个函数用来定制分配的值。',
+                    ret: '(Object): 返回 object。',
+                    ex: `
+var object = {};
+ 
+_.setWith(object, '[0][1]', 'a', Object);
+// => { '0': { '1': 'a' } }                                     
+                    `
+                },
+                {
+                    name: '组装属性值为数组（自身属性）',
+                    grammar: '_.values(object)',
+                    explain: '创建 object 自身可枚举属性的值为数组。\n' +
+                        '注意: 注意: 非对象的值会强制转换为对象。',
+                    argus: 'object (Object): 要检索的对象。',
+                    ret: '(Array): 返回对象属性的值的数组。',
+                    ex: `
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.values(new Foo);
+// => [1, 2] (无法保证遍历的顺序)
+ 
+_.values('hi');
+// => ['h', 'i']                                     
+                    `
+                },
+                {
+                    name: '组装属性值为数组（自身和继承属性）',
+                    grammar: '_.valuesIn(object)',
+                    explain: '创建 object 自身和继承的可枚举属性的值为数组\n' +
+                        '注意: 注意: 非对象的值会强制转换为对象。',
+                    argus: 'object (Object): 要检索的对象。',
+                    ret: '(Array): 返回对象属性的值的数组。',
+                    ex: `
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.valuesIn(new Foo);
+// => [1, 2, 3] (无法保证遍历的顺序)                                     
+                    `
+                },
+                {
+                    name: '键值对数组化（自身属性）',
+                    grammar: '_.toPairs(object)',
+                    explain: '创建一个object对象自身可枚举属性的键值对数组。这个数组可以通过 _.fromPairs撤回。如果object 是 map 或 set，返回其条目。',
+                    argus: 'object (Object): 要检索的对象。',
+                    ret: '(Array): 返回键值对的数组。',
+                    ex: `
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.toPairs(new Foo);
+// => [['a', 1], ['b', 2]] (iteration order is not guaranteed)                                     
+                    `
+                },
+                {
+                    name: '键值对数组化（自身和继承属性）',
+                    grammar: '_.toPairsIn(object)',
+                    explain: '创建一个object对象自身和继承的可枚举属性的键值对数组。这个数组可以通过 _.fromPairs撤回。如果object 是 map 或 set，返回其条目。',
+                    argus: 'object (Object): 要检索的对象。',
+                    ret: '(Array): 返回键值对的数组。',
+                    ex: `
+function Foo() {
+  this.a = 1;
+  this.b = 2;
+}
+ 
+Foo.prototype.c = 3;
+ 
+_.toPairsIn(new Foo);
+// => [['a', 1], ['b', 2], ['c', 3]] (iteration order is not guaranteed)                                     
+                    `
+                },
+                {
+                    name: '通过迭代器转变',
+                    grammar: '_.transform(object, [iteratee=_.identity], [accumulator])',
+                    explain: '_.reduce的替代方法;此方法将转换object对象为一个新的accumulator对象，结果来自iteratee处理自身可枚举的属性。 每次调用可能会改变 accumulator 对象。如果不提供accumulator，将使用与[[Prototype]]相同的新对象。iteratee调用4个参数：(accumulator, value, key, object)。如果返回 false，iteratee 会提前退出。',
+                    argus: 'object (Object): 要遍历的对象\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代时调用的函数。\n' +
+                        '[accumulator] (*): 定制叠加的值。',
+                    ret: '(*): 返回叠加后的值。',
+                    ex: `
+_.transform([2, 3, 4], function(result, n) {
+  result.push(n *= n);
+  return n % 2 == 0;
+}, []);
+// => [4, 9]
+ 
+_.transform({ 'a': 1, 'b': 2, 'c': 1 }, function(result, value, key) {
+  (result[value] || (result[value] = [])).push(key);
+}, {});
+// => { '1': ['a', 'c'], '2': ['b'] }                                     
+                    `
+                },
+                {
+                    name: '移除属性是否成功',
+                    grammar: '_.unset(object, path)',
+                    explain: '移除object对象 path 路径上的属性。\n' +
+                        '注意: 这个方法会改变源对象 object。',
+                    argus: 'object (Object): 要修改的对象。\n' +
+                        'path (Array|string): 要移除的对象路径。',
+                    ret: '(boolean): 如果移除成功，那么返回 true ，否则返回 false。',
+                    ex: `
+var object = { 'a': [{ 'b': { 'c': 7 } }] };
+_.unset(object, 'a[0].b.c');
+// => true
+ 
+console.log(object);
+// => { 'a': [{ 'b': {} }] };
+ 
+_.unset(object, ['a', '0', 'b', 'c']);
+// => true
+ 
+console.log(object);
+// => { 'a': [{ 'b': {} }] };                                     
+                    `
+                },
+                {
+                    name: '通过自定义函数更新属性值',
+                    grammar: '_.update(object, path, updater)',
+                    explain: '该方法类似 _.set，除了接受updater以生成要设置的值。使用 _.updateWith来自定义生成的新path。updater调用1个参数：(value)。\n' +
+                        'Note: 这个方法会改变 object。',
+                    argus: 'object (Object): 要修改的对象。\n' +
+                        'path (Array|string): 要设置属性的路径。\n' +
+                        'updater (Function): 用来生成设置值的函数。',
+                    ret: '(Object): 返回 object 。',
+                    ex: `
+var object = { 'a': [{ 'b': { 'c': 3 } }] };
+ 
+_.update(object, 'a[0].b.c', function(n) { return n * n; });
+console.log(object.a[0].b.c);
+// => 9
+ 
+_.update(object, 'x[0].y.z', function(n) { return n ? n + 1 : 0; });
+console.log(object.x[0].y.z);
+// => 0                                     
+                    `
+                },
+                {
+                    name: '通过定制器和自定义函数更新属性值',
+                    grammar: '_.updateWith(object, path, updater, [customizer])',
+                    explain: '该方法类似 _.update，不同之处在于它接受customizer，调用来生成新的对象的path。如果customizer返回undefined，路径创建由该方法代替。customizer调用有三个参数：(nsValue, key, nsObject) 。\n' +
+                        'Note: 这个方法会改变 object.',
+                    argus: 'object (Object): 要修改的对象。\n' +
+                        'path (Array|string): 要设置属性的路径。\n' +
+                        'updater (Function): 用来生成设置值的函数。\n' +
+                        '[customizer] (Function): 用来自定义分配值的函数。',
+                    ret: '(Object): 返回 object.',
+                    ex: `
+var object = {};
+ 
+_.updateWith(object, '[0][1]', _.constant('a'), Object);
+// => { '0': { '1': 'a' } }                                     
                     `
                 },
                 {
