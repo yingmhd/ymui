@@ -4121,6 +4121,71 @@ var object = {};
 _.updateWith(object, '[0][1]', _.constant('a'), Object);
 // => { '0': { '1': 'a' } }                                     
                     `
+                }
+            ]
+        },
+        {
+            name: '序列',
+            child: [
+                {
+                    name: '创建lodash对象',
+                    grammar: '_(value)',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
+                },
+                {
+                    name: '',
+                    grammar: '',
+                    explain: '',
+                    argus: '',
+                    ret: '',
+                    ex: `
+                                     
+                    `
                 },
                 {
                     name: '',
