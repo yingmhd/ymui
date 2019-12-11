@@ -4130,41 +4130,95 @@ _.updateWith(object, '[0][1]', _.constant('a'), Object);
                 {
                     name: '创建lodash对象',
                     grammar: '_(value)',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    explain: '创建一个lodash对象，包装value后的对象启用隐式方法链。返回的数组、集合、方法相互之间能够链式调用。检索唯一值或返回原始值会自动解除链条并返回计算后的值，否则需要调用 _#value 方法解除链(即获得计算结果)。\n' +
+                        '显式链式调用，在任何情况下需要先用 _#value 解除链后，才能使用 _.chain 开启。\n' +
+                        '链式方法是惰性计算的，直到隐式或者显式调用了 _#value 才会执行计算。\n' +
+                        '惰性计算接受几种支持 shortcut fusion 的方法， shortcut fusion 是一种通过合并链式 iteratee 调用从而大大降低迭代的次数以提高执行性能的方式。 部分链有资格 shortcut fusion，如果它至少有超过200个元素的数组和任何只接受一个参数的 iteratees。 触发的方式是任何一个 shortcut fusion 有了变化。\n' +
+                        '链式方法支持定制版本，只要 _#value 包含或者间接包含在版本中。\n' +
+                        '除了 lodash 的自身方法，包装后的对象还支持 Array 和 String 的方法。\n' +
+                        '支持 Array 的方法: concat, join, pop, push, shift, sort, splice, 和 unshift\n' +
+                        '支持 String 的方法: replace 和 split',
+                    argus: 'value (*): 需要被包装为 lodash 实例的值。',
+                    ret: '(Object): 返回 lodash 包装后的实例。',
                     ex: `
-                                     
+function square(n) {
+  return n * n;
+}
+ 
+var wrapped = _([1, 2, 3]);
+ 
+// 返回未包装的值
+wrapped.reduce(_.add);
+// => 6
+ 
+// 返回链式包装的值
+var squares = wrapped.map(square);
+ 
+_.isArray(squares);
+// => false
+ 
+_.isArray(squares.value());
+// => true                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '创建一个lodash包装实例',
+                    grammar: '_.chain(value)',
+                    explain: '创建一个lodash包装实例，包装value以启用显式链模式。要解除链必须使用 _#value 方法。',
+                    argus: 'value (*): 要包装的值。',
+                    ret: '(Object): 返回 lodash 包装的实例。',
                     ex: `
-                                     
+var users = [
+  { 'user': 'barney',  'age': 36 },
+  { 'user': 'fred',    'age': 40 },
+  { 'user': 'pebbles', 'age': 1 }
+];
+ 
+var youngest = _
+  .chain(users)
+  .sortBy('age')
+  .map(function(o) {
+    return o.user + ' is ' + o.age;
+  })
+  .head()
+  .value();
+// => 'pebbles is 1'                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '拦截器修改原始值',
+                    grammar: '_.tap(value, interceptor)',
+                    explain: '这个方法调用一个 interceptor 并返回 value。interceptor调用1个参数： (value)。 该方法的目的是 进入 方法链序列以便修改中间结果。',
+                    argus: 'value (*): 提供给 interceptor 的值。\n' +
+                        'interceptor (Function): 用来调用的函数。',
+                    ret: '(*): 返回 value.',
                     ex: `
-                                     
+_([1, 2, 3])
+ .tap(function(array) {
+// 改变传入的数组
+   array.pop();
+ })
+ .reverse()
+ .value();
+// => [2, 1]                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '拦截器返回结果',
+                    grammar: '_.thru(value, interceptor)',
+                    explain: '这个方法类似 _.tap， 除了它返回 interceptor 的返回结果。该方法的目的是"传递" 值到一个方法链序列以取代中间结果。',
+                    argus: 'value (*): 提供给 interceptor 的值。\n' +
+                        'interceptor (Function): 用来调用的函数。',
+                    ret: '(*): 返回 interceptor 的返回结果。',
                     ex: `
-                                     
+_('  abc  ')
+ .chain()
+ .trim()
+ .thru(function(value) {
+   return [value];
+ })
+ .value();
+// => ['abc']                                     
                     `
                 },
                 {
