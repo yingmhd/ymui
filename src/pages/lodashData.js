@@ -4117,7 +4117,7 @@ console.log(object.x[0].y.z);
                     ret: '(Object): 返回 object.',
                     ex: `
 var object = {};
- 
+ chain
 _.updateWith(object, '[0][1]', _.constant('a'), Object);
 // => { '0': { '1': 'a' } }                                     
                     `
@@ -4132,12 +4132,7 @@ _.updateWith(object, '[0][1]', _.constant('a'), Object);
                     grammar: '_(value)',
                     explain: '创建一个lodash对象，包装value后的对象启用隐式方法链。返回的数组、集合、方法相互之间能够链式调用。检索唯一值或返回原始值会自动解除链条并返回计算后的值，否则需要调用 _#value 方法解除链(即获得计算结果)。\n' +
                         '显式链式调用，在任何情况下需要先用 _#value 解除链后，才能使用 _.chain 开启。\n' +
-                        '链式方法是惰性计算的，直到隐式或者显式调用了 _#value 才会执行计算。\n' +
-                        '惰性计算接受几种支持 shortcut fusion 的方法， shortcut fusion 是一种通过合并链式 iteratee 调用从而大大降低迭代的次数以提高执行性能的方式。 部分链有资格 shortcut fusion，如果它至少有超过200个元素的数组和任何只接受一个参数的 iteratees。 触发的方式是任何一个 shortcut fusion 有了变化。\n' +
-                        '链式方法支持定制版本，只要 _#value 包含或者间接包含在版本中。\n' +
-                        '除了 lodash 的自身方法，包装后的对象还支持 Array 和 String 的方法。\n' +
-                        '支持 Array 的方法: concat, join, pop, push, shift, sort, splice, 和 unshift\n' +
-                        '支持 String 的方法: replace 和 split',
+                        '链式方法是惰性计算的，直到隐式或者显式调用了 _#value 才会执行计算。',
                     argus: 'value (*): 需要被包装为 lodash 实例的值。',
                     ret: '(Object): 返回 lodash 包装后的实例。',
                     ex: `
@@ -4162,7 +4157,7 @@ _.isArray(squares.value());
                     `
                 },
                 {
-                    name: '创建一个lodash包装实例',
+                    name: '创建lodash包装实例',
                     grammar: '_.chain(value)',
                     explain: '创建一个lodash包装实例，包装value以启用显式链模式。要解除链必须使用 _#value 方法。',
                     argus: 'value (*): 要包装的值。',
@@ -4186,7 +4181,7 @@ var youngest = _
                     `
                 },
                 {
-                    name: '拦截器修改原始值',
+                    name: '拦截器',
                     grammar: '_.tap(value, interceptor)',
                     explain: '这个方法调用一个 interceptor 并返回 value。interceptor调用1个参数： (value)。 该方法的目的是 进入 方法链序列以便修改中间结果。',
                     argus: 'value (*): 提供给 interceptor 的值。\n' +
@@ -4204,7 +4199,7 @@ _([1, 2, 3])
                     `
                 },
                 {
-                    name: '拦截器返回结果',
+                    name: '拦截器升级',
                     grammar: '_.thru(value, interceptor)',
                     explain: '这个方法类似 _.tap， 除了它返回 interceptor 的返回结果。该方法的目的是"传递" 值到一个方法链序列以取代中间结果。',
                     argus: 'value (*): 提供给 interceptor 的值。\n' +
@@ -4222,33 +4217,1039 @@ _('  abc  ')
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
+                    name: '包装对象为可迭代',
+                    grammar: '_.prototype',
+                    explain: '启用包装对象为 iterable。',
                     argus: '',
-                    ret: '',
+                    ret: '(Object): 返回包装对象。',
                     ex: `
-                                     
+var wrapped = _([1, 2]);
+ 
+wrapped[Symbol.iterator]() === wrapped;
+// => true
+ 
+Array.from(wrapped);
+// => [1, 2]                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
-                    argus: '',
-                    ret: '',
+                    name: '_.at的包装版本',
+                    grammar: '_.prototype.at([paths])',
+                    explain: '这个方法是 _.at 的包装版本 。',
+                    argus: '[paths] (...(string|string[])): 要选择元素的属性路径（ 单独指定或者数组）。',
+                    ret: '(Object): 返回 lodash 的包装实例。',
                     ex: `
-                                     
+var object = { 'a': [{ 'b': { 'c': 3 } }, 4] };
+ 
+_(object).at(['a[0].b.c', 'a[1]']).value();
+// => [3, 4]                                     
                     `
                 },
                 {
-                    name: '',
-                    grammar: '',
-                    explain: '',
+                    name: '启用显示链模式',
+                    grammar: '_.prototype.chain()',
+                    explain: '创建一个lodash包装实例，启用显式链模式。   ',
                     argus: '',
-                    ret: '',
+                    ret: '(Object): 返回 lodash 的包装实例。',
                     ex: `
-                                     
+var users = [
+  { 'user': 'barney', 'age': 36 },
+  { 'user': 'fred',   'age': 40 }
+];
+ 
+// 不启用显式链
+_(users).head();
+// => { 'user': 'barney', 'age': 36 }
+ 
+// 启用显式链
+_(users)
+  .chain()
+  .head()
+  .pick('user')
+  .value();
+// => { 'user': 'barney' }                                     
+                    `
+                },
+                {
+                    name: '执行链式队列',
+                    grammar: '_.prototype.commit()',
+                    explain: '执行链式队列并返回结果。',
+                    argus: '',
+                    ret: '(Object): 返回 lodash 的包装实例。',
+                    ex: `
+var array = [1, 2];
+var wrapped = _(array).push(3);
+ 
+console.log(array);
+// => [1, 2]
+ 
+wrapped = wrapped.commit();
+console.log(array);
+// => [1, 2, 3]
+ 
+wrapped.last();
+// => 3
+ 
+console.log(array);
+// => [1, 2, 3]                               
+                    `
+                },
+                {
+                    name: '获取下一个值',
+                    grammar: '_.prototype.next()',
+                    explain: '获得包装对象的下一个值，遵循 iterator protocol。',
+                    argus: '',
+                    ret: '(Object): 返回下一个 iterator 值。',
+                    ex: `
+var wrapped = _([1, 2]);
+ 
+wrapped.next();
+// => { 'done': false, 'value': 1 }
+ 
+wrapped.next();
+// => { 'done': false, 'value': 2 }
+ 
+wrapped.next();
+// => { 'done': true, 'value': undefined }                               
+                    `
+                },
+                {
+                    name: '创建一个链式队列的拷贝',
+                    grammar: '_.prototype.plant(value)',
+                    explain: '创建一个链式队列的拷贝，传入的 value 作为链式队列的值。',
+                    argus: 'value (*): 替换原值的值。',
+                    ret: '(Object): 返回 lodash 的包装实例。',
+                    ex: `
+function square(n) {
+  return n * n;
+}
+ 
+var wrapped = _([1, 2]).map(square);
+var other = wrapped.plant([3, 4]);
+ 
+other.value();
+// => [9, 16]
+ 
+wrapped.value();
+// => [1, 4]                               
+                    `
+                },
+                {
+                    name: '反转数组',
+                    grammar: '_.prototype.reverse()',
+                    explain: '这个方法是 _.reverse 的包装版本 。\n' +
+                        '注意: 这种方法会改变包装数组。',
+                    argus: '',
+                    ret: '(Object): 返回新的 lodash 包装实例。',
+                    ex: `
+var array = [1, 2, 3];
+ 
+_(array).reverse().value()
+// => [3, 2, 1]
+ 
+console.log(array);
+// => [3, 2, 1]                               
+                    `
+                },
+                {
+                    name: '提取解链后的值',
+                    grammar: '_.prototype.value()',
+                    explain: '执行链式队列并提取解链后的值。',
+                    argus: '',
+                    ret: '(*): 返回解链后的值。',
+                    ex: `
+_([1, 2, 3]).value();
+// => [1, 2, 3]                               
+                    `
+                }
+            ]
+        },
+        {
+            name: '字符串',
+            child: [
+                {
+                    name: '转换为驼峰语法',
+                    grammar: '_.camelCase([string=\'\'])',
+                    explain: '转换字符串string为 驼峰写法。',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回驼峰写法的字符串。',
+                    ex: `
+_.camelCase('Foo Bar');
+// => 'fooBar'
+ 
+_.camelCase('--foo-bar--');
+// => 'fooBar'
+ 
+_.camelCase('__FOO_BAR__');
+// => 'fooBar'                               
+                    `
+                },
+                {
+                    name: '首字母大写其余小写',
+                    grammar: '_.capitalize([string=\'\'])',
+                    explain: '转换字符串string首字母为大写，剩下为小写。',
+                    argus: '[string=\'\'] (string): 要大写开头的字符串。',
+                    ret: '(string): 返回大写开头的字符串。',
+                    ex: `
+_.capitalize('FRED');
+// => 'Fred'                               
+                    `
+                },
+                {
+                    name: '是否以给定target字符开头',
+                    grammar: '_.startsWith([string=\'\'], [target], [position=0])',
+                    explain: '检查字符串string是否以 target 开头。',
+                    argus: '[string=\'\'] (string): 要检索的字符串。\n' +
+                        '[target] (string): 要检查的字符串。\n' +
+                        '[position=0] (number): 检索的位置。',
+                    ret: '(boolean): 如果string以 target，那么返回true，否则返回 false ',
+                    ex: `
+_.startsWith('abc', 'a');
+// => true
+ 
+_.startsWith('abc', 'b');
+// => false
+ 
+_.startsWith('abc', 'b', 1);
+// => true                               
+                    `
+                },
+                {
+                    name: '是否以给定的target字符结尾',
+                    grammar: '_.endsWith([string=\'\'], [target], [position=string.length])',
+                    explain: '检查字符串string是否以给定的target字符串结尾。',
+                    argus: '[string=\'\'] (string): 要检索的字符串。\n' +
+                        '[target] (string): 要检索字符。\n' +
+                        '[position=string.length] (number): 检索的位置。',
+                    ret: '(boolean): 如果字符串string以target字符串结尾，那么返回 true，否则返回 false。',
+                    ex: `
+_.endsWith('abc', 'c');
+// => true
+ 
+_.endsWith('abc', 'b');
+// => false
+ 
+_.endsWith('abc', 'b', 2);
+// => true                               
+                    `
+                },
+                {
+                    name: '首字母小写',
+                    grammar: '_.lowerFirst([string=\'\'])',
+                    explain: '转换字符串string的首字母为小写。',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回转换后的字符串。',
+                    ex: `
+_.lowerFirst('Fred');
+// => 'fred'
+ 
+_.lowerFirst('FRED');
+// => 'fRED'                               
+                    `
+                },
+                {
+                    name: '转换为小写',
+                    grammar: '_.toLower([string=\'\'])',
+                    explain: '转换整个string字符串的字符为小写，类似 String#toLowerCase。',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回小写的字符串。',
+                    ex: `
+_.toLower('--Foo-Bar--');
+// => '--foo-bar--'
+ 
+_.toLower('fooBar');
+// => 'foobar'
+ 
+_.toLower('__FOO_BAR__');
+// => '__foo_bar__'                               
+                    `
+                },
+                {
+                    name: '转换为大写',
+                    grammar: '_.toUpper([string=\'\'])',
+                    explain: '转换整个string字符串的字符为大写，类似 String#toUpperCase.',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回大写的字符串。',
+                    ex: `
+_.toUpper('--foo-bar--');
+// => '--FOO-BAR--'
+ 
+_.toUpper('fooBar');
+// => 'FOOBAR'
+ 
+_.toUpper('__foo_bar__');
+// => '__FOO_BAR__'                               
+                    `
+                },
+                {
+                    name: '首字母大写',
+                    grammar: '_.upperFirst([string=\'\'])',
+                    explain: '转换字符串string的首字母为大写。',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回转换后的字符串。',
+                    ex: `
+_.upperFirst('fred');
+// => 'Fred'
+ 
+_.upperFirst('FRED');
+// => 'FRED'                               
+                    `
+                },
+                {
+                    name: '首尾填充字符',
+                    grammar: '_.pad([string=\'\'], [length=0], [chars=\' \'])',
+                    explain: '如果string字符串长度小于 length 则从左侧和右侧填充字符。 如果没法平均分配，则截断超出的长度。',
+                    argus: '[string=\'\'] (string): 要填充的字符串。\n' +
+                        '[length=0] (number): 填充的长度。\n' +
+                        '[chars=\' \'] (string): 填充字符。',
+                    ret: '(string): 返回填充后的字符串。',
+                    ex: `
+_.pad('abc', 8);
+// => '  abc   '
+ 
+_.pad('abc', 8, '_-');
+// => '_-abc_-_'
+ 
+_.pad('abc', 3);
+// => 'abc'                               
+                    `
+                },
+                {
+                    name: '尾部填充字符',
+                    grammar: '_.padEnd([string=\'\'], [length=0], [chars=\' \'])',
+                    explain: '如果string字符串长度小于 length 则在右侧填充字符。 如果超出length长度则截断超出的部分。',
+                    argus: '[string=\'\'] (string): 要填充的字符串。\n' +
+                        '[length=0] (number): 填充的长度。\n' +
+                        '[chars=\' \'] (string): 填充字符。',
+                    ret: '(string): 返回填充后的字符串。',
+                    ex: `
+_.padEnd('abc', 6);
+// => 'abc   '
+ 
+_.padEnd('abc', 6, '_-');
+// => 'abc_-_'
+ 
+_.padEnd('abc', 3);
+// => 'abc'                               
+                    `
+                },
+                {
+                    name: '头部填充字符',
+                    grammar: '_.padStart([string=\'\'], [length=0], [chars=\' \'])',
+                    explain: '如果string字符串长度小于 length 则在左侧填充字符。 如果超出length长度则截断超出的部分。',
+                    argus: '[string=\'\'] (string): 要填充的字符串。\n' +
+                        '[length=0] (number): 填充的长度。\n' +
+                        '[chars=\' \'] (string): 填充字符。',
+                    ret: '(string): 返回填充后的字符串。',
+                    ex: `
+_.padStart('abc', 6);
+// => '   abc'
+ 
+_.padStart('abc', 6, '_-');
+// => '_-_abc'
+ 
+_.padStart('abc', 3);
+// => 'abc'                               
+                    `
+                },
+                {
+                    name: '转换为Int',
+                    grammar: '_.parseInt(string, [radix=10])',
+                    explain: '转换string字符串为指定基数的整数。 如果基数是 undefined 或者 0，则radix基数默认是10，如果string字符串是16进制，则radix基数为 16。',
+                    argus: 'string (string): 要转换的字符串。\n' +
+                        '[radix=10] (number):转换基数。',
+                    ret: '(number): 返回转换后的整数。',
+                    ex: `
+_.parseInt('08');
+// => 8
+ 
+_.map(['6', '08', '10'], _.parseInt);
+// => [6, 8, 10]                               
+                    `
+                },
+                {
+                    name: '重复字符串',
+                    grammar: '_.repeat([string=\'\'], [n=1])',
+                    explain: '重复 N 次给定字符串。',
+                    argus: '[string=\'\'] (string): 要重复的字符串。\n' +
+                        '[n=1] (number): 重复的次数。',
+                    ret: '(string): 返回重复的字符串。',
+                    ex: `
+_.repeat('*', 3);
+// => '***'
+ 
+_.repeat('abc', 2);
+// => 'abcabc'
+ 
+_.repeat('abc', 0);
+// => ''                               
+                    `
+                },
+                {
+                    name: '替换',
+                    grammar: '_.replace([string=\'\'], pattern, replacement)',
+                    explain: '替换string字符串中匹配的pattern为给定的replacement 。',
+                    argus: '[string=\'\'] (string): 待替换的字符串。\n' +
+                        'pattern (RegExp|string): 要匹配的内容。\n' +
+                        'replacement (Function|string): 替换的内容。',
+                    ret: '(string): 返回替换后的字符串',
+                    ex: `
+_.replace('Hi Fred', 'Fred', 'Barney');
+// => 'Hi Barney'                               
+                    `
+                },
+                {
+                    name: '分割',
+                    grammar: '_.split([string=\'\'], separator, [limit])',
+                    explain: '根据separator 拆分字符串string。',
+                    argus: '[string=\'\'] (string): 要拆分的字符串。\n' +
+                        'separator (RegExp|string): 拆分的分隔符。\n' +
+                        '[limit] (number): 限制结果的数量。',
+                    ret: '(Array): 返回拆分部分的字符串的数组。',
+                    ex: `
+_.split('a-b-c', '-', 2);
+// => ['a', 'b']                               
+                    `
+                },
+                {
+                    name: '转换为下划线连接的字符（小写）',
+                    grammar: '_.snakeCase([string=\'\'])',
+                    explain: '转换字符串string为 snake case.',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回转换后的字符串。',
+                    ex: `
+_.snakeCase('Foo Bar');
+// => 'foo_bar'
+ 
+_.snakeCase('fooBar');
+// => 'foo_bar'
+ 
+_.snakeCase('--FOO-BAR--');
+// => 'foo_bar'                               
+                    `
+                },
+                {
+                    name: '转换为空格分隔的字符（首字母大写）',
+                    grammar: '_.startCase([string=\'\'])',
+                    explain: '转换 string 字符串为 start case.',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回转换后的字符串。',
+                    ex: `
+_.startCase('--foo-bar--');
+// => 'Foo Bar'
+ 
+_.startCase('fooBar');
+// => 'Foo Bar'
+ 
+_.startCase('__FOO_BAR__');
+// => 'FOO BAR'                               
+                    `
+                },
+                {
+                    name: '转换为空格分隔的字符（大写）',
+                    grammar: '_.upperCase([string=\'\'])',
+                    explain: '转换字符串string为 空格 分隔的大写单词。',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回大写单词。',
+                    ex: `
+_.upperCase('--foo-bar');
+// => 'FOO BAR'
+ 
+_.upperCase('fooBar');
+// => 'FOO BAR'
+ 
+_.upperCase('__foo_bar__');
+// => 'FOO BAR'                               
+                    `
+                },
+                {
+                    name: '转换为横杠连接的字符（小写）',
+                    grammar: '_.kebabCase([string=\'\'])',
+                    explain: '转换字符串string为 kebab case.',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回转换后的字符串。',
+                    ex: `
+_.kebabCase('Foo Bar');
+// => 'foo-bar'
+ 
+_.kebabCase('fooBar');
+// => 'foo-bar'
+ 
+_.kebabCase('__FOO_BAR__');
+// => 'foo-bar'                               
+                    `
+                },
+                {
+                    name: '转换为空格分割的字符（小写）',
+                    grammar: '_.lowerCase([string=\'\'])',
+                    explain: '转换字符串string以空格分开单词，并转换为小写。',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回转换后的字符串。',
+                    ex: `
+_.lowerCase('--Foo-Bar--');
+// => 'foo bar'
+ 
+_.lowerCase('fooBar');
+// => 'foo bar'
+ 
+_.lowerCase('__FOO_BAR__');
+// => 'foo bar'                               
+                    `
+                },
+                {
+                    name: '移除空格或者给定字符',
+                    grammar: '_.trim([string=\'\'], [chars=whitespace])',
+                    explain: '从string字符串中移除前面和后面的 空格 或 指定的字符。',
+                    argus: '[string=\'\'] (string): 要处理的字符串。\n' +
+                        '[chars=whitespace] (string): 要移除的字符。',
+                    ret: '(string): 返回处理后的字符串。',
+                    ex: `
+_.trim('  abc  ');
+// => 'abc'
+ 
+_.trim('-_-abc-_-', '_-');
+// => 'abc'
+ 
+_.map(['  foo  ', '  bar  '], _.trim);
+// => ['foo', 'bar']                               
+                    `
+                },
+                {
+                    name: '移除尾部的空格或者给定字符',
+                    grammar: '_.trimEnd([string=\'\'], [chars=whitespace])',
+                    explain: '从string字符串中移除后面的 空格 或 指定的字符。',
+                    argus: '[string=\'\'] (string): 要处理的字符串。\n' +
+                        '[chars=whitespace] (string): 要移除的字符。',
+                    ret: '(string): 返回处理后的字符串。',
+                    ex: `
+_.trimEnd('  abc  ');
+// => '  abc'
+ 
+_.trimEnd('-_-abc-_-', '_-');
+// => '-_-abc'                               
+                    `
+                },
+                {
+                    name: '移除头部的空格或者给定字符',
+                    grammar: '_.trimStart([string=\'\'], [chars=whitespace])',
+                    explain: '从string字符串中移除前面的 空格 或 指定的字符。',
+                    argus: '[string=\'\'] (string): 要处理的字符串。\n' +
+                        '[chars=whitespace] (string): 要移除的字符。',
+                    ret: '(string): 返回处理后的字符串。',
+                    ex: `
+_.trimStart('  abc  ');
+// => 'abc  '
+ 
+_.trimStart('-_-abc-_-', '_-');
+// => 'abc-_-'                               
+                    `
+                },
+                {
+                    name: '转义 RegExp 字符串中特殊的字符',
+                    grammar: '_.escapeRegExp([string=\'\'])',
+                    explain: '转义 RegExp 字符串中特殊的字符 "^", "$", "", ".", "*", "+", "?", "(", ")", "[", "]", "{", "}", 和 "|" in .',
+                    argus: '[string=\'\'] (string): 要转义的字符串。',
+                    ret: '(string): 返回转义后的字符串。',
+                    ex: `
+_.escapeRegExp('[lodash](https://lodash.com/)');
+// => '\\[lodash\\]\\(https://lodash\\.com/\\)'                               
+                    `
+                },
+                {
+                    name: 'HTML标签转义',
+                    grammar: '_.unescape([string=\'\'])',
+                    explain: '_.escape的反向版。 这个方法转换string字符串中的 HTML 实体 &amp;, &lt;, &gt;, &quot;, &#39;, 和 &#96; 为对应的字符。',
+                    argus: '[string=\'\'] (string): 要转换的字符串。',
+                    ret: '(string): 返回转换后的字符串。',
+                    ex: `
+_.unescape('fred, barney, &amp; pebbles');
+// => 'fred, barney, & pebbles'                               
+                    `
+                },
+                {
+                    name: '转换为HTML实体字符',
+                    grammar: '_.escape([string=\'\'])',
+                    explain: '转义string中的 "&", "<", ">", \'"\', "\'", 和 "`" 字符为HTML实体字符。\n' +
+                        '注意: 不会转义其他字符。如果需要，可以使用第三方库，例如 he。',
+                    argus: '[string=\'\'] (string): 要转义的字符串。',
+                    ret: '(string): 返回转义后的字符串。',
+                    ex: `
+_.escape('fred, barney, & pebbles');
+// => 'fred, barney, &amp; pebbles'                               
+                    `
+                },
+                {
+                    name: '拆分字符串为数组',
+                    grammar: '_.words([string=\'\'], [pattern])',
+                    explain: '拆分字符串string中的词为数组 。',
+                    argus: '[string=\'\'] (string): 要拆分的字符串。\n' +
+                        '[pattern] (RegExp|string): 匹配模式。',
+                    ret: '(Array): 返回拆分string后的数组。',
+                    ex: `
+_.words('fred, barney, & pebbles');
+// => ['fred', 'barney', 'pebbles']
+ 
+_.words('fred, barney, & pebbles', /[^, ]+/g);
+// => ['fred', 'barney', '&', 'pebbles']                               
+                    `
+                }
+            ]
+        },
+        {
+            name: '实用程序',
+            child: [
+                {
+                    name: '尝试调用函数',
+                    grammar: '_.attempt(func, [args])',
+                    explain: '尝试调用func，返回结果 或者 捕捉错误对象。任何附加的参数都会在调用时传给func。',
+                    argus: 'func (Function): 要尝试调用的函数。\n' +
+                        '[args] (...*): 调用func时，传递的参数。',
+                    ret: '(*): 返回func结果或者错误对象。',
+                    ex: `
+// Avoid throwing errors for invalid selectors.
+var elements = _.attempt(function(selector) {
+  return document.querySelectorAll(selector);
+}, '>_>');
+ 
+if (_.isError(elements)) {
+  elements = [];
+}                               
+                    `
+                },
+                {
+                    name: '绑定一个对象的方法到自身',
+                    grammar: '_.bindAll(object, methodNames)',
+                    explain: '绑定一个对象的方法到对象本身，覆盖现有的方法。\n' +
+                        '注意: 这个方法不会设置绑定函数的 "length" 属性。',
+                    argus: 'object (Object): 用来绑定和分配绑定方法的对象。\n' +
+                        'methodNames (...(string|string[])): 对象绑定方法的名称。',
+                    ret: '(Object): 返回 object.',
+                    ex: `
+var view = {
+  'label': 'docs',
+  'click': function() {
+    console.log('clicked ' + this.label);
+  }
+};
+ 
+_.bindAll(view, ['click']);
+jQuery(element).on('click', view.click);
+// => Logs 'clicked docs' when clicked.                               
+                    `
+                },
+                {
+                    name: '迭代断言函数对并返回第一个真值对应的函数',
+                    grammar: '_.cond(pairs)',
+                    explain: '创建了一个函数，这个函数会迭代pairs，并调用最先返回真值对应的函数。该断言函数对绑定 this 及传入创建函数的参数。',
+                    argus: 'pairs (Array): 断言函数对。',
+                    ret: '(Function): 返回新的复合函数。',
+                    ex: `
+var func = _.cond([
+  [_.matches({ 'a': 1 }),           _.constant('matches A')],
+  [_.conforms({ 'b': _.isNumber }), _.constant('matches B')],
+  [_.stubTrue,                      _.constant('no match')]
+]);
+ 
+func({ 'a': 1, 'b': 2 });
+// => 'matches A'
+ 
+func({ 'a': 0, 'b': 1 });
+// => 'matches B'
+ 
+func({ 'a': '1', 'b': '2' });
+// => 'no match'                               
+                    `
+                },
+                {
+                    name: '断言',
+                    grammar: '_.conforms(source)',
+                    explain: '创建一个函数。 这个函数会 调用 source 的属性名对应的 predicate 与传入对象相对应属性名的值进行断言处理。 如果都符合返回 true ，否则返回 false 。',
+                    argus: 'source (Object): 包含断言属性值的对象。',
+                    ret: '(Function): 返回新的函数',
+                    ex: `
+var objects = [
+  { 'a': 2, 'b': 1 },
+  { 'a': 1, 'b': 2 }
+];
+ 
+_.filter(objects, _.conforms({ 'b': function(n) { return n > 1; } }));
+// => [{ 'a': 1, 'b': 2 }]                               
+                    `
+                },
+                {
+                    name: '创建一个返回value的函数',
+                    grammar: '_.constant(value)',
+                    explain: '创建一个返回 value 的函数。',
+                    argus: 'value (*): 要新函数返回的值。',
+                    ret: '(Function): 返回新的常量函数。',
+                    ex: `
+var objects = _.times(2, _.constant({ 'a': 1 }));
+ 
+console.log(objects);
+// => [{ 'a': 1 }, { 'a': 1 }]
+ 
+console.log(objects[0] === objects[1]);
+// => true                               
+                    `
+                },
+                {
+                    name: '检查value',
+                    grammar: '_.defaultTo(value, defaultValue)',
+                    explain: '检查value，以确定一个默认值是否应被返回。如果value为NaN, null, 或者 undefined，那么返回defaultValue默认值。',
+                    argus: 'value (*): 要检查的值。\n' +
+                        'defaultValue (*): 默认值。',
+                    ret: '(*): 返回 resolved 值。',
+                    ex: `
+_.defaultTo(1, 10);
+// => 1
+ 
+_.defaultTo(undefined, 10);
+// => 10                               
+                    `
+                },
+                {
+                    name: '函数传递',
+                    grammar: '_.flow([funcs])',
+                    explain: '创建一个函数。 返回的结果是调用提供函数的结果，this 会绑定到创建函数。 每一个连续调用，传入的参数都是前一个函数返回的结果。',
+                    argus: '[funcs] (...(Function|Function[])): 要调用的函数。',
+                    ret: '(Function): 返回新的函数。',
+                    ex: `
+function square(n) {
+  return n * n;
+}
+ 
+var addSquare = _.flow([_.add, square]);
+addSquare(1, 2);
+// => 9                               
+                    `
+                },
+                {
+                    name: '函数传递（从右向左）',
+                    grammar: '_.flowRight([funcs])',
+                    explain: '这个方法类似 _.flow，除了它调用函数的顺序是从右往左的。',
+                    argus: '[funcs] (...(Function|Function[])): 要调用的函数。',
+                    ret: '(Function): 返回新的函数。',
+                    ex: `
+function square(n) {
+  return n * n;
+}
+ 
+var addSquare = _.flowRight([square, _.add]);
+addSquare(1, 2);
+// => 9                               
+                    `
+                },
+                {
+                    name: '两个对象深比较',
+                    grammar: '_.matches(source)',
+                    explain: '创建一个深比较的方法来比较给定的对象和 source 对象。 如果给定的对象拥有相同的属性值返回 true，否则返回 false。',
+                    argus: 'source (Object): 要匹配属性值的源对象。',
+                    ret: '(Function): 返回新的函数。',
+                    ex: `
+var objects = [
+  { 'a': 1, 'b': 2, 'c': 3 },
+  { 'a': 4, 'b': 5, 'c': 6 }
+];
+ 
+_.filter(objects, _.matches({ 'a': 4, 'c': 6 }));
+// => [{ 'a': 4, 'b': 5, 'c': 6 }]                               
+                    `
+                },
+                {
+                    name: '调用给定对象path上的函数',
+                    grammar: '_.method(path, [args])',
+                    explain: '创建一个调用给定对象 path 上的函数。 任何附加的参数都会传入这个调用函数中。',
+                    argus: 'path (Array|string): 调用函数所在对象的路径。\n' +
+                        '[args] (...*): 传递给调用函数的参数。',
+                    ret: '(Function): 返回新的调用函数。',
+                    ex: `
+var objects = [
+  { 'a': { 'b': _.constant(2) } },
+  { 'a': { 'b': _.constant(1) } }
+];
+ 
+_.map(objects, _.method('a.b'));
+// => [2, 1]
+ 
+_.map(objects, _.method(['a', 'b']));
+// => [2, 1]                               
+                    `
+                },
+                {
+                    name: '释放_变量',
+                    grammar: '_.noConflict()',
+                    explain: '释放 _ 变量为原来的值，并返回一个 lodash 的引用。',
+                    argus: '',
+                    ret: '(Function): 返回 lodash 函数。',
+                    ex: `
+var lodash = _.noConflict();                               
+                    `
+                },
+                {
+                    name: '返回undefined',
+                    grammar: '_.noop()',
+                    explain: '这个方法返回 undefined。',
+                    argus: '',
+                    ret: 'undefined',
+                    ex: `
+_.times(2, _.noop);
+// => [undefined, undefined]                               
+                    `
+                },
+                {
+                    name: '创建一个返回参数的函数',
+                    grammar: '_.nthArg([n=0])',
+                    explain: '创建一个函数，这个函数返回第 n 个参数。如果 n为负数，则返回从结尾开始的第n个参数。',
+                    argus: '[n=0] (number): 要返回参数的索引值。',
+                    ret: '(Function): 返回新的函数。',
+                    ex: `
+var func = _.nthArg(1);
+func('a', 'b', 'c', 'd');
+// => 'b'
+ 
+var func = _.nthArg(-2);
+func('a', 'b', 'c', 'd');
+// => 'c'                               
+                    `
+                },
+                {
+                    name: '创建一个执行迭代器的函数',
+                    grammar: '_.over([iteratees=[_.identity]])',
+                    explain: '创建一个函数，传入提供的参数的函数并调用 iteratees 返回结果。',
+                    argus: '[iteratees=[_.identity]] (...(Function|Function[])): 要调用的 iteratees。',
+                    ret: '(Function): 返回新的函数。',
+                    ex: `
+var func = _.over([Math.max, Math.min]);
+ 
+func(1, 2, 3, 4);
+// => [4, 1]                               
+                    `
+                },
+                {
+                    name: '创建一个执行迭代器并全部为真值的函数',
+                    grammar: '_.overEvery([predicates=[_.identity]])',
+                    explain: '建一个函数，传入提供的参数的函数并调用 predicates 判断是否 全部 都为真值。',
+                    argus: '[predicates=[_.identity]] (...(Function|Function[])): 要调用的 predicates。',
+                    ret: '(Function): 返回新的函数。',
+                    ex: `
+var func = _.overEvery([Boolean, isFinite]);
+ 
+func('1');
+// => true
+ 
+func(null);
+// => false
+ 
+func(NaN);
+// => false                               
+                    `
+                },
+                {
+                    name: '创建一个执行迭代器并存在真值的函数',
+                    grammar: '_.overSome([predicates=[_.identity]])',
+                    explain: '创建一个函数，传入提供的参数的函数并调用 predicates 判断是否 存在 有真值。',
+                    argus: '[predicates=[_.identity]] (...(Function|Function[])): 要调用的 predicates。',
+                    ret: '(Function): 返回新的函数。',
+                    ex: `
+var func = _.overSome([Boolean, isFinite]);
+ 
+func('1');
+// => true
+ 
+func(null);
+// => true
+ 
+func(NaN);
+// => false                               
+                    `
+                },
+                {
+                    name: '创建一个返回给定对象的 path 的值的函数',
+                    grammar: '_.property(path)',
+                    explain: '创建一个返回给定对象的 path 的值的函数。',
+                    argus: 'path (Array|string): 要得到值的属性路径。',
+                    ret: '(Function): 返回新的函数。',
+                    ex: `
+var objects = [
+  { 'a': { 'b': 2 } },
+  { 'a': { 'b': 1 } }
+];
+ 
+_.map(objects, _.property('a.b'));
+// => [2, 1]
+ 
+_.map(_.sortBy(objects, _.property(['a', 'b'])), 'a.b');
+// => [1, 2]                               
+                    `
+                },
+                {
+                    name: '范围区间',
+                    grammar: '_.range([start=0], end, [step=1])',
+                    explain: '创建一个包含从 start 到 end，但不包含 end 本身范围数字的数组。 如果 start 是负数，而 end 或 step 没有指定，那么 step 从 -1 为开始。 如果 end 没有指定，start 设置为 0。 如果 end 小于 start ，会创建一个空数组，除非指定了 step。',
+                    argus: '[start=0] (number): 开始的范围。\n' +
+                        'end (number): 结束的范围。\n' +
+                        '[step=1] (number): 范围的增量 或者 减量。',
+                    ret: '(Array): 返回范围内数字组成的新数组。',
+                    ex: `
+_.range(4);
+// => [0, 1, 2, 3]
+ 
+_.range(-4);
+// => [0, -1, -2, -3]
+ 
+_.range(1, 5);
+// => [1, 2, 3, 4]
+ 
+_.range(0, 20, 5);
+// => [0, 5, 10, 15]
+ 
+_.range(0, -4, -1);
+// => [0, -1, -2, -3]
+ 
+_.range(1, 4, 0);
+// => [1, 1, 1]
+ 
+_.range(0);
+// => []                               
+                    `
+                },
+                {
+                    name: '范围区间（降序）',
+                    grammar: '_.rangeRight([start=0], end, [step=1])',
+                    explain: '这个方法类似 _.range ， 除了它是降序生成值的。',
+                    argus: '[start=0] (number): 开始的范围。\n' +
+                        'end (number): 结束的范围。\n' +
+                        '[step=1] (number):范围的增量 或者 减量。',
+                    ret: '(Array): 返回范围内数字组成的新数组。',
+                    ex: `
+_.rangeRight(4);
+// => [3, 2, 1, 0]
+ 
+_.rangeRight(-4);
+// => [-3, -2, -1, 0]
+ 
+_.rangeRight(1, 5);
+// => [4, 3, 2, 1]
+ 
+_.rangeRight(0, 20, 5);
+// => [15, 10, 5, 0]
+ 
+_.rangeRight(0, -4, -1);
+// => [-3, -2, -1, 0]
+ 
+_.rangeRight(1, 4, 0);
+// => [1, 1, 1]
+ 
+_.rangeRight(0);
+// => []                               
+                    `
+                },
+                {
+                    name: '返回空数组',
+                    grammar: '_.stubArray()',
+                    explain: '这个方法返回一个新的空数组。',
+                    argus: '',
+                    ret: '(Array): 返回新的空数组。',
+                    ex: `
+var arrays = _.times(2, _.stubArray);
+ 
+console.log(arrays);
+// => [[], []]
+ 
+console.log(arrays[0] === arrays[1]);
+// => false                               
+                    `
+                },
+                {
+                    name: '返回false',
+                    grammar: '_.stubFalse()',
+                    explain: '这个方法返回 false.',
+                    argus: '',
+                    ret: '(boolean): 返回 false.',
+                    ex: `
+_.times(2, _.stubFalse);
+// => [false, false]                               
+                    `
+                },
+                {
+                    name: '返回空对象',
+                    grammar: '_.stubObject()',
+                    explain: '这个方法返回一个空对象.',
+                    argus: '',
+                    ret: '(Object): 返回新的空对象。',
+                    ex: `
+var objects = _.times(2, _.stubObject);
+ 
+console.log(objects);
+// => [{}, {}]
+ 
+console.log(objects[0] === objects[1]);
+// => false                               
+                    `
+                },
+                {
+                    name: '返回空字符串',
+                    grammar: '_.stubString()',
+                    explain: '这个方法返回一个空字符串。',
+                    argus: '',
+                    ret: '(string): 返回新的空字符串',
+                    ex: `
+_.times(2, _.stubString);
+// => ['', '']                               
+                    `
+                },
+                {
+                    name: '返回true',
+                    grammar: '_.stubTrue()',
+                    explain: '这个方法返回 true。',
+                    argus: '',
+                    ret: '(boolean): 返回 true。',
+                    ex: `
+_.times(2, _.stubTrue);
+// => [true, true]                               
+                    `
+                },
+                {
+                    name: '重复调用',
+                    grammar: '_.times(n, [iteratee=_.identity])',
+                    explain: '调用 iteratee n 次，每次调用返回的结果存入到数组中。 iteratee 调用入1个参数： (index)。',
+                    argus: 'n (number): 调用 iteratee 的次数。\n' +
+                        '[iteratee=_.identity] (Function): 每次迭代调用的函数。',
+                    ret: '(Array): 返回调用结果的数组。',
+                    ex: `
+_.times(3, String);
+// => ['0', '1', '2']
+ 
+ _.times(4, _.constant(0));
+// => [0, 0, 0, 0]                               
+                    `
+                },
+                {
+                    name: '转化为属性路径的数组',
+                    grammar: '_.toPath(value)',
+                    explain: '转化 value 为属性路径的数组 。',
+                    argus: 'value (*): 要转换的值',
+                    ret: '(Array): 返回包含属性路径的数组。',
+                    ex: `
+_.toPath('a.b.c');
+// => ['a', 'b', 'c']
+ 
+_.toPath('a[0].b.c');
+// => ['a', '0', 'b', 'c']                               
+                    `
+                },
+                {
+                    name: '生成唯一ID',
+                    grammar: '_.uniqueId([prefix=\'\'])',
+                    explain: '生成唯一ID。 如果提供了 prefix ，会被添加到ID前缀上。',
+                    argus: '[prefix=\'\'] (string): 要添加到ID前缀的值。',
+                    ret: '(string): 返回唯一ID。',
+                    ex: `
+_.uniqueId('contact_');
+// => 'contact_104'
+ 
+_.uniqueId();
+// => '105'                               
                     `
                 }
             ]
